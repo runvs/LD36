@@ -6,6 +6,8 @@ import flixel.math.FlxPoint;
 
 class Player extends FlxSprite
 {
+    //#################################################################
+
     var _dashDir      : FlxPoint;
 	var _dashCooldown : Float;
     var _accelFactor  : Float;
