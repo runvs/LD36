@@ -2,6 +2,7 @@ package;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxState;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import sys.FileSystem;
 
 class PlayState extends FlxState
@@ -40,6 +41,7 @@ class PlayState extends FlxState
 	override public function update(elapsed:Float):Void
 	{
 		MyInput.update();
+		clearEnemies();
 		super.update(elapsed);
 		if (level != null)
 		{
@@ -53,6 +55,9 @@ class PlayState extends FlxState
 		FlxG.collide(player, level.collisionMap);
 		FlxG.overlap(player, level.exits, passExit);
 	}
+	
+	
+	
 	
 	override public function draw () : Void
 	{
@@ -199,10 +204,15 @@ class PlayState extends FlxState
 		
 		LoadLevel();
 		
-		
 	}
 
-	
+	private function clearEnemies() : Void 
+	{
+		var n : FlxTypedGroup<Enemy> = new FlxTypedGroup<Enemy>();
+		
+		level.enemies.forEach(function(e:Enemy) : Void { if (e.alive) n.add(e); } );
+		level.enemies = n;
+	}
 	
 	
 	

@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxObject;
 import flixel.FlxSprite;
+import flixel.math.FlxPoint;
 
 /**
  * ...
@@ -66,6 +67,88 @@ class World extends FlxObject
 		return null;
 	}
 	
+	private function addConnection(patches:Array<Int>)
+	{
+		var numberOfRuns : Int = 0;
+		while (numberOfRuns <= 9)
+		{
+		
+			
+			var i : Int = GameProperties.rng.int(0, WorldSizeInPatchesX - 1, [14,15,16]);
+			var j : Int = GameProperties.rng.int(0, WorldSizeInPatchesY - 1, [14,15,16]);
+			
+			var idx = i + j * WorldSizeInPatchesX;
+			
+			
+			var dir : FlxPoint = new FlxPoint(0, 0);
+			if ( GameProperties.rng.bool())
+			{
+				dir.x = 1;
+			}
+			else
+			{
+				dir.y = 1;
+			}
+			if ( GameProperties.rng.bool())
+			{
+				dir.x *= -1;
+				dir.y *= -1;
+			}
+			
+			var offDir : FlxPoint = new FlxPoint( -dir.y, dir.x);
+			
+			trace("spawning connection "+ i + " " + j);
+			
+			addPath(patches, dir, offDir, i, j, 4, 9);
+			numberOfRuns += 1;
+		}
+	}
+	
+	private function addPath(patches : Array<Int>, dir:FlxPoint, offDir : FlxPoint, sx : Int = 15, sy : Int = 15, Nmin:Int = 10, Nmax : Int = 14 )
+	{
+		var chance : Float = 0;
+		var N : Int = GameProperties.rng.int(Nmin, Nmax);
+		for (i in 0...N)
+		{
+			if ( GameProperties.rng.bool(chance))
+			{	
+				chance = GameProperties.WorldCurveChanceBase;
+				if (GameProperties.rng.bool())
+				{
+					sx += Std.int(offDir.x);
+					sy += Std.int(offDir.y);
+				}
+				else
+				{
+					sx -= Std.int(offDir.x);
+					sy -= Std.int(offDir.y);
+				}
+			}
+			else
+			{
+				sx += Std.int(dir.x);
+				sy += Std.int(dir.y);
+			}
+			chance += GameProperties.WorldCurveChanceIncrease;
+			
+			if (sx < 0 ||sx > WorldSizeInPatchesX -1)
+				continue;
+				
+			if (sy < 0 ||sy > WorldSizeInPatchesY -1)
+				continue;
+			
+			var idx : Int = sx + sy * WorldSizeInPatchesX;
+			if ( i == N)
+			{
+				patches[idx] = 3;	// special end tile
+			}
+			else
+			{
+				patches[idx] = 1;
+			}
+		}
+	}
+	
 	public function Generate(allLevels:Array<TiledLevel>, state : PlayState) 
 	{	
 		var startLevel : TiledLevel = addLevel("assets/data/start.tmx", 15, 15, state);
@@ -87,117 +170,20 @@ class World extends FlxObject
 		var idx : Int = sx + sy * WorldSizeInPatchesX;
 		patches[idx] = 2;	// start
 		
+		// north
+		addPath(patches, new FlxPoint(0, -1), new FlxPoint(1, 0));
 		
-		// north path
-		var chance : Float = 0;
-		for (i in 0...GameProperties.rng.int(10,14))
-		{
-			
-			if ( GameProperties.rng.bool(chance))
-			{	
-				chance = GameProperties.WorldCurveChanceBase;
-				if (GameProperties.rng.bool())
-				{
-					sx += 1;
-				}
-				else
-				{
-					sx -= 1;
-				}
-			}
-			else
-			{
-				sy -= 1;
-			}
-			chance += GameProperties.WorldCurveChanceIncrease;
-			
-			var idx : Int = sx + sy * WorldSizeInPatchesX;
-			patches[idx] = 1;
-		}
+		// south
+		addPath(patches, new FlxPoint(0, 1), new FlxPoint(1, 0));
 		
-		sx = 15;
-		sy = 15;
-		// south path
-		chance = 0;
-		for (i in 0...GameProperties.rng.int(10,14))
-		{
-			chance += GameProperties.WorldCurveChanceIncrease;
-			if ( GameProperties.rng.bool(chance))
-			{	
-				chance = GameProperties.WorldCurveChanceBase;
-				if (GameProperties.rng.bool())
-				{
-					sx += 1;
-				}
-				else
-				{
-					sx -= 1;
-				}
-			}
-			else
-			{
-				sy += 1;
-			}
-			
-			var idx : Int = sx + sy * WorldSizeInPatchesX;
-			patches[idx] = 1;
-		}
-		//
-		sx = 15;
-		sy = 15;
-		// west path
-		chance = 0;
-		for (i in 0...GameProperties.rng.int(10,14))
-		{
-			
-			if ( GameProperties.rng.bool(chance))
-			{	
-				chance = GameProperties.WorldCurveChanceBase;
-				if (GameProperties.rng.bool())
-				{
-					sy += 1;
-				}
-				else
-				{
-					sy -= 1;
-				}
-			}
-			else
-			{
-				sx -= 1;
-			}
-			
-			chance += GameProperties.WorldCurveChanceIncrease;
-			
-			var idx : Int = sx + sy * WorldSizeInPatchesX;
-			patches[idx] = 1;
-		}
-		//
-		sx = 15;
-		sy = 15;
-		// east path
-		chance = 0;
-		for (i in 0...GameProperties.rng.int(10,14))
-		{		if ( GameProperties.rng.bool(chance))
-			{	
-				chance = GameProperties.WorldCurveChanceBase;
-				if (GameProperties.rng.bool())
-				{
-					sy += 1;
-				}
-				else
-				{
-					sy -= 1;
-				}
-			}
-			else
-			{
-				sx += 1;
-			}
-			chance += GameProperties.WorldCurveChanceIncrease;
-			var idx : Int = sx + sy * WorldSizeInPatchesX;
-			patches[idx] = 1;
-		}
+		// east
+		addPath(patches, new FlxPoint(1, 0), new FlxPoint(0,1));
+		
+		// west 
+		addPath(patches, new FlxPoint(-1,0), new FlxPoint(0,1));
+		
+		
+		addConnection(patches);
 		
 		// patches created, now create level parts respectively
 		
