@@ -6,12 +6,21 @@ class Enemy extends FlxSprite
 {
     //#################################################################
 
-    public function new()
+    public var AttackStrength : Float;
+    public var MaxHealth      : Float;
+    public var CurrentHealth  : Float;
+
+    //#################################################################
+
+    public function new(attackStrength: Float, maxHealth: Float)
     {
         super();
 
-        this.makeGraphic(16, 16, flixel.util.FlxColor.fromRGB(255, 0, 255));
+        this.AttackStrength = attackStrength;
+        this.MaxHealth      = maxHealth;
+        this.CurrentHealth  = maxHealth;
 
+        this.makeGraphic(16, 16, flixel.util.FlxColor.fromRGB(255, 0, 255));
         this.setPosition(128, 32);
     }
 

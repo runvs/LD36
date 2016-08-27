@@ -22,6 +22,9 @@ class PlayState extends FlxState
 
 		player = new Player();
 		add(player);
+
+		var enemy = new Enemy(100, 25);
+		add(enemy);
 	}
 
 	override public function update(elapsed:Float):Void
