@@ -32,7 +32,7 @@ class PlayState extends FlxState
 		player = new Player(this);
 		add(player);
 
-		var enemy = new Enemy(100, 25, 5, this);
+		var enemy = new Enemy(100, 25, 2, this);
 		add(enemy);
 	}
 
