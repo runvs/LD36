@@ -52,6 +52,23 @@ class PlayState extends FlxState
 		FlxG.collide(level.coins, level.collisionMap);
 		FlxG.overlap(player, level.coins, pickupCoin);
 		
+		level.enemies.forEach(
+		function (e:Enemy) : Void 
+		{ 
+		
+			if (e._attackingUnderlay.alpha >= 0.51 && e._attackingUnderlay.alive == true)
+			{
+				trace(e._attackingUnderlay.alpha);
+				
+				if (FlxG.pixelPerfectOverlap(e._attackingUnderlay, player,1))
+				{
+					player.takeDamage(e.AttackStrength);
+					e._attackingUnderlay.alive = false;
+				}
+			
+			}
+		} );
+	
 		if (player.alive == false)
 		{
 			RespawnInCity();
@@ -77,6 +94,7 @@ class PlayState extends FlxState
 		if (level != null)
 		{
 			level.foregroundTiles.draw();
+			level.enemies.forEach(function(e:Enemy) { e.drawUnderlay(); } );
 			level.exits.draw();
 			level.enemies.draw();
 			level.coins.draw();

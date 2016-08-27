@@ -5,6 +5,9 @@ import flixel.math.FlxPoint;
 import flixel.math.FlxVector;
 import flixel.FlxG;
 import flixel.math.FlxRandom;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 
 class Enemy extends FlxSprite
 {
@@ -24,6 +27,8 @@ class Enemy extends FlxSprite
 	private var _distanceToPlayer : Float;
 	
 	private var _idleTimer : Float;
+	var _attacking:Bool;
+	public var _attackingUnderlay : FlxSprite;
 	
 
     //#################################################################
@@ -37,6 +42,7 @@ class Enemy extends FlxSprite
         MaxHealth      = maxHealth;
         CurrentHealth  = maxHealth;
         Aggressivity   = aggressivity;
+		_attacking 	   = false;
 
         _playState    = playState;
         _thinkTime    = GameProperties.EnemyMovementRandomWalkThinkTime;
@@ -45,6 +51,7 @@ class Enemy extends FlxSprite
 
         makeGraphic(16, 16, flixel.util.FlxColor.fromRGB(255, 0, 255));
         setPosition(128, 160);
+		this.color = FlxColor.WHITE;
 
         drag        = GameProperties.EnemyMovementDrag;
         maxVelocity = GameProperties.EnemyMovementMaxVelocity;
@@ -52,40 +59,73 @@ class Enemy extends FlxSprite
 		_distanceToPlayer = 0;
 		_idleTimer = 0;
 		
+		
+		_attackingUnderlay = new FlxSprite(x, y);
+		_attackingUnderlay.makeGraphic(Std.int(GameProperties.TileSize * 2.0), Std.int(GameProperties.TileSize * 2.0));
+		_attackingUnderlay.offset.set(GameProperties.TileSize *0.5, GameProperties.TileSize * 0.5);
+		_attackingUnderlay.alpha = 0;
     }
 
     //#################################################################
 
     public override function update(elapsed)
     {
-        super.update(elapsed);
+		super.update(elapsed);
+		_attackingUnderlay.setPosition(x, y);
 		
-		_idleTimer -= elapsed;
-		AttackTimer -= elapsed;
-		
-		if (_idleTimer <= 0)
+		if (_attacking)
+		{
+			velocity.set();
+			acceleration.set();
+			immovable = true;
+		}
+		else
 		{
 			
-
-			doMovement();
+			immovable = false;
+			_idleTimer -= elapsed;
+			AttackTimer -= elapsed;
 			
-			
-			if (_distanceToPlayer <= GameProperties.TileSize * 1.3)
+			if (_idleTimer <= 0)
 			{
-				Attack();	
+				doMovement();
+				
+				
+				if (_distanceToPlayer <= GameProperties.TileSize * 1.3)
+				{
+					Attack();	
+				}
 			}
+			
+			
 		}
+        
     }
 	
 	function Attack() 
 	{
-		if (AttackTimer <= 0)
+		if (!_attacking)
 		{
-			_playState.player.takeDamage(this.AttackStrength);
-			AttackTimer = GameProperties.EnemyAttackTimerMax;
-			_idleTimer = 0.1;
-			this.velocity.set();
-			this.acceleration.set();
+			if (AttackTimer <= 0)
+			{
+				_attacking = true;
+				_attackingUnderlay.alive = true;
+				//_playState.player.takeDamage(this.AttackStrength);
+				
+				var t : FlxTimer = new FlxTimer();
+				t.start(GameProperties.EnemyAttackingTime, function(t: FlxTimer) 
+				{
+					_attacking = false; 
+					_idleTimer = 0.2;  
+					AttackTimer = GameProperties.EnemyAttackTimerMax;
+					this.velocity.set();
+					this.acceleration.set();
+					_attackingUnderlay.alpha = 1.0;
+					FlxTween.tween(_attackingUnderlay, { alpha:0.0 }, 0.2);
+				});
+				
+				FlxTween.tween(_attackingUnderlay, { alpha:0.5 }, GameProperties.EnemyAttackingTime*0.9);
+			}
 		}
 	}
 
@@ -169,6 +209,11 @@ class Enemy extends FlxSprite
 
     //#################################################################
 
+	public function drawUnderlay()
+	{
+		_attackingUnderlay.draw();
+	}
+	
     public override function draw()
     {
         super.draw();
