@@ -47,6 +47,8 @@ class PlayState extends FlxState
 			level.exits.update(elapsed);
 			level.enemies.update(elapsed);
 		}
+
+		FlxG.collide(level.enemies, level.collisionMap);
 		
 		FlxG.collide(player, level.collisionMap);
 		FlxG.overlap(player, level.exits, passExit);
