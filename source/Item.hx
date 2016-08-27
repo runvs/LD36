@@ -13,13 +13,13 @@ class Item {
     public var strengthBonus : Float;
     public var healthBonus   : Float;
 
-    var _itemType : ItemType;
+    public var itemType : ItemType;
 
     //#################################################################
 
     public function new(itemType : ItemType, name : String, agilityBonus : Float, strengthBonus : Float, healthBonus : Float)
     {
-        _itemType = itemType;
+        itemType = itemType;
         this.name = name;
 
         this.agilityBonus  = agilityBonus;

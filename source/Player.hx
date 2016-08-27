@@ -175,6 +175,23 @@ class Player extends FlxSprite
 
     //#################################################################
 
+	public function pickupItem(item: Item)
+	{
+		switch(item.itemType)
+		{
+			case ItemType.HEAD:
+				headItem = item;
+			case ItemType.TORSO:
+				torsoItem = item;
+			case ItemType.LEGS:
+				legsItem = item;
+			case ItemType.WEAPON:
+				weaponItem = item;
+		}
+	}
+
+    //#################################################################
+
 	function recalculateBonuses()
 	{
 		var agilityBonus  = 0.0;
