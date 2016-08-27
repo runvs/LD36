@@ -61,7 +61,7 @@ class MyInput
 		{
 			AttackButtonJustPressed= true;
 		}
-		if (FlxG.keys.justPressed.D)
+		if (FlxG.keys.justPressed.V)
 		{
 			SpecialButtonJustPressed = true;
 		}

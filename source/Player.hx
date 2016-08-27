@@ -37,7 +37,8 @@ class Player extends FlxSprite
         _dashDir = new FlxPoint();
 
 		_playState = playState;
-        this.setPosition(8*16, 3*16);
+
+		setPosition(8 * GameProperties.TileSize, 2 * GameProperties.TileSize);
     }
 
     //#################################################################
@@ -115,7 +116,22 @@ class Player extends FlxSprite
 		{
 			_dashCooldown -= FlxG.elapsed;
 		}
+
+		if(MyInput.AttackButtonJustPressed) attack();
     }
+
+    //#################################################################
+
+	function attack()
+	{
+		for(enemy in _playState.level.enemies)
+		{
+			if(FlxG.overlap(this, enemy))
+			{
+				enemy.hit(GameProperties.PlayerAttackBaseDamage);
+			}
+		}
+	}
 
     //#################################################################
 

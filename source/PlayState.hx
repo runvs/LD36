@@ -22,19 +22,10 @@ class PlayState extends FlxState
 		allLevels = new Array<TiledLevel>();
 		world = new World();
 		CreateWorld();
-		
-		//
-		//level = new TiledLevel(AssetPaths.level1__tmx);
-		//add(level.foregroundTiles);
-		//add(level.exits);
-		
-		
 
 		player = new Player(this);
 		add(player);
 
-		//var enemy = new Enemy(100, 25, 5, this);
-		//add(enemy);
 		FlxG.camera.follow(player);
 	}
 
@@ -96,7 +87,6 @@ class PlayState extends FlxState
 	
 	private function TransitionLevel(e : Exit)
 	{
-		//trace("Load Level");
 	
 		var newPosX : Int = world.currentWorldPosX;
 		var newPosY : Int = world.currentWorldPosY;
@@ -170,7 +160,6 @@ class PlayState extends FlxState
 		}
 	}
 	
-	
 	private function LoadLevel()
 	{
 		trace("Load Level");
@@ -178,7 +167,6 @@ class PlayState extends FlxState
 		if (newLevel != null)
 		{
 			level = newLevel;
-			//trace("new Level");
 			FlxG.camera.setScrollBoundsRect(0, 0, level.fullWidth, level.fullHeight, true);
 			
 		}
@@ -213,7 +201,4 @@ class PlayState extends FlxState
 		level.enemies.forEach(function(e:Enemy) : Void { if (e.alive) n.add(e); } );
 		level.enemies = n;
 	}
-	
-	
-	
 }
