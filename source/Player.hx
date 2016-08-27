@@ -6,6 +6,8 @@ import flixel.math.FlxPoint;
 
 class Player extends FlxSprite
 {
+    //#################################################################
+
     var _dashDir      : FlxPoint;
 	var _dashCooldown : Float;
     var _accelFactor  : Float;
@@ -71,7 +73,6 @@ class Player extends FlxSprite
 	public override function draw() 
 	{
 		super.draw();
-		//dustparticles.draw();
 	}
 
     //#################################################################

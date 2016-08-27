@@ -1,11 +1,7 @@
 package;
 import flixel.FlxG;
 import flixel.FlxObject;
-import flixel.FlxSprite;
 import flixel.FlxState;
-import flixel.text.FlxText;
-import flixel.ui.FlxButton;
-import flixel.math.FlxMath;
 import sys.FileSystem;
 
 class PlayState extends FlxState
@@ -35,6 +31,9 @@ class PlayState extends FlxState
 
 		player = new Player();
 		add(player);
+
+		var enemy = new Enemy(100, 25);
+		add(enemy);
 	}
 
 	override public function update(elapsed:Float):Void
