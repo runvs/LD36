@@ -17,18 +17,14 @@ class Item {
 
     //#################################################################
 
-    public function new(itemType : ItemType, name : String)
+    public function new(itemType : ItemType, name : String, agilityBonus : Float, strengthBonus : Float, healthBonus : Float)
     {
         _itemType = itemType;
+        this.name = name;
 
-        switch(itemType)
-        {
-            case ItemType.HEAD:
-
-            case ItemType.TORSO:
-            case ItemType.LEGS:
-            case ItemType.WEAPON:
-        }
+        this.agilityBonus  = agilityBonus;
+        this.strengthBonus = strengthBonus;
+        this.healthBonus   = healthBonus;
 
         value = calculateValue();
     }
@@ -38,6 +34,13 @@ class Item {
     function calculateValue() : Int
     {
         return cast(Math.round(agilityBonus + strengthBonus + healthBonus * Math.PI), Int);
+    }
+
+    //#################################################################
+
+    public function toString() : String
+    {
+        return '$name\n    ${(agilityBonus >= 0 ? "+" : "-")}$agilityBonus Agi, ${(strengthBonus >= 0 ? "+" : "-")}$strengthBonus Str, ${(healthBonus >= 0 ? "+" : "-")}$healthBonus Health, Value: $value';
     }
 
     //#################################################################

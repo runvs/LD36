@@ -9,6 +9,11 @@ class Player extends FlxSprite
 {
     //#################################################################
 
+	public var headItem   : Item;
+	public var torsoItem  : Item;
+	public var legsItem   : Item;
+	public var weaponItem : Item;
+
     var _dashDir        : FlxPoint;
 	var _dashCooldown   : Float;
     var _accelFactor    : Float;
@@ -23,14 +28,12 @@ class Player extends FlxSprite
 	var _coinsText 		: FlxText;
 	
 	var _healthBar 		: HudBar;
-	var _healthMax: Float;
-
-	var _headItem       : Item;
-	var _torsoItem      : Item;
-	var _legsItem       : Item;
-	var _weaponItem     : Item;
+	var _healthMax      : Float;
 
 	var _agility        : Float;
+
+	var _inventory      : Inventory;
+	var _showInventory  : Bool;
 
     //#################################################################
 
@@ -53,7 +56,8 @@ class Player extends FlxSprite
         _dashDir = new FlxPoint();
 		
 		_coins = 0;
-		_weaponItem = new Item(ItemType.WEAPON, 'Mighty Longsword of Mutilation');
+		legsItem = new Item(ItemType.LEGS, 'Iron Diaper', 10, 0, 0);
+		weaponItem = new Item(ItemType.WEAPON, 'Mighty Longsword of Mutilation', 0, 20, 0);
 
 		_playState = playState;
 
@@ -61,6 +65,9 @@ class Player extends FlxSprite
 		
 		health = _healthMax = GameProperties.PlayerHealthMaxDefault;
 		_healthBar = new HudBar(10, 10, 96, 16, false);
+
+		_inventory     = new Inventory(this);
+		_showInventory = false;
 		
 		_coinsText = new FlxText(128, 10, 0, "", 12);
 		_coinsText.scrollFactor.set();
@@ -100,6 +107,8 @@ class Player extends FlxSprite
 		_healthBar.update(elapsed);
 		_coinsText.text = Std.string(_coins);
 		_coinsText.update(elapsed);
+
+		_inventory.update(elapsed);
     }
 
     //#################################################################
@@ -160,16 +169,9 @@ class Player extends FlxSprite
 
 		if(MyInput.InventoryButtonJustPressed)
 		{
-			showInventory();
+			_showInventory = !_showInventory;
 		}
     }
-
-    //#################################################################
-
-	function showInventory()
-	{
-
-	}
 
     //#################################################################
 
@@ -179,32 +181,32 @@ class Player extends FlxSprite
 		var strengthBonus = 0.0;
 		var healthBonus   = 0.0;
 
-		if(_headItem != null)
+		if(headItem != null)
 		{
-			agilityBonus  += _headItem.agilityBonus;
-			strengthBonus += _headItem.strengthBonus;
-			healthBonus   += _headItem.healthBonus;
+			agilityBonus  += headItem.agilityBonus;
+			strengthBonus += headItem.strengthBonus;
+			healthBonus   += headItem.healthBonus;
 		}
 
-		if(_torsoItem != null)
+		if(torsoItem != null)
 		{
-			agilityBonus  += _torsoItem.agilityBonus;
-			strengthBonus += _torsoItem.strengthBonus;
-			healthBonus   += _torsoItem.healthBonus;
+			agilityBonus  += torsoItem.agilityBonus;
+			strengthBonus += torsoItem.strengthBonus;
+			healthBonus   += torsoItem.healthBonus;
 		}
 
-		if(_legsItem != null)
+		if(legsItem != null)
 		{
-			agilityBonus  += _legsItem.agilityBonus;
-			strengthBonus += _legsItem.strengthBonus;
-			healthBonus   += _legsItem.healthBonus;
+			agilityBonus  += legsItem.agilityBonus;
+			strengthBonus += legsItem.strengthBonus;
+			healthBonus   += legsItem.healthBonus;
 		}
 
-		if(_weaponItem != null)
+		if(weaponItem != null)
 		{
-			agilityBonus  += _weaponItem.agilityBonus;
-			strengthBonus += _weaponItem.strengthBonus;
-			healthBonus   += _weaponItem.healthBonus;
+			agilityBonus  += weaponItem.agilityBonus;
+			strengthBonus += weaponItem.strengthBonus;
+			healthBonus   += weaponItem.healthBonus;
 		}
 	}
 
@@ -255,17 +257,27 @@ class Player extends FlxSprite
 		_hitArea.draw();
 	}
 
+    //#################################################################
+
 	public function drawHud()
 	{
 		_healthBar.draw();
 		_coinsText.draw();
 		
+		if(_showInventory)
+		{
+			_inventory.draw();
+		}
 	}
+
+    //#################################################################
 	
 	public function pickUpCoins() 
 	{
 		_coins += 1;
 	}
+
+    //#################################################################
 	
 	public function takeDamage(d:Float)
 	{
@@ -275,20 +287,23 @@ class Player extends FlxSprite
 			alive = false;
 		}
 	}
+
+    //#################################################################
 	
 	public function dropAllItems()
 	{
-		_headItem   = null;
-		_torsoItem  = null;
-		_legsItem   = null;
-		_weaponItem = null;
+		headItem   = null;
+		torsoItem  = null;
+		legsItem   = null;
+		weaponItem = null;
 	}
+
+    //#################################################################
 	
 	public function restoreHealth()
 	{
 		health = _healthMax;
 	}
-	
 	
     //#################################################################
 }
