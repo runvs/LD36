@@ -16,12 +16,12 @@ class Enemy extends FlxSprite
     {
         super();
 
-        this.AttackStrength = attackStrength;
-        this.MaxHealth      = maxHealth;
-        this.CurrentHealth  = maxHealth;
+        AttackStrength = attackStrength;
+        MaxHealth      = maxHealth;
+        CurrentHealth  = maxHealth;
 
-        this.makeGraphic(16, 16, flixel.util.FlxColor.fromRGB(255, 0, 255));
-        this.setPosition(128, 32);
+        makeGraphic(16, 16, flixel.util.FlxColor.fromRGB(255, 0, 255));
+        setPosition(128, 32);
     }
 
     //#################################################################
@@ -29,6 +29,15 @@ class Enemy extends FlxSprite
     public override function update(elapsed)
     {
         super.update(elapsed);
+
+        doMovement();
+    }
+
+    //#################################################################
+
+    function doMovement()
+    {
+        
     }
 
     //#################################################################
