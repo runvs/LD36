@@ -30,12 +30,20 @@ class TiledLevel extends TiledMap
 	
 	public var collisionMap : FlxSpriteGroup;
 	
+	
+	public var exits : FlxTypedGroup<Exit>;
+	
+	
 	public function new(tiledLevel:Dynamic, state:PlayState)
 	{
 		super(tiledLevel);
 		
 		foregroundTiles = new FlxGroup();
 		collisionMap = new FlxSpriteGroup();
+		
+		exits = new FlxTypedGroup<Exit>();
+		
+		
 		
 		FlxG.camera.setScrollBoundsRect(0, 0, fullWidth, fullHeight, true);
 		
@@ -76,28 +84,27 @@ class TiledLevel extends TiledMap
 				for (j in 0...tilemap.heightInTiles)
 				{
 					var tileType : Int = tilemap.getTile(i, j);
-					if (tileType == 0) continue;
-					if (tileType == 5 || tileType == 6 || tileType == 7 
-					||tileType == 16 || tileType == 17 || tileType == 26
-					||tileType == 19 || tileType == 20
-					||tileType == 29 || tileType == 30
-					||tileType == 9 || tileType == 10)
-					{
-						tilemap.setTile(i, j, 0);
-						
-						loadSpecialTile(i, j, tileType, state);
-					}
-					else
-					{
+					//if (tileType == 0) continue;
+					//if (tileType == 5 || tileType == 6 || tileType == 7 
+					//||tileType == 16 || tileType == 17 || tileType == 26
+					//||tileType == 19 || tileType == 20
+					//||tileType == 29 || tileType == 30
+					//||tileType == 9 || tileType == 10)
+					//{
+						//tilemap.setTile(i, j, 0);
+						//
+						//loadSpecialTile(i, j, tileType, state);
+					//}
+					//else
+					//{
 						var s : FlxSprite = new FlxSprite(i * 16, j * 16);
 						s.immovable = true;
-						s.loadGraphic(AssetPaths.tilesheet__png, true, 16, 16);
+						s.loadGraphic(AssetPaths.tileset__png, true, 16, 16);
 						s.animation.add("idle", [tileType-1]);
 						s.animation.play("idle");
 						foregroundTiles.add(s);
-						
 						CreateCollisionTile(i, j, tileType);
-					}
+					//}
 				}
 			}
 				
@@ -110,70 +117,70 @@ class TiledLevel extends TiledMap
 	
 	function CreateCollisionTile(x : Int, y : Int, type : Int) 
 	{
-		if (type == 1|| type == 13 || type == 14 || type == 24)
-		{
-			var c : FlxSprite = new FlxSprite(x * 32 + 9, y * 32);
-			c.makeGraphic(15, 20);
+		//if (type == 1|| type == 13 || type == 14 || type == 24)
+		//{
+			//var c : FlxSprite = new FlxSprite(x * 32 + 9, y * 32);
+			//c.makeGraphic(15, 20);
+			//c.immovable = true;
+			//collisionMap.add(c);
+		//}
+		//else if (type == 11)
+		//{
+			//var c : FlxSprite = new FlxSprite(x * 32 + 9, y * 32);
+			//c.makeGraphic(14, 32);
+			//c.immovable = true;
+			//collisionMap.add(c);
+		//}
+		//else
+		//{
+			var c : FlxSprite = new FlxSprite(x * 16, y * 16);
+			c.makeGraphic(16, 16);
 			c.immovable = true;
 			collisionMap.add(c);
-		}
-		else if (type == 11)
-		{
-			var c : FlxSprite = new FlxSprite(x * 32 + 9, y * 32);
-			c.makeGraphic(14, 32);
-			c.immovable = true;
-			collisionMap.add(c);
-		}
-		else
-		{
-			var c : FlxSprite = new FlxSprite(x * 32 + 9, y * 32);
-			c.makeGraphic(16, 32);
-			c.immovable = true;
-			collisionMap.add(c);
-		}
+		//}
 	}
 	
 	private function loadSpecialTile(x:Int, y:Int, type : Int, state:PlayState)
 	{
 		if (type == 0) return;
 		
-		if (type == 5 || type == 16 || type == 17|| type ==26)
-		{
-			var bt :BreakableTile = new BreakableTile(x * 32, y * 32, type);
-			state.AddBreakableTile(bt);
-		}
-		else if (type == 6 || type == 7)
-		{
-			var ds : FlxSprite = new FlxSprite(x * 32, y * 32);
-			ds.loadGraphic(AssetPaths.tilesheet__png, true, 32, 32);
-			ds.animation.add("idle", (type == 6? [5] : [6]));
-			ds.animation.play("idle");
-			state.AddDeathSprite(ds);
-		}
-		else if ( type == 9|| type == 19 || type == 29)  // onOff Switch 1
-		{
-			var s : FlxSprite = new FlxSprite(x * 32, y * 32);
-			s.loadGraphic(AssetPaths.tilesheet__png, true, 32, 32);
-			s.origin.set(16, 32);
-			s.animation.add("idle", [(type-1)]);
-			s.animation.play("idle");
-			s.immovable = true;
-			s.ID = type +1;
-			state.AddOnOffSwitch(s);
-			CreateCollisionTile(x, y, 2);
-		}
-		else if ( type == 10 ||type == 20 ||type == 30) // onOff Block
-		{
-			var s : FlxSprite = new FlxSprite(x * 32, y * 32);
-			s.loadGraphic(AssetPaths.tilesheet__png, true, 32, 32);
-			s.origin.set(16, 32);
-			s.animation.add("idle", [(type-1)]);
-			s.animation.play("idle");
-			s.immovable = true;
-			s.ID = type;
-			state.AddOnOffBlock(s);
-		}
-		
+		//if (type == 5 || type == 16 || type == 17|| type ==26)
+		//{
+			//var bt :BreakableTile = new BreakableTile(x * 32, y * 32, type);
+			//state.AddBreakableTile(bt);
+		//}
+		//else if (type == 6 || type == 7)
+		//{
+			//var ds : FlxSprite = new FlxSprite(x * 32, y * 32);
+			//ds.loadGraphic(AssetPaths.tilesheet__png, true, 32, 32);
+			//ds.animation.add("idle", (type == 6? [5] : [6]));
+			//ds.animation.play("idle");
+			//state.AddDeathSprite(ds);
+		//}
+		//else if ( type == 9|| type == 19 || type == 29)  // onOff Switch 1
+		//{
+			//var s : FlxSprite = new FlxSprite(x * 32, y * 32);
+			//s.loadGraphic(AssetPaths.tilesheet__png, true, 32, 32);
+			//s.origin.set(16, 32);
+			//s.animation.add("idle", [(type-1)]);
+			//s.animation.play("idle");
+			//s.immovable = true;
+			//s.ID = type +1;
+			//state.AddOnOffSwitch(s);
+			//CreateCollisionTile(x, y, 2);
+		//}
+		//else if ( type == 10 ||type == 20 ||type == 30) // onOff Block
+		//{
+			//var s : FlxSprite = new FlxSprite(x * 32, y * 32);
+			//s.loadGraphic(AssetPaths.tilesheet__png, true, 32, 32);
+			//s.origin.set(16, 32);
+			//s.animation.add("idle", [(type-1)]);
+			//s.animation.play("idle");
+			//s.immovable = true;
+			//s.ID = type;
+			//state.AddOnOffBlock(s);
+		//}
+		//
 	}
 	
 	
@@ -211,17 +218,12 @@ class TiledLevel extends TiledMap
 			
 		switch (o.type.toLowerCase())
 		{
-			case "player_start":
-				playerX = x;
-				playerY = y;
-			case "crystal":
-				var c : Crystal = new Crystal(o.x + 8, o.y);
-				state.addCrystal(c);
 			case "exit":
-				exitX = x;
-				exitY = y;
-				exitNext =  o.properties.get("nextlevel");
-				
+				var dir: String = o.properties.get("direction");
+				var w : Int = o.width;
+				var h : Int = o.height;
+				var e : Exit = new Exit(x, y,w,h);
+				exits.add(e);
 		}
 	}
 }
