@@ -49,22 +49,22 @@ class Player extends FlxSprite
 		switch _facing
 		{
 			case Facing.EAST:
-				_hitArea.setPosition(x + GameProperties.TileSize / 2, y);
+				_hitArea.setPosition(x + GameProperties.TileSize, y);
 			case Facing.WEST:
-				_hitArea.setPosition(x - GameProperties.TileSize / 2, y);
+				_hitArea.setPosition(x - GameProperties.TileSize, y);
 			case Facing.NORTH:
-				_hitArea.setPosition(x, y - GameProperties.TileSize / 2);
+				_hitArea.setPosition(x, y - GameProperties.TileSize);
 			case Facing.SOUTH:
-				_hitArea.setPosition(x, y + GameProperties.TileSize / 2);
+				_hitArea.setPosition(x, y + GameProperties.TileSize);
 			
 			case Facing.NORTHEAST:
-				_hitArea.setPosition(x + GameProperties.TileSize / 4, y - GameProperties.TileSize / 4);
+				_hitArea.setPosition(x + GameProperties.TileSize / 2, y - GameProperties.TileSize / 2);
 			case Facing.NORTHWEST:
-				_hitArea.setPosition(x - GameProperties.TileSize / 4, y - GameProperties.TileSize / 4);
+				_hitArea.setPosition(x - GameProperties.TileSize / 2, y - GameProperties.TileSize / 2);
 			case Facing.SOUTHEAST:
-				_hitArea.setPosition(x + GameProperties.TileSize / 4, y + GameProperties.TileSize / 4);
+				_hitArea.setPosition(x + GameProperties.TileSize / 2, y + GameProperties.TileSize / 2);
 			case Facing.SOUTHWEST:
-				_hitArea.setPosition(x - GameProperties.TileSize / 4, y + GameProperties.TileSize / 4);
+				_hitArea.setPosition(x - GameProperties.TileSize / 2, y + GameProperties.TileSize / 2);
 		}
 
         handleInput();
@@ -121,7 +121,7 @@ class Player extends FlxSprite
 
 	function dash()
 	{
-		var stepSize = GameProperties.PlayerMovementMaxDashLength / GameProperties.TileSize / 4;
+		var stepSize = GameProperties.PlayerMovementMaxDashLength / GameProperties.TileSize / 2;
 		var currentStep = 0.0;
 		var lastPosition : FlxPoint;
 
