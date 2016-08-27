@@ -71,7 +71,6 @@ class Player extends FlxSprite
 	public override function draw() 
 	{
 		super.draw();
-		//dustparticles.draw();
 	}
 
     //#################################################################
