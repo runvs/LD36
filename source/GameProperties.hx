@@ -17,4 +17,11 @@ class GameProperties
     public static var PlayerMovementMaxVelocity   : FlxPoint = new FlxPoint(200, 200);
     public static var PlayerMovementDashCooldown  : Float = 1.0;
     public static var PlayerMovementMaxDashLength : Float = 100.0;
+
+    // ################################################################
+    // # Enemy ########################################################
+    // ################################################################
+    public static var EnemyMovementDrag              : FlxPoint = new FlxPoint(2500, 2500);
+    public static var EnemyMovementMaxVelocity       : FlxPoint = new FlxPoint(190, 190);
+    public static var EnemyMovementAccelerationScale : Float = 750;
 }
