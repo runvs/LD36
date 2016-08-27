@@ -14,8 +14,9 @@ class Player extends FlxSprite
 
 	var _playState    : PlayState;
 
-	var _hitArea      : FlxSprite;
-	var _facing       : Facing;
+	var _hitArea        : FlxSprite;
+	var _facing         : Facing;
+	var _attackCooldown : Float;
 
     //#################################################################
 
@@ -28,6 +29,7 @@ class Player extends FlxSprite
 		_hitArea = new FlxSprite();
 		_hitArea.makeGraphic(16, 16, flixel.util.FlxColor.fromRGB(255, 255, 255, 64));
 		_facing = Facing.EAST;
+		_attackCooldown = 0.0;
 
 		_accelFactor = GameProperties.PlayerMovementAcceleration;
 		drag         = GameProperties.PlayerMovementDrag;
@@ -117,7 +119,14 @@ class Player extends FlxSprite
 			_dashCooldown -= FlxG.elapsed;
 		}
 
-		if(MyInput.AttackButtonJustPressed) attack();
+		if(_attackCooldown <= 0.0)
+		{
+			if(MyInput.AttackButtonJustPressed) attack();
+		}
+		else
+		{
+			_attackCooldown -= FlxG.elapsed;
+		}
     }
 
     //#################################################################
