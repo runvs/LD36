@@ -7,7 +7,7 @@ import flixel.math.FlxPoint;
 class Player extends FlxSprite
 {
     var _dashDir      : FlxPoint;
-	var _dashWallTime : Float;
+	var _dashCooldown : Float;
     var _accelFactor  : Float;
 
     //#################################################################
@@ -22,7 +22,7 @@ class Player extends FlxSprite
 		this.drag = GameProperties.PlayerMovementDrag;
 		this.maxVelocity = GameProperties.PlayerMovementMaxVelocity;
 
-        _dashWallTime = 0;
+        _dashCooldown = 0;
         _dashDir = new FlxPoint();
 
         this.setPosition(32, 32);
@@ -51,18 +51,18 @@ class Player extends FlxSprite
 		}
 		this.acceleration.set(vx, vy);		
 		
-		if (_dashWallTime <= 0)
+		if (_dashCooldown <= 0)
 		{
 			if (MyInput.DashButtonJustPressed)
 			{
 				this.setPosition(x + _dashDir.x * 100, y + _dashDir.y * 100);
-				_dashWallTime = 0.25;
+				_dashCooldown = GameProperties.PlayerMovementDashCooldown;
 				this.velocity.set(this.velocity.x/2, this.velocity.y/2);
 			}
 		}
 		else
 		{
-			_dashWallTime -= FlxG.elapsed;
+			_dashCooldown -= FlxG.elapsed;
 		}
     }
 
