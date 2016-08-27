@@ -14,6 +14,9 @@ class Player extends FlxSprite
 
 	var _playState    : PlayState;
 
+	var _hitArea      : FlxSprite;
+	var _facing       : Facing;
+
     //#################################################################
 
     public function new(playState: PlayState)
@@ -21,6 +24,10 @@ class Player extends FlxSprite
         super();
 
         makeGraphic(16, 16, flixel.util.FlxColor.ORANGE);
+
+		_hitArea = new FlxSprite();
+		_hitArea.makeGraphic(16, 16, flixel.util.FlxColor.fromRGB(255, 255, 255, 64));
+		_facing = Facing.EAST;
 
 		_accelFactor = GameProperties.PlayerMovementAcceleration;
 		drag         = GameProperties.PlayerMovementDrag;
@@ -39,6 +46,27 @@ class Player extends FlxSprite
     {
         super.update(elapsed);
 
+		switch _facing
+		{
+			case Facing.EAST:
+				_hitArea.setPosition(x + GameProperties.TileSize / 2, y);
+			case Facing.WEST:
+				_hitArea.setPosition(x - GameProperties.TileSize / 2, y);
+			case Facing.NORTH:
+				_hitArea.setPosition(x, y - GameProperties.TileSize / 2);
+			case Facing.SOUTH:
+				_hitArea.setPosition(x, y + GameProperties.TileSize / 2);
+			
+			case Facing.NORTHEAST:
+				_hitArea.setPosition(x + GameProperties.TileSize / 4, y - GameProperties.TileSize / 4);
+			case Facing.NORTHWEST:
+				_hitArea.setPosition(x - GameProperties.TileSize / 4, y - GameProperties.TileSize / 4);
+			case Facing.SOUTHEAST:
+				_hitArea.setPosition(x + GameProperties.TileSize / 4, y + GameProperties.TileSize / 4);
+			case Facing.SOUTHWEST:
+				_hitArea.setPosition(x - GameProperties.TileSize / 4, y + GameProperties.TileSize / 4);
+		}
+
         handleInput();
     }
 
@@ -53,6 +81,24 @@ class Player extends FlxSprite
 		if (l >= 25)
 		{
 			_dashDir.set(vx / l, vy / l);
+
+			if(vx > 0)
+			{
+				_facing = Facing.EAST;
+				if(vy > 0) _facing = Facing.SOUTHEAST;
+				if(vy < 0) _facing = Facing.NORTHEAST;
+			}
+			else if(vx < 0)
+			{
+				_facing = Facing.WEST;
+				if(vy > 0) _facing = Facing.SOUTHWEST;
+				if(vy < 0) _facing = Facing.NORTHWEST;
+			}
+			else
+			{
+				if(vy > 0) _facing = Facing.SOUTH;
+				if(vy < 0) _facing = Facing.NORTH;
+			}
 		}
 		this.acceleration.set(vx, vy);
 		
@@ -100,6 +146,8 @@ class Player extends FlxSprite
 	public override function draw() 
 	{
 		super.draw();
+
+		_hitArea.draw();
 	}
 
     //#################################################################
