@@ -61,8 +61,10 @@ class Enemy extends FlxSprite
 		
 		
 		_attackingUnderlay = new FlxSprite(x, y);
-		_attackingUnderlay.makeGraphic(Std.int(GameProperties.TileSize * 2.0), Std.int(GameProperties.TileSize * 2.0));
-		_attackingUnderlay.offset.set(GameProperties.TileSize *0.5, GameProperties.TileSize * 0.5);
+		var sf : Float = 3;
+		_attackingUnderlay.makeGraphic(Std.int(GameProperties.TileSize * sf), Std.int(GameProperties.TileSize * sf));
+		var ofs : Float = -GameProperties.TileSize * 0.5 + GameProperties.TileSize * sf * 0.5;
+		_attackingUnderlay.offset.set(ofs, ofs);
 		_attackingUnderlay.alpha = 0;
     }
 
@@ -110,7 +112,6 @@ class Enemy extends FlxSprite
 			{
 				_attacking = true;
 				_attackingUnderlay.alive = true;
-				//_playState.player.takeDamage(this.AttackStrength);
 				
 				var t : FlxTimer = new FlxTimer();
 				t.start(GameProperties.EnemyAttackingTime, function(t: FlxTimer) 

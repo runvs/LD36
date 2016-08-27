@@ -57,7 +57,6 @@ class Player extends FlxSprite
 		
 		_coinsText = new FlxText(128, 10, 0, "", 12);
 		_coinsText.scrollFactor.set();
-		
     }
 
     //#################################################################

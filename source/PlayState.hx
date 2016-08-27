@@ -64,6 +64,7 @@ class PlayState extends FlxState
 				{
 					player.takeDamage(e.AttackStrength);
 					e._attackingUnderlay.alive = false;
+					FlxG.camera.shake(0.005, 0.25);
 				}
 			
 			}
