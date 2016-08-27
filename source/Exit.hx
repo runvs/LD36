@@ -18,6 +18,7 @@ class Exit extends FlxSprite
 	{
 		super(X, Y);
 		this.makeGraphic(W, H, FlxColor.GRAY);		
+		this.immovable = true;
 	}
 	
 }

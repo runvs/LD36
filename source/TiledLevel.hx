@@ -35,10 +35,17 @@ class TiledLevel extends TiledMap
 	
 	private var tileSet:TiledTileSet;
 	
+	public var WorldPosX : Int = 0;
+	public var WorldPosY : Int = 0;
+	public var levelPath : String = "";
 	
-	public function new(tiledLevel:Dynamic, state:PlayState)
+	
+	
+	public function new(tiledLevel:Dynamic)
 	{
 		super(tiledLevel);
+		
+		levelPath = tiledLevel ;
 		
 		foregroundTiles = new FlxGroup();
 		collisionMap = new FlxSpriteGroup();
@@ -94,7 +101,7 @@ class TiledLevel extends TiledMap
 					//{
 						//tilemap.setTile(i, j, 0);
 						//
-						//loadSpecialTile(i, j, tileType, state);
+						//loadSpecialTile(i, j, tileType);
 					//}
 					//else
 					//{
@@ -108,12 +115,9 @@ class TiledLevel extends TiledMap
 					//}
 				}
 			}
-				
-			
-			//foregroundTiles.add(tilemap);
 		}
 		
-		loadObjects(state);
+		loadObjects();
 	}
 	
 	function CreateCollisionTile(x : Int, y : Int, type : Int) 
@@ -122,7 +126,7 @@ class TiledLevel extends TiledMap
 		var rows : Int = tileSet.numRows;
 		
 		var rowIndex :Int = Std.int((type-1) / rows);
-		trace(Std.string(cols) + " " + Std.string(rows));
+		//trace(Std.string(cols) + " " + Std.string(rows));
 		
 		if (rowIndex == 0)
 		{	
@@ -131,7 +135,7 @@ class TiledLevel extends TiledMap
 		}
 		else if (rowIndex == 1)
 		{
-			trace("addinc collision sprite at " + Std.string(x) + " " + Std.string(y) );
+			//trace("addinc collision sprite at " + Std.string(x) + " " + Std.string(y) );
 			var c : FlxSprite = new FlxSprite(x * 16, y * 16);
 			c.makeGraphic(16, 16);
 			c.immovable = true;
@@ -149,14 +153,14 @@ class TiledLevel extends TiledMap
 		}
 	}
 	
-	private function loadSpecialTile(x:Int, y:Int, type : Int, state:PlayState)
+	private function loadSpecialTile(x:Int, y:Int, type : Int)
 	{
 		if (type == 0) return;
 		
 		//if (type == 5 || type == 16 || type == 17|| type ==26)
 		//{
 			//var bt :BreakableTile = new BreakableTile(x * 32, y * 32, type);
-			//state.AddBreakableTile(bt);
+			
 		//}
 		//else if (type == 6 || type == 7)
 		//{
@@ -164,7 +168,7 @@ class TiledLevel extends TiledMap
 			//ds.loadGraphic(AssetPaths.tilesheet__png, true, 32, 32);
 			//ds.animation.add("idle", (type == 6? [5] : [6]));
 			//ds.animation.play("idle");
-			//state.AddDeathSprite(ds);
+			
 		//}
 		//else if ( type == 9|| type == 19 || type == 29)  // onOff Switch 1
 		//{
@@ -175,7 +179,7 @@ class TiledLevel extends TiledMap
 			//s.animation.play("idle");
 			//s.immovable = true;
 			//s.ID = type +1;
-			//state.AddOnOffSwitch(s);
+			
 			//CreateCollisionTile(x, y, 2);
 		//}
 		//else if ( type == 10 ||type == 20 ||type == 30) // onOff Block
@@ -187,13 +191,13 @@ class TiledLevel extends TiledMap
 			//s.animation.play("idle");
 			//s.immovable = true;
 			//s.ID = type;
-			//state.AddOnOffBlock(s);
+			
 		//}
 		//
 	}
 	
 	
-	public function loadObjects(state:PlayState)
+	public function loadObjects()
 	{
 		var layer:TiledObjectLayer;
 		for (layer in layers)
@@ -208,13 +212,13 @@ class TiledLevel extends TiledMap
 			{
 				for (o in objectLayer.objects)
 				{
-					loadObject(state, o, objectLayer);
+					loadObject( o, objectLayer);
 				}
 			}
 		}
 	}
 	
-	private function loadObject(state:PlayState, o:TiledObject, g:TiledObjectLayer)
+	private function loadObject(o:TiledObject, g:TiledObjectLayer)
 	{
 		//trace("load object of type " + o.type);
 		var x:Int = o.x;
@@ -231,7 +235,28 @@ class TiledLevel extends TiledMap
 				var dir: String = o.properties.get("direction");
 				var w : Int = o.width;
 				var h : Int = o.height;
-				var e : Exit = new Exit(x, y,w,h);
+				var e : Exit = new Exit(x, y, w, h);
+				if (dir == "south")
+				{
+					e.dir = ExitDirection.SOUTH;
+				}
+				else if (dir == "north")
+				{
+					e.dir = ExitDirection.NORTH;
+				}
+				else if (dir == "east")
+				{
+					e.dir = ExitDirection.EAST;
+				}
+				else if (dir == "west")
+				{
+					e.dir = ExitDirection.WEST;
+				}
+				else 
+				{
+					throw "exit direction '" + dir + "' not known";
+				}
+				
 				exits.add(e);
 		}
 	}
