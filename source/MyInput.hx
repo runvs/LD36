@@ -37,6 +37,7 @@ class MyInput
 			AttackButtonJustPressed = gp.justPressed.A;
 			SpecialButtonJustPressed = gp.justPressed.B;
 			SpecialButtonPressed = gp.pressed.B;
+			InventoryButtonJustPressed = gp.justPressed.Y;
 		}
 		
 		if (FlxG.keys.pressed.D || FlxG.keys.pressed.RIGHT)
