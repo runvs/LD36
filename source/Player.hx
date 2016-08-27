@@ -21,6 +21,11 @@ class Player extends FlxSprite
 		_accelFactor = GameProperties.PlayerMovementAcceleration;
 		this.drag = GameProperties.PlayerMovementDrag;
 		this.maxVelocity = GameProperties.PlayerMovementMaxVelocity;
+
+        _dashWallTime = 0;
+        _dashDir = new FlxPoint();
+
+        this.setPosition(32, 32);
     }
 
     //#################################################################
