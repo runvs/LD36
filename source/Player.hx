@@ -23,8 +23,8 @@ class Player extends FlxSprite
         makeGraphic(16, 16, flixel.util.FlxColor.ORANGE);
 
 		_accelFactor = GameProperties.PlayerMovementAcceleration;
-		drag = GameProperties.PlayerMovementDrag;
-		maxVelocity = GameProperties.PlayerMovementMaxVelocity;
+		drag         = GameProperties.PlayerMovementDrag;
+		maxVelocity  = GameProperties.PlayerMovementMaxVelocity;
 
         _dashCooldown = 0;
         _dashDir = new FlxPoint();
@@ -55,7 +55,7 @@ class Player extends FlxSprite
 		{
 			_dashDir.set(vx / l, vy / l);
 		}
-		this.acceleration.set(vx, vy);		
+		this.acceleration.set(vx, vy);
 		
 		if (_dashCooldown <= 0)
 		{
