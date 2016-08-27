@@ -53,6 +53,19 @@ class Enemy extends FlxSprite
 
     //#################################################################
 
+    public function hit(damage: Float)
+    {
+        CurrentHealth -= damage;
+        trace(CurrentHealth);
+
+        if(CurrentHealth <= 0.0)
+        {
+            alive = false;
+        }
+    }
+
+    //#################################################################
+
     function doMovement()
     {
         var playerVector = new FlxVector(_playState.player.x, _playState.player.y);
