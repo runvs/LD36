@@ -27,7 +27,7 @@ class Player extends FlxSprite
         _dashCooldown = 0;
         _dashDir = new FlxPoint();
 
-        this.setPosition(32, 32);
+        this.setPosition(8*16, 3*16);
     }
 
     //#################################################################

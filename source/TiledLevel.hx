@@ -33,13 +33,16 @@ class TiledLevel extends TiledMap
 	
 	public var exits : FlxTypedGroup<Exit>;
 	
+	
+	
+	
 	private var tileSet:TiledTileSet;
 	
 	public var WorldPosX : Int = 0;
 	public var WorldPosY : Int = 0;
 	public var levelPath : String = "";
 	
-	private var enemyAreas : FlxSpriteGroup
+	private var enemyAreas : FlxSpriteGroup;
 	
 	
 	
@@ -56,7 +59,7 @@ class TiledLevel extends TiledMap
 		
 		enemyAreas = new FlxSpriteGroup();
 		
-		FlxG.camera.setScrollBoundsRect(0, 0, fullWidth, fullHeight, true);
+		
 		
 		// Load Tile Maps
 		for (layer in layers)
@@ -281,4 +284,49 @@ class TiledLevel extends TiledMap
 		
 		// TODO
 	}
+	
+	
+	public function checkExits(N:Bool, S: Bool, E:Bool,W:Bool) : Bool
+	{
+		var rtN : Bool = false;
+		var rtS : Bool = false;
+		var rtE : Bool = false;
+		var rtW : Bool = false;
+		
+		for (i in 0...exits.length)
+		{
+			var e : Exit = exits.members[i];
+			
+			if (e.dir == ExitDirection.NORTH)
+				rtN = true;
+			if (e.dir == ExitDirection.SOUTH)
+				rtS = true;
+			if (e.dir == ExitDirection.EAST)
+				rtE = true;
+			if (e.dir == ExitDirection.WEST)
+				rtW = true;
+		}
+		
+		//trace("checkExits " + Std.string(N) + " " + Std.string(S) + " " + Std.string(E) + " " + Std.string(W));
+		//trace("exitsthere " + Std.string(rtN) + " " + Std.string(rtS) + " " + Std.string(rtE) + " " + Std.string(rtW));
+		
+		return (N == rtN && S == rtS && E==rtE && W==rtW);
+		
+		
+	}
+
+	public function getExit(ed:ExitDirection) : Exit
+	{
+		for (i in 0...exits.length)
+		{
+			var e : Exit = exits.members[i];
+			if (e.dir == ed )
+			{
+				return e;
+			}
+			
+		}
+		return null;
+	}
+
 }
