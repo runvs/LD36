@@ -61,6 +61,7 @@ class Enemy extends FlxSprite
         if(CurrentHealth <= 0.0)
         {
             alive = false;
+            trace('I am dead');
         }
     }
 
