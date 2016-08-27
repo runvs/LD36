@@ -62,7 +62,7 @@ class PlayState extends FlxState
 	
 	public function pickupCoin(o1:FlxObject, o2:FlxObject):Void
 	{
-		if ( 02.alive)
+		if ( o2.alive)
 		{
 			o2.alive = false;
 			player.pickUpCoins();
@@ -239,6 +239,7 @@ class PlayState extends FlxState
 		
 	}
 	
+	
 	function RespawnInCity() 
 	{
 		player.restoreHealth();
@@ -246,6 +247,7 @@ class PlayState extends FlxState
 		world.currentWorldPosX = 15;
 		world.currentWorldPosY = 15;
 		player.setPosition(8 * GameProperties.TileSize, 4 * GameProperties.TileSize);
+		player.alive = true;
 		LoadLevel();
 	}
 }
