@@ -9,11 +9,11 @@ class Player extends FlxSprite
 {
     //#################################################################
 
-    var _dashDir      : FlxPoint;
-	var _dashCooldown : Float;
-    var _accelFactor  : Float;
+    var _dashDir        : FlxPoint;
+	var _dashCooldown   : Float;
+    var _accelFactor    : Float;
 
-	var _playState    : PlayState;
+	var _playState      : PlayState;
 
 	var _hitArea        : FlxSprite;
 	var _facing         : Facing;
@@ -22,8 +22,15 @@ class Player extends FlxSprite
 	var _coins			: Int ;
 	var _coinsText 		: FlxText;
 	
-	var _healtBar 		: HudBar;
+	var _healthBar 		: HudBar;
 	var _healthMax: Float;
+
+	var _headItem       : Item;
+	var _torsoItem      : Item;
+	var _legsItem       : Item;
+	var _weaponItem     : Item;
+
+	var _agility        : Float;
 
     //#################################################################
 
@@ -43,21 +50,20 @@ class Player extends FlxSprite
 		maxVelocity  = GameProperties.PlayerMovementMaxVelocity;
 
         _dashCooldown = 0;
+        _dashDir = new FlxPoint();
 		
 		_coins = 0;
-		
-        _dashDir = new FlxPoint();
+		_weaponItem = new Item(ItemType.WEAPON, 'Mighty Longsword of Mutilation');
 
 		_playState = playState;
 
 		setPosition(8 * GameProperties.TileSize, 2 * GameProperties.TileSize);
 		
-		health = _healthMax = GameProperties.PlyerHealthMaxDefault;
-		_healtBar = new HudBar(10, 10, 96, 16, false);
+		health = _healthMax = GameProperties.PlayerHealthMaxDefault;
+		_healthBar = new HudBar(10, 10, 96, 16, false);
 		
 		_coinsText = new FlxText(128, 10, 0, "", 12);
 		_coinsText.scrollFactor.set();
-		
     }
 
     //#################################################################
@@ -90,11 +96,10 @@ class Player extends FlxSprite
         handleInput();
 		
 		
-		_healtBar.health = health/_healthMax;
-		_healtBar.update(elapsed);
+		_healthBar.health = health/_healthMax;
+		_healthBar.update(elapsed);
 		_coinsText.text = Std.string(_coins);
 		_coinsText.update(elapsed);
-		
     }
 
     //#################################################################
@@ -152,7 +157,56 @@ class Player extends FlxSprite
 		{
 			
 		}
+
+		if(MyInput.InventoryButtonJustPressed)
+		{
+			showInventory();
+		}
     }
+
+    //#################################################################
+
+	function showInventory()
+	{
+
+	}
+
+    //#################################################################
+
+	function recalculateBonuses()
+	{
+		var agilityBonus  = 0.0;
+		var strengthBonus = 0.0;
+		var healthBonus   = 0.0;
+
+		if(_headItem != null)
+		{
+			agilityBonus  += _headItem.agilityBonus;
+			strengthBonus += _headItem.strengthBonus;
+			healthBonus   += _headItem.healthBonus;
+		}
+
+		if(_torsoItem != null)
+		{
+			agilityBonus  += _torsoItem.agilityBonus;
+			strengthBonus += _torsoItem.strengthBonus;
+			healthBonus   += _torsoItem.healthBonus;
+		}
+
+		if(_legsItem != null)
+		{
+			agilityBonus  += _legsItem.agilityBonus;
+			strengthBonus += _legsItem.strengthBonus;
+			healthBonus   += _legsItem.healthBonus;
+		}
+
+		if(_weaponItem != null)
+		{
+			agilityBonus  += _weaponItem.agilityBonus;
+			strengthBonus += _weaponItem.strengthBonus;
+			healthBonus   += _weaponItem.healthBonus;
+		}
+	}
 
     //#################################################################
 
@@ -203,7 +257,7 @@ class Player extends FlxSprite
 
 	public function drawHud()
 	{
-		_healtBar.draw();
+		_healthBar.draw();
 		_coinsText.draw();
 		
 	}
@@ -224,7 +278,10 @@ class Player extends FlxSprite
 	
 	public function dropAllItems()
 	{
-		//TODO
+		_headItem   = null;
+		_torsoItem  = null;
+		_legsItem   = null;
+		_weaponItem = null;
 	}
 	
 	public function restoreHealth()
