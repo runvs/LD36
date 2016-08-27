@@ -12,16 +12,19 @@ class MyInput
 
 	public static var xVal : Float = 0;
 	public static var yVal : Float = 0;
-	public static var DashButtonJustPressed : Bool;
-	public static var AttackButtonJustPressed : Bool;
-	public static var SpecialButtonJustPressed : Bool;
-	public static var SpecialButtonPressed : Bool;
+	
+	public static var DashButtonJustPressed      : Bool;
+	public static var AttackButtonJustPressed    : Bool;
+	public static var SpecialButtonJustPressed   : Bool;
+	public static var SpecialButtonPressed       : Bool;
+	public static var InventoryButtonJustPressed : Bool;
 	
 	public static function update ()
 	{
-		DashButtonJustPressed = false;
-		AttackButtonJustPressed = false;
-		SpecialButtonJustPressed = false;
+		DashButtonJustPressed      = false;
+		AttackButtonJustPressed    = false;
+		SpecialButtonJustPressed   = false;
+		InventoryButtonJustPressed = false;
 		
 		xVal = 0;
 		yVal = 0;
@@ -65,7 +68,9 @@ class MyInput
 		{
 			SpecialButtonJustPressed = true;
 		}
-		
+		if(FlxG.keys.justPressed.F)
+		{
+			InventoryButtonJustPressed = true;
+		}
 	}
-	
 }
