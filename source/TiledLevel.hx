@@ -33,6 +33,7 @@ class TiledLevel extends TiledMap
 	
 	public var exits : FlxTypedGroup<Exit>;
 	
+	public var enemies : FlxTypedGroup<Enemy>;
 	
 	
 	
@@ -58,6 +59,7 @@ class TiledLevel extends TiledMap
 		exits = new FlxTypedGroup<Exit>();
 		
 		enemyAreas = new FlxSpriteGroup();
+		enemies = new FlxTypedGroup<Enemy>();
 		
 		
 		
@@ -123,7 +125,6 @@ class TiledLevel extends TiledMap
 				}
 			}
 		}
-		
 		loadObjects();
 	}
 	
@@ -263,7 +264,6 @@ class TiledLevel extends TiledMap
 				{
 					throw "exit direction '" + dir + "' not known";
 				}
-				
 				exits.add(e);
 			case "enemies":
 				var s : FlxSprite = new FlxSprite(x, y);
@@ -275,14 +275,17 @@ class TiledLevel extends TiledMap
 		}
 	}
 	
-	public function spawnEnemies()
+	public function spawnEnemies(state:PlayState)
 	{
 		if (enemyAreas.length == 0)
 		{
 			trace("no areas to spawn enemies");
 		}
 		
-		// TODO
+		var enemy = new Enemy(100, 25, 5, state);
+		enemies.add(enemy);
+		
+		//TODO spawn multiple enemies per area
 	}
 	
 	

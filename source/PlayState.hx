@@ -32,8 +32,8 @@ class PlayState extends FlxState
 		player = new Player(this);
 		add(player);
 
-		var enemy = new Enemy(100, 25, 2, this);
-		add(enemy);
+		//var enemy = new Enemy(100, 25, 5, this);
+		//add(enemy);
 		FlxG.camera.follow(player);
 	}
 
@@ -45,6 +45,7 @@ class PlayState extends FlxState
 		{
 			level.foregroundTiles.update(elapsed);
 			level.exits.update(elapsed);
+			level.enemies.update(elapsed);
 		}
 		
 		FlxG.collide(player, level.collisionMap);
@@ -57,6 +58,7 @@ class PlayState extends FlxState
 		{
 			level.foregroundTiles.draw();
 			level.exits.draw();
+			level.enemies.draw();
 		}
 		super.draw();
 		
@@ -87,7 +89,7 @@ class PlayState extends FlxState
 	
 	private function TransitionLevel(e : Exit)
 	{
-		trace("Load Level");
+		//trace("Load Level");
 	
 		var newPosX : Int = world.currentWorldPosX;
 		var newPosY : Int = world.currentWorldPosY;
@@ -115,7 +117,7 @@ class PlayState extends FlxState
 			world.currentWorldPosX = newPosX;
 			world.currentWorldPosY = newPosY;
 			level = newLevel;
-			//trace("new Level");
+			trace("new Level " + level.levelPath);
 			FlxG.camera.setScrollBoundsRect(0, 0, level.fullWidth, level.fullHeight, true);
 
 			var enter : ExitDirection = ExitDirection.EAST;
@@ -191,7 +193,7 @@ class PlayState extends FlxState
 			allLevels.push(l);
 		}
 		trace("generate Levels");
-		world.Generate(allLevels);
+		world.Generate(allLevels, this);
 		
 		LoadLevel();
 		

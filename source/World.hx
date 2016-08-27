@@ -28,7 +28,7 @@ class World extends FlxObject
 		levels = new Array<TiledLevel>();
 	}
 	
-	public function addLevel(path : String, X: Int, Y : Int) : TiledLevel
+	public function addLevel(path : String, X: Int, Y : Int, state:PlayState) : TiledLevel
 	{
 		//trace("Adding Level"  + path);
 		var lOld = getLevel(X, Y);
@@ -44,6 +44,8 @@ class World extends FlxObject
 		//trace("setting world bounds");
 		l.WorldPosX = X;
 		l.WorldPosY = Y;
+		
+		l.spawnEnemies(state);
 		
 		
 		//trace("pushing level to list");
@@ -64,9 +66,9 @@ class World extends FlxObject
 		return null;
 	}
 	
-	public function Generate(allLevels:Array<TiledLevel>) 
+	public function Generate(allLevels:Array<TiledLevel>, state : PlayState) 
 	{	
-		var startLevel : TiledLevel = addLevel("assets/data/start.tmx", 15, 15);
+		var startLevel : TiledLevel = addLevel("assets/data/start.tmx", 15, 15, state);
 
 		var patches: Array<Int> = new Array<Int>();
 		for (i in 0 ...WorldSizeInPatchesX)
@@ -233,7 +235,7 @@ class World extends FlxObject
 						
 						if (allLevels[myIndex].checkExits(bNorth, bSouth, bEast, bWest))
 						{
-							addLevel(allLevels[myIndex].levelPath, i, j);
+							addLevel(allLevels[myIndex].levelPath, i, j, state);
 							trace("found a fitting patch after N=" + Std.string(depth) + " iterations");
 							break;
 						}
@@ -248,7 +250,7 @@ class World extends FlxObject
 								//trace(myIndex);
 								if (allLevels[myIndex].checkExits(bNorth, bSouth, bEast, bWest))
 								{
-									addLevel(allLevels[myIndex].levelPath, i, j);
+									addLevel(allLevels[myIndex].levelPath, i, j, state);
 									break;
 								}
 							}

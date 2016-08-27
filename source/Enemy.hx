@@ -49,7 +49,6 @@ class Enemy extends FlxSprite
         super.update(elapsed);
 
         doMovement();
-        FlxG.collide(this, _playState.level.collisionMap);
     }
 
     //#################################################################
