@@ -121,7 +121,8 @@ class TiledLevel extends TiledMap
 		var cols : Int = tileSet.numCols;
 		var rows : Int = tileSet.numRows;
 		
-		var rowIndex :Int = Std.int(type / cols);
+		var rowIndex :Int = Std.int((type-1) / rows);
+		trace(Std.string(cols) + " " + Std.string(rows));
 		
 		if (rowIndex == 0)
 		{	
@@ -130,7 +131,7 @@ class TiledLevel extends TiledMap
 		}
 		else if (rowIndex == 1)
 		{
-
+			trace("addinc collision sprite at " + Std.string(x) + " " + Std.string(y) );
 			var c : FlxSprite = new FlxSprite(x * 16, y * 16);
 			c.makeGraphic(16, 16);
 			c.immovable = true;

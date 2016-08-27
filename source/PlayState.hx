@@ -28,6 +28,8 @@ class PlayState extends FlxState
 	{
 		MyInput.update();
 		super.update(elapsed);
+		
+		FlxG.collide(player, level.collisionMap);
 	}
 	
 	override public function draw () : Void
