@@ -33,6 +33,8 @@ class TiledLevel extends TiledMap
 	
 	public var exits : FlxTypedGroup<Exit>;
 	
+	private var tileSet:TiledTileSet;
+	
 	
 	public function new(tiledLevel:Dynamic, state:PlayState)
 	{
@@ -42,8 +44,6 @@ class TiledLevel extends TiledMap
 		collisionMap = new FlxSpriteGroup();
 		
 		exits = new FlxTypedGroup<Exit>();
-		
-		
 		
 		FlxG.camera.setScrollBoundsRect(0, 0, fullWidth, fullHeight, true);
 		
@@ -59,7 +59,8 @@ class TiledLevel extends TiledMap
 			if (tileSheetName == null)
 				throw "'tileset' property not defined for the '" + tileLayer.name + "' layer. Please add the property to the layer.";
 				
-			var tileSet:TiledTileSet = null;
+			tileSet = null;
+			
 			for (ts in tilesets)
 			{
 				if (ts.name == tileSheetName)
@@ -117,27 +118,34 @@ class TiledLevel extends TiledMap
 	
 	function CreateCollisionTile(x : Int, y : Int, type : Int) 
 	{
-		//if (type == 1|| type == 13 || type == 14 || type == 24)
-		//{
-			//var c : FlxSprite = new FlxSprite(x * 32 + 9, y * 32);
-			//c.makeGraphic(15, 20);
-			//c.immovable = true;
-			//collisionMap.add(c);
-		//}
-		//else if (type == 11)
-		//{
-			//var c : FlxSprite = new FlxSprite(x * 32 + 9, y * 32);
-			//c.makeGraphic(14, 32);
-			//c.immovable = true;
-			//collisionMap.add(c);
-		//}
-		//else
-		//{
+		var cols : Int = tileSet.numCols;
+		var rows : Int = tileSet.numRows;
+		
+		var rowIndex :Int = Std.int(type / cols);
+		
+		if (rowIndex == 0)
+		{	
+			// no collision for tiles in row 0
+			return;
+		}
+		else if (rowIndex == 1)
+		{
+
 			var c : FlxSprite = new FlxSprite(x * 16, y * 16);
 			c.makeGraphic(16, 16);
 			c.immovable = true;
 			collisionMap.add(c);
-		//}
+		}
+		else
+		{
+			//if (type == 1|| type == 13 || type == 14 || type == 24)
+			//{
+				//var c : FlxSprite = new FlxSprite(x * 32 + 9, y * 32);
+				//c.makeGraphic(15, 20);
+				//c.immovable = true;
+				//collisionMap.add(c);
+			//}
+		}
 	}
 	
 	private function loadSpecialTile(x:Int, y:Int, type : Int, state:PlayState)
