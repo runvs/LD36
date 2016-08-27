@@ -39,6 +39,8 @@ class TiledLevel extends TiledMap
 	public var WorldPosY : Int = 0;
 	public var levelPath : String = "";
 	
+	private var enemyAreas : FlxSpriteGroup
+	
 	
 	
 	public function new(tiledLevel:Dynamic)
@@ -51,6 +53,8 @@ class TiledLevel extends TiledMap
 		collisionMap = new FlxSpriteGroup();
 		
 		exits = new FlxTypedGroup<Exit>();
+		
+		enemyAreas = new FlxSpriteGroup();
 		
 		FlxG.camera.setScrollBoundsRect(0, 0, fullWidth, fullHeight, true);
 		
@@ -208,7 +212,7 @@ class TiledLevel extends TiledMap
 
 			
 			//objects layer
-			if (layer.name == "objects" || layer.name == "crystals")
+			if (layer.name == "objects" || layer.name == "enemies")
 			{
 				for (o in objectLayer.objects)
 				{
@@ -258,6 +262,23 @@ class TiledLevel extends TiledMap
 				}
 				
 				exits.add(e);
+			case "enemies":
+				var s : FlxSprite = new FlxSprite(x, y);
+				var w : Int = o.width;
+				var h : Int = o.height;
+				s.makeGraphic(w, h);
+				enemyAreas.add(s);
+				
 		}
+	}
+	
+	public function spawnEnemies()
+	{
+		if (enemyAreas.length == 0)
+		{
+			trace("no areas to spawn enemies");
+		}
+		
+		// TODO
 	}
 }
