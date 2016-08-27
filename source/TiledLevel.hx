@@ -39,7 +39,7 @@ class TiledLevel extends TiledMap
 	public var WorldPosY : Int = 0;
 	public var levelPath : String = "";
 	
-	private var enemyAreas : FlxSpriteGroup
+	private var enemyAreas : FlxSpriteGroup;
 	
 	
 	
