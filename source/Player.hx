@@ -17,6 +17,8 @@ class Player extends FlxSprite
 	var _hitArea        : FlxSprite;
 	var _facing         : Facing;
 	var _attackCooldown : Float;
+	
+	var _coins			: Int ;
 
     //#################################################################
 
@@ -36,6 +38,9 @@ class Player extends FlxSprite
 		maxVelocity  = GameProperties.PlayerMovementMaxVelocity;
 
         _dashCooldown = 0;
+		
+		_coins = 0;
+		
         _dashDir = new FlxPoint();
 
 		_playState = playState;
@@ -118,14 +123,15 @@ class Player extends FlxSprite
 		{
 			_dashCooldown -= FlxG.elapsed;
 		}
-
+		
+		_attackCooldown -= FlxG.elapsed;
 		if(_attackCooldown <= 0.0)
 		{
 			if(MyInput.AttackButtonJustPressed) attack();
 		}
 		else
 		{
-			_attackCooldown -= FlxG.elapsed;
+			
 		}
     }
 
@@ -133,9 +139,10 @@ class Player extends FlxSprite
 
 	function attack()
 	{
+		_attackCooldown += GameProperties.PlayerAttackCooldown;
 		for(enemy in _playState.level.enemies)
 		{
-			if(FlxG.overlap(this, enemy))
+			if(FlxG.overlap(this._hitArea, enemy))
 			{
 				enemy.hit(GameProperties.PlayerAttackBaseDamage);
 			}
@@ -175,5 +182,11 @@ class Player extends FlxSprite
 		_hitArea.draw();
 	}
 
+	public function pickUpCoins() 
+	{
+		// TODO
+	}
+	
+	
     //#################################################################
 }

@@ -1,8 +1,10 @@
 package;
 import flixel.FlxG;
 import flixel.FlxObject;
+import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.group.FlxSpriteGroup;
 import sys.FileSystem;
 
 class PlayState extends FlxState
@@ -39,12 +41,21 @@ class PlayState extends FlxState
 			level.foregroundTiles.update(elapsed);
 			level.exits.update(elapsed);
 			level.enemies.update(elapsed);
+			level.coins.update(elapsed);
 		}
 
 		FlxG.collide(level.enemies, level.collisionMap);
 		
 		FlxG.collide(player, level.collisionMap);
 		FlxG.overlap(player, level.exits, passExit);
+		FlxG.collide(player, level.enemies);
+		FlxG.overlap(player, level.coins, pickupCoin);
+	}
+	
+	public function pickupCoin(o1:FlxObject, o2:FlxObject):Void
+	{
+		o2.alive = false;
+		player.pickUpCoins();
 	}
 	
 	
@@ -57,6 +68,7 @@ class PlayState extends FlxState
 			level.foregroundTiles.draw();
 			level.exits.draw();
 			level.enemies.draw();
+			level.coins.draw();
 		}
 		super.draw();
 		
@@ -196,9 +208,19 @@ class PlayState extends FlxState
 
 	private function clearEnemies() : Void 
 	{
-		var n : FlxTypedGroup<Enemy> = new FlxTypedGroup<Enemy>();
+		{
+			var n : FlxTypedGroup<Enemy> = new FlxTypedGroup<Enemy>();
 		
-		level.enemies.forEach(function(e:Enemy) : Void { if (e.alive) n.add(e); } );
-		level.enemies = n;
+			level.enemies.forEach(function(e:Enemy) : Void { if (e.alive) n.add(e); } );
+			level.enemies = n;
+		}
+		
+		{
+		var n2 : FlxSpriteGroup = new FlxSpriteGroup();
+		
+		level.coins.forEach(function(s:FlxSprite) : Void { if (s.alive) n2.add(s); } );
+		level.coins = n2;
+		}
+		
 	}
 }

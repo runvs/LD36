@@ -14,6 +14,10 @@ import flixel.addons.editors.tiled.TiledTileSet;
 import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.tile.FlxTilemap;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxCollision;
+import flixel.util.FlxColor;
 import haxe.io.Path;
 
 /**
@@ -25,6 +29,13 @@ class TiledLevel extends TiledMap
 	// used to draw tiles in that layer (without file extension). The image file must be located in the directory specified bellow.
 	private inline static var c_PATH_LEVEL_TILESHEETS = "assets/images/";
 	
+	private var tileSet:TiledTileSet;
+	
+	public var WorldPosX : Int = 0;
+	public var WorldPosY : Int = 0;
+	public var levelPath : String = "";
+	
+	
 	// Array of tilemaps used for collision
 	public var foregroundTiles:FlxGroup;
 	
@@ -35,13 +46,8 @@ class TiledLevel extends TiledMap
 	
 	public var enemies : FlxTypedGroup<Enemy>;
 	
-	
-	
-	private var tileSet:TiledTileSet;
-	
-	public var WorldPosX : Int = 0;
-	public var WorldPosY : Int = 0;
-	public var levelPath : String = "";
+	public var coins : FlxSpriteGroup;
+
 	
 	private var enemyAreas : FlxSpriteGroup;
 	
@@ -61,6 +67,7 @@ class TiledLevel extends TiledMap
 		enemyAreas = new FlxSpriteGroup();
 		enemies = new FlxTypedGroup<Enemy>();
 		
+		coins  = new FlxSpriteGroup();
 		
 		
 		// Load Tile Maps
@@ -330,6 +337,27 @@ class TiledLevel extends TiledMap
 			
 		}
 		return null;
+	}
+	
+	public function spawnCoins(enemy:Enemy) 
+	{
+		var N : Int = GameProperties.rng.int(5, 6);
+		for (i in 0...N)
+		{
+			var coinAngle : Float = 2*Math.PI / N * i;
+			
+			var s: FlxSprite = new FlxSprite(enemy.x + 8, enemy.y + 16);
+			s.makeGraphic(6, 6, FlxColor.YELLOW);
+			s.velocity.set(Math.cos(coinAngle) * 120, Math.sin(coinAngle) * 120);
+			s.drag.set(250, 250);
+			
+			s.offset.set(0, -3);
+			
+			FlxTween.tween(s.offset, { y:5 }, 0.75, { ease:FlxEase.sineInOut, type:FlxTween.PINGPONG, startDelay:GameProperties.rng.float(0, 0.5) } );
+			
+			coins.add(s);
+			
+		}
 	}
 
 }

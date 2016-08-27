@@ -26,7 +26,7 @@ class GameProperties
     public static var PlayerMovementDashCooldown  : Float    = 1.0;
 	public static var PlayerMovementMaxDashLength : Float    = 100.0;
     public static var PlayerAttackBaseDamage      : Float    = 10.0;
-    public static var PlayerAttackCooldown        : Float    = 0.25;
+    public static var PlayerAttackCooldown        : Float    = 0.125;
 
     // ################################################################
     // # Enemy ########################################################
