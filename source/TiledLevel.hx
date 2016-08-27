@@ -289,7 +289,7 @@ class TiledLevel extends TiledMap
 			trace("no areas to spawn enemies");
 		}
 		
-		var enemy = new Enemy(100, 25, 5, state);
+		var enemy = new Enemy(0.15, 25, 5, state);
 		enemies.add(enemy);
 		
 		//TODO spawn multiple enemies per area
@@ -352,6 +352,7 @@ class TiledLevel extends TiledMap
 			s.drag.set(250, 250);
 			
 			s.offset.set(0, -3);
+			s.elasticity = 0.5;
 			
 			FlxTween.tween(s.offset, { y:5 }, 0.75, { ease:FlxEase.sineInOut, type:FlxTween.PINGPONG, startDelay:GameProperties.rng.float(0, 0.5) } );
 			

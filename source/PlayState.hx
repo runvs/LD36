@@ -49,13 +49,24 @@ class PlayState extends FlxState
 		FlxG.collide(player, level.collisionMap);
 		FlxG.overlap(player, level.exits, passExit);
 		FlxG.collide(player, level.enemies);
+		FlxG.collide(level.coins, level.collisionMap);
 		FlxG.overlap(player, level.coins, pickupCoin);
+		
+		if (player.alive == false)
+		{
+			RespawnInCity();
+		}
 	}
+	
+	
 	
 	public function pickupCoin(o1:FlxObject, o2:FlxObject):Void
 	{
-		o2.alive = false;
-		player.pickUpCoins();
+		if ( 02.alive)
+		{
+			o2.alive = false;
+			player.pickUpCoins();
+		}
 	}
 	
 	
@@ -71,6 +82,8 @@ class PlayState extends FlxState
 			level.coins.draw();
 		}
 		super.draw();
+		
+		player.drawHud();
 		
 	}
 	
@@ -159,6 +172,8 @@ class PlayState extends FlxState
 			{
 				trace("WARNING: no exit found");
 				player.setPosition(offsetX, offsetY);
+				player.velocity.set();
+				player.acceleration.set();
 				
 			}
 			else
@@ -222,5 +237,15 @@ class PlayState extends FlxState
 		level.coins = n2;
 		}
 		
+	}
+	
+	function RespawnInCity() 
+	{
+		player.restoreHealth();
+		player.dropAllItems();
+		world.currentWorldPosX = 15;
+		world.currentWorldPosY = 15;
+		player.setPosition(8 * GameProperties.TileSize, 4 * GameProperties.TileSize);
+		LoadLevel();
 	}
 }

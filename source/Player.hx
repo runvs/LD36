@@ -3,6 +3,7 @@ package;
 import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.math.FlxPoint;
+import flixel.text.FlxText;
 
 class Player extends FlxSprite
 {
@@ -19,6 +20,10 @@ class Player extends FlxSprite
 	var _attackCooldown : Float;
 	
 	var _coins			: Int ;
+	var _coinsText 		: FlxText;
+	
+	var _healtBar 		: HudBar;
+	var _healthMax: Float;
 
     //#################################################################
 
@@ -46,6 +51,13 @@ class Player extends FlxSprite
 		_playState = playState;
 
 		setPosition(8 * GameProperties.TileSize, 2 * GameProperties.TileSize);
+		
+		health = _healthMax = GameProperties.PlyerHealthMaxDefault;
+		_healtBar = new HudBar(10, 10, 96, 16, false);
+		
+		_coinsText = new FlxText(128, 10, 0, "", 12);
+		_coinsText.scrollFactor.set();
+		
     }
 
     //#################################################################
@@ -76,6 +88,13 @@ class Player extends FlxSprite
 		}
 
         handleInput();
+		
+		
+		_healtBar.health = health/_healthMax;
+		_healtBar.update(elapsed);
+		_coinsText.text = Std.string(_coins);
+		_coinsText.update(elapsed);
+		
     }
 
     //#################################################################
@@ -144,7 +163,7 @@ class Player extends FlxSprite
 		{
 			if(FlxG.overlap(this._hitArea, enemy))
 			{
-				enemy.hit(GameProperties.PlayerAttackBaseDamage);
+				enemy.hit(GameProperties.PlayerAttackBaseDamage, this.x, this.y);
 			}
 		}
 	}
@@ -182,9 +201,35 @@ class Player extends FlxSprite
 		_hitArea.draw();
 	}
 
+	public function drawHud()
+	{
+		_healtBar.draw();
+		_coinsText.draw();
+		
+	}
+	
 	public function pickUpCoins() 
 	{
-		// TODO
+		_coins += 1;
+	}
+	
+	public function takeDamage(d:Float)
+	{
+		health -= d;
+		if (health <= 0)
+		{
+			alive = false;
+		}
+	}
+	
+	public function dropAllItems()
+	{
+		//TODO
+	}
+	
+	public function restoreHealth()
+	{
+		health = _healthMax;
 	}
 	
 	
