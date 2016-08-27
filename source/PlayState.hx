@@ -24,6 +24,7 @@ class PlayState extends FlxState
 
 	override public function update(elapsed:Float):Void
 	{
+		MyInput.update();
 		super.update(elapsed);
 		
 		

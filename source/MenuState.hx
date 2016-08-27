@@ -17,7 +17,11 @@ class MenuState extends FlxState
 
 	override public function update(elapsed:Float):Void
 	{
+		MyInput.update();
 		super.update(elapsed);
-		FlxG.switchState(new PlayState());
+		if (MyInput.AttackButtonJustPressed)
+		{
+			FlxG.switchState(new PlayState());
+		}
 	}
 }
