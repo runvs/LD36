@@ -76,7 +76,9 @@ class TiledLevel extends TiledMap
 		
 		levelChest = new FlxSprite(-200, -200);
 		//levelChest.makeGraphic(GameProperties.TileSize, GameProperties.TileSize, FlxColor.CYAN);
-		levelChest.loadGraphic(AssetPaths.chest__png, false, 16, 16);
+		levelChest.loadGraphic(AssetPaths.chest__png, true, 16, 16);
+		levelChest.animation.add("idle");
+		levelChest.animation.play("idle");
 		
 		levelChest.alive = false;
 		levelChest.immovable = true;
