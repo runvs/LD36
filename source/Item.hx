@@ -17,6 +17,8 @@ class Item {
 
     public var itemType : ItemType;
 
+    public var sold : Bool;
+
     static var json : ItemData;
 
     //#################################################################
@@ -29,6 +31,8 @@ class Item {
         this.agilityBonus  = agilityBonus;
         this.strengthBonus = strengthBonus;
         this.healthBonus   = healthBonus;
+
+        sold = false;
 
         value = calculateValue();
     }

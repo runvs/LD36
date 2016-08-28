@@ -50,4 +50,5 @@ class GameProperties
     public static var MerchantInputDeadTime       : Float    = 0.16;
     public static var MerchantColorAvailable      : FlxColor = FlxColor.BLACK;
     public static var MerchantColorUnavailable    : FlxColor = FlxColor.RED;
+    public static var MerchantColorSold           : FlxColor = FlxColor.GRAY;
 }

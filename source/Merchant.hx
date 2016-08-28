@@ -83,6 +83,11 @@ class Merchant extends NPC
                 {
                     _itemTexts.members[i].color = GameProperties.MerchantColorUnavailable;
                 }
+
+                if(_items[i].sold)
+                {
+                    _itemTexts.members[i].color = GameProperties.MerchantColorSold;
+                }
             }
         }
 
@@ -131,6 +136,25 @@ class Merchant extends NPC
             if(_currentSelection == _items.length)
             {
                 onCloseClick();
+            }
+            else
+            {
+                if(_items[_currentSelection].value <= _player.coins)
+                {
+                    _items[_currentSelection].sold = true;
+                    
+                    switch _items[_currentSelection].itemType
+                    {
+                        case ItemType.HEAD:
+                            _player.headItem   = _items[_currentSelection];
+                        case ItemType.TORSO:
+                            _player.torsoItem  = _items[_currentSelection];
+                        case ItemType.LEGS:
+                            _player.legsItem   = _items[_currentSelection];
+                        case ItemType.WEAPON:
+                            _player.weaponItem = _items[_currentSelection];
+                    }
+                }
             }
         }
 
