@@ -117,7 +117,7 @@ class Enemy extends FlxSprite
 				
 				
 				
-				if (_distanceToPlayer <= GameProperties.TileSize * 1.9)
+				if (_distanceToPlayer <= GameProperties.TileSize * 2.2)
 				{
 					Attack();	
 				}
