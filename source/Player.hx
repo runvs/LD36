@@ -15,11 +15,14 @@ class Player extends FlxSprite
 	public var legsItem   : Item;
 	public var weaponItem : Item;
 
-	public var strength   : Float;
-	public var agility    : Float;
-	public var healthMax  : Float;
+	public var strength      : Float;
+	public var agility       : Float;
+	public var healthMax     : Float;
+	public var agilityBonus  : Float;
+	public var strengthBonus : Float;
+	public var healthBonus   : Float;
 	
-	public var coins      : Int;
+	public var coins : Int;
 
     var _dashDir        : FlxPoint;
 	var _dashCooldown   : Float;
@@ -51,7 +54,6 @@ class Player extends FlxSprite
     {
         super();
 
-        //makeGraphic(16, 16, flixel.util.FlxColor.ORANGE);
 		this.loadGraphic(AssetPaths.Hero__png, true, 16, 16);
 		this.animation.add("walk_south", [0, 4, 8,  12], 8);
 		this.animation.add("walk_west",  [1, 5, 9,  13], 8);
@@ -76,8 +78,6 @@ class Player extends FlxSprite
         _dashDir = new FlxPoint();
 		
 		coins = 0;
-		legsItem = new Item(ItemType.LEGS, 'Iron Diaper', 10, 0, 0);
-		weaponItem = new Item(ItemType.WEAPON, 'Mighty Longsword of Mutilation', 0, 20, 0);
 
 		_playState = playState;
 
@@ -94,7 +94,6 @@ class Player extends FlxSprite
 		
 		_coinsText = new FlxText(128, 10, 0, "", 12);
 		_coinsText.scrollFactor.set();
-		
 		
 		attackSound = FlxG.sound.load(AssetPaths.attack1__ogg, 1);
 		dashSound  = FlxG.sound.load(AssetPaths.dash__ogg, 0.25);
@@ -143,12 +142,17 @@ class Player extends FlxSprite
 			this.animation.play("idle", true);
 		}
 		
+        var healthFactor = health / healthMax;
+        healthMax = GameProperties.PlayerHealthMaxDefault + healthBonus;
+        health    = healthMax * healthFactor;
 		
-		_healthBar.health = health/healthMax;
+		_healthBar.health = health / healthMax;
 		_healthBar.update(elapsed);
-		_dashCooldownBar.update(elapsed);
+
 		_dashCooldownBar.health = 1.0 - _dashCooldown / GameProperties.PlayerMovementDashCooldown;
-		_coinsText.text = Std.string(coins);
+		_dashCooldownBar.update(elapsed);
+		
+        _coinsText.text = Std.string(coins);
 		_coinsText.update(elapsed);
 
 		_inventory.update(elapsed);
@@ -252,11 +256,11 @@ class Player extends FlxSprite
 
     //#################################################################
 
-	function recalculateBonuses()
+	public function recalculateBonuses()
 	{
-		var agilityBonus  = 0.0;
-		var strengthBonus = 0.0;
-		var healthBonus   = 0.0;
+		agilityBonus  = 0.0;
+		strengthBonus = 0.0;
+		healthBonus   = 0.0;
 
 		if(headItem != null)
 		{
@@ -300,7 +304,7 @@ class Player extends FlxSprite
 		{
 			if(FlxG.overlap(_hitArea, enemy))
 			{
-				enemy.hit(GameProperties.PlayerAttackBaseDamage, this.x, this.y);
+				enemy.hit(getDamage(), this.x, this.y);
 				enemyHit = true;
 			}
 		}
@@ -321,6 +325,13 @@ class Player extends FlxSprite
 			}
 		}
 	}
+
+    //#################################################################
+
+    function getDamage() : Float
+    {
+        return GameProperties.PlayerAttackBaseDamage + Math.pow(strength + strengthBonus, 0.25);
+    }
 
     //#################################################################
 
@@ -398,6 +409,8 @@ class Player extends FlxSprite
 		torsoItem  = null;
 		legsItem   = null;
 		weaponItem = null;
+		
+		recalculateBonuses();
 	}
 
     //#################################################################
