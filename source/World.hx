@@ -77,15 +77,28 @@ class World extends FlxObject
 	
 	private function addConnection(patches:Array<Int>)
 	{
+		trace("add connections");
 		var numberOfRuns : Int = 0;
 		while (numberOfRuns <= 9)
 		{
-			var i : Int = GameProperties.rng.int(0, WorldSizeInPatchesX - 1, [14,15,16]);
-			var j : Int = GameProperties.rng.int(0, WorldSizeInPatchesY - 1, [14,15,16]);
 			
-			var idx = i + j * WorldSizeInPatchesX;
+			// get a patch with type 1,2 or 3
+			
+			var i : Int = 0;
+			var j : Int = 0;
+			while (true)
+			{
+				i = GameProperties.rng.int(0, WorldSizeInPatchesX - 1,[13,14,15,16]);
+				j  = GameProperties.rng.int(0, WorldSizeInPatchesY - 1, [13,14,15,16]);
+				var idx = i + j * WorldSizeInPatchesX;
+				if (patches[idx] != 0)
+				{
+					break;
+				}
+			}
 			
 			
+			// get a random direction
 			var dir : FlxPoint = new FlxPoint(0, 0);
 			if ( GameProperties.rng.bool())
 			{
@@ -102,8 +115,6 @@ class World extends FlxObject
 			}
 			
 			var offDir : FlxPoint = new FlxPoint( -dir.y, dir.x);
-			
-			//trace("spawning connection "+ i + " " + j);
 			
 			addPath(patches, dir, offDir, i, j, 6, 10, false);
 			addPath(patches, offDir, dir, i, j, 6, 10, false);
@@ -204,65 +215,7 @@ class World extends FlxObject
 		
 		addConnection(patches);
 		
-		// patches created, now create level parts respectively
-		
-		// debug
-		for (j in 1...WorldSizeInPatchesY-1)
-		{
-			for (i in 1...WorldSizeInPatchesX -1)
-			{
-				var idx : Int = i + j * WorldSizeInPatchesX;
-				patches[idx] = 0;
-			}
-		}
-		{
-			var i = 15;
-			var j = 15;
-			var idx : Int = i + j * WorldSizeInPatchesX;
-			patches[idx] = 2;
-		}
-			{
-			var i = 14;
-			var j = 15;
-			var idx : Int = i + j * WorldSizeInPatchesX;
-			patches[idx] = 3;
-		}
-			{
-			var i = 16;
-			var j = 15;
-			var idx : Int = i + j * WorldSizeInPatchesX;
-			patches[idx] = 3;
-		}
-			{
-			var i = 15;
-			var j = 14;
-			var idx : Int = i + j * WorldSizeInPatchesX;
-			patches[idx] = 3;
-		}
-		{
-			var i = 15;
-			var j = 16;
-			var idx : Int = i + j * WorldSizeInPatchesX;
-			patches[idx] = 3;
-		}
-		{
-			var i = 14;
-			var j = 16;
-			var idx : Int = i + j * WorldSizeInPatchesX;
-			patches[idx] = 3;
-		}
-		{
-			var i = 16;
-			var j = 16;
-			var idx : Int = i + j * WorldSizeInPatchesX;
-			patches[idx] = 3;
-		}
-		{
-			var i = 15;
-			var j = 17;
-			var idx : Int = i + j * WorldSizeInPatchesX;
-			patches[idx] = 3;
-		}
+		// patches created, now create level parts respectively		
 		
 		var s : String  = "";
 		
@@ -375,4 +328,7 @@ class World extends FlxObject
 		currentWorldPosY = 15;
 		trace("created a level with " + Std.string(levels.length) + " of " + Std.string(counter)  + " levels");
 	}
+	
+	
+
 }

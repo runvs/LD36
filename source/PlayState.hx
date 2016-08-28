@@ -34,6 +34,8 @@ class PlayState extends FlxState
 	
 	var introText : UpcomingMessages;
 	
+	var _flocks : Flocks;
+	
 	override public function create():Void
 	{
 		super.create();
@@ -67,6 +69,7 @@ class PlayState extends FlxState
 		
 		introText.scrollFactor.set();
 		
+		CreateFlocksFront();
 		
 	}
 
@@ -109,6 +112,7 @@ class PlayState extends FlxState
 		introText.update(elapsed);
 		if (controlsEnabled)
 		{
+			_flocks.update(elapsed);
 			clearEnemies();
 			super.update(elapsed);
 			if (level != null)
@@ -222,6 +226,7 @@ class PlayState extends FlxState
 			
 			level.npcs.draw();
 			level.coins.draw();
+			_flocks.draw();
 			
 			overlay.draw();
 		}
@@ -402,16 +407,57 @@ class PlayState extends FlxState
 	
 	function RespawnInCity() 
 	{
-		player.restoreHealth();
-		player.velocity.set();
-		player.acceleration.set();
-		player.stopNpcInteraction();
-		player.dropAllItems();
-		player.setPosition(8 * GameProperties.TileSize, 4 * GameProperties.TileSize);
-		player.alive = true;
+		if (controlsEnabled == false)
+		{
+			return;
+		}
+		
+		controlsEnabled = false;
+		
+		FlxTween.tween(overlay, { alpha:1 }, 0.75, { onComplete:function(t)
+		{
+			player.restoreHealth();
+			player.velocity.set();
+			player.acceleration.set();
+			player.stopNpcInteraction();
+			player.dropAllItems();
+			player.setPosition(8 * GameProperties.TileSize, 4 * GameProperties.TileSize);
+			player.alive = true;
 
-		world.currentWorldPosX = 15;
-		world.currentWorldPosY = 15;
-		LoadLevel();
+			world.currentWorldPosX = 15;
+			world.currentWorldPosY = 15;
+			LoadLevel();
+			overlay.alpha = 0;
+			controlsEnabled = true;
+		}} );		
+	}
+	
+	function CreateFlocksFront():Void 
+	{
+		_flocks = new Flocks(function (s : FlxSprite):Void 
+		{
+			if (GameProperties.rng.bool())
+			{
+				s.makeGraphic(GameProperties.rng.int(1,3), GameProperties.rng.int(1,3), FlxColor.fromRGB(101, 202,0,255));
+			}
+			else
+			{
+				s.makeGraphic(GameProperties.rng.int(1,3), GameProperties.rng.int(1,3), FlxColor.fromRGB(77, 45, 25,255));
+			}
+			
+			
+			s.velocity.x = -4 + GameProperties.rng.float( -3, 3);
+			s.velocity.y = 6 + GameProperties.rng.float( -2, 2);
+			s.angularVelocity = (GameProperties.rng.bool() ? 1 : -1) *  10;
+			s.angle = GameProperties.rng.float(0, 360);
+			
+			s.alpha = GameProperties.rng.float(0.45, 0.95);		
+		});
+		for (f in _flocks)
+		{
+			f.scrollFactor.set(1.05, 1.05);
+		}
+		//add(_flocks);
+	
 	}
 }

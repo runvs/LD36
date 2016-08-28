@@ -31,6 +31,7 @@ class Player extends FlxSprite
 	var _playState      : PlayState;
 
 	var _hitArea        : FlxSprite;
+	
 	var _facing         : Facing;
 	var _attackCooldown : Float;
 	var _coinsText 		: FlxText;
@@ -66,7 +67,7 @@ class Player extends FlxSprite
 		_hitArea.makeGraphic(16, 16, flixel.util.FlxColor.fromRGB(255, 255, 255, 64));
 		_facing = Facing.SOUTH;
 		_attackCooldown = 0.0;
-
+		
 		_accelFactor = GameProperties.PlayerMovementAcceleration;
 		drag         = GameProperties.PlayerMovementDrag;
 		maxVelocity  = GameProperties.PlayerMovementMaxVelocity;
@@ -365,6 +366,7 @@ class Player extends FlxSprite
 		super.draw();
 
 		_hitArea.draw();
+		
 	}
 
     //#################################################################
