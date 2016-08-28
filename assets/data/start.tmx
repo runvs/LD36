@@ -37,7 +37,7 @@
     <property name="type" value="merchant"/>
    </properties>
   </object>
-  <object id="83" name="trainer" type="merchant" x="112" y="48" width="16" height="16">
+  <object id="83" name="trainer" type="merchant" x="240" y="208" width="16" height="16">
    <properties>
     <property name="type" value="trainer"/>
    </properties>

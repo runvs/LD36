@@ -27,11 +27,11 @@
     <property name="direction" value="east"/>
    </properties>
   </object>
-  <object id="81" name="chest" type="chest" x="128" y="112" width="16" height="16"/>
+  <object id="81" name="chest" type="chest" x="96" y="128" width="16" height="16"/>
  </objectgroup>
  <objectgroup name="enemies">
-  <object id="77" name="enemy_area" type="enemy_area" x="96" y="32" width="64" height="208"/>
-  <object id="79" name="enemy_area" type="enemy_area" x="32" y="192" width="64" height="48"/>
+  <object id="77" name="enemy_area" type="enemy_area" x="96" y="16" width="48" height="240"/>
+  <object id="79" name="enemy_area" type="enemy_area" x="48" y="192" width="48" height="32"/>
  </objectgroup>
  <layer name="top" width="12" height="17">
   <properties>

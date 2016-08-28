@@ -5,6 +5,7 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxSpriteGroup;
+import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
@@ -25,6 +26,7 @@ class PlayState extends FlxState
 	
 	private var overlay : FlxSprite;
 	private var controlsEnabled : Bool;
+	var pickupSound : FlxSound;
 	
 	override public function create():Void
 	{
@@ -44,12 +46,16 @@ class PlayState extends FlxState
 		_technologyFoundText = new FlxText(10, 48, 0, "Tech Found: 0", 10);
 		_technologyFoundText.scrollFactor.set();
 		
+		pickupSound = FlxG.sound.load(AssetPaths.pickup__ogg, 0.5, false);
+		
 		controlsEnabled = false;
 		overlay = new FlxSprite(0, 0);
 		overlay.scrollFactor.set();
 		overlay.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		overlay.alpha = 1.0;
 		FlxTween.tween(overlay, { alpha :0 }, 0.5, { onComplete : function(t) { controlsEnabled = true; }} );
+		
+		
 		
 		
 	}
@@ -130,6 +136,8 @@ class PlayState extends FlxState
 		{
 			o2.alive = false;
 			player.pickUpCoins();
+			pickupSound.pitch = GameProperties.rng.float(0.5, 1.1);
+			pickupSound.play();
 		}
 	}
 	

@@ -34,10 +34,11 @@ class CreditsState extends FlxState
 		
 		text = new FlxText(100, 0, 0, "", 12);
 		text.text = "A game by\n\n" +
-		"Julian Dinges\n-code-\n\nTanja Miehm\n-graphics-" + 
-		"\n\nSimon  Weis \n-code-\n\n\n" +
+		"Julian Dinges\n-code-\n\n@xXBloodyOrange\n-graphics-" + 
+		"\n\nSimon  Weis \n-code-\n\n" +
+		"music by jaws vs paws, CC-by-nc-sa\nobtained from freemusicarchive.org\n\n\n" +
 		"created  for  LDJAM36 \n2016-08-27  to  2016-08-28\n\n" +
-		"Tools  used\n HaxeFlixel, Tiled, Aseprite, \nSmartTimelapse,\nspeedcrunch, cygwin";
+		"Tools  used\n HaxeFlixel, Tiled, Aseprite, \nSmartTimelapse, SFXR,\nspeedcrunch, cygwin";
 		text.alignment = flixel.text.FlxTextAlign.CENTER;
 		text.screenCenter(FlxAxes.X);
 		add(text);

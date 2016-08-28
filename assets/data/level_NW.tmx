@@ -30,8 +30,8 @@
   <object id="81" name="chest" type="chest" x="256" y="192" width="16" height="16"/>
  </objectgroup>
  <objectgroup name="enemies">
-  <object id="78" name="enemy_area" type="enemy_area" x="32" y="192" width="112" height="64"/>
-  <object id="79" name="enemy_area" type="enemy_area" x="48" y="32" width="176" height="64"/>
+  <object id="78" name="enemy_area" type="enemy_area" x="64" y="192" width="80" height="64"/>
+  <object id="79" name="enemy_area" type="enemy_area" x="80" y="32" width="224" height="64"/>
   <object id="80" name="enemy_area" type="enemy_area" x="64" y="256" width="80" height="128"/>
  </objectgroup>
  <layer name="top" width="20" height="26">

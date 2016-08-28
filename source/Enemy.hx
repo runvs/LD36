@@ -5,6 +5,7 @@ import flixel.math.FlxPoint;
 import flixel.math.FlxVector;
 import flixel.FlxG;
 import flixel.math.FlxRandom;
+import flixel.system.FlxSound;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
@@ -31,6 +32,8 @@ class Enemy extends FlxSprite
 	public var _attackingUnderlay : FlxSprite;
 	
 	var _facing         : Facing;
+	
+	var attackSound : FlxSound;
 	
 
     //#################################################################
@@ -80,6 +83,9 @@ class Enemy extends FlxSprite
 		var ofs : Float = -GameProperties.TileSize * 0.5 + GameProperties.TileSize * sf * 0.5;
 		_attackingUnderlay.offset.set(ofs, ofs);
 		_attackingUnderlay.alpha = 0;
+		
+		attackSound = FlxG.sound.load(AssetPaths.takeHit__ogg, 0.125);
+		
     }
 
     //#################################################################
@@ -136,6 +142,10 @@ class Enemy extends FlxSprite
 				t.start(GameProperties.EnemyAttackingTime, function(t: FlxTimer) 
 				{
 					FlxG.camera.shake(0.0025, 0.2);
+					attackSound.pitch = GameProperties.rng.float(0.2, 0.4);
+					attackSound.play();
+					
+					
 					this.animation.play("attackDOWN");
 					_attacking = false; 
 					_idleTimer = 0.2;  

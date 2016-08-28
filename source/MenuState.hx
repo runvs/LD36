@@ -32,6 +32,8 @@ class MenuState extends FlxState
 		super.create();
 		FlxG.mouse.visible = false;
 		
+		FlxG.sound.playMusic(AssetPaths.raiders_ost__ogg, 0.25, true);
+		
 		title = new FlxText(0, 0, 0, "Raiders\nof the\n Ancient Technology", 20);
 		title.alignment = flixel.text.FlxTextAlign.CENTER;
 		title.screenCenter(FlxAxes.X);

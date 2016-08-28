@@ -4,6 +4,7 @@ import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.math.FlxPoint;
 import flixel.text.FlxText;
+import flixel.system.FlxSound;
 
 class Player extends FlxSprite
 {
@@ -38,6 +39,11 @@ class Player extends FlxSprite
 	var _showInventory  : Bool;
 	var _npcInteraction : Bool;
 	var _interactingNPC : NPC;
+	
+	var attackSound : FlxSound;
+	var dashSound : FlxSound;
+	var takeDamageSound : FlxSound;
+	
 
     //#################################################################
 
@@ -85,6 +91,11 @@ class Player extends FlxSprite
 		
 		_coinsText = new FlxText(128, 10, 0, "", 12);
 		_coinsText.scrollFactor.set();
+		
+		
+		attackSound = FlxG.sound.load(AssetPaths.attack1__ogg, 1);
+		dashSound  = FlxG.sound.load(AssetPaths.dash__ogg, 0.25);
+		takeDamageSound = FlxG.sound.load(AssetPaths.takeHit__ogg, 1);
     }
 
     //#################################################################
@@ -278,6 +289,8 @@ class Player extends FlxSprite
 	function attack()
 	{
 		_attackCooldown += GameProperties.PlayerAttackCooldown;
+		attackSound.pitch = GameProperties.rng.float(0.8, 1.2);
+		attackSound.play();
 		
 		var enemyHit = false;
 		for(enemy in _playState.level.enemies)
@@ -313,6 +326,7 @@ class Player extends FlxSprite
 		var stepSize = GameProperties.PlayerMovementMaxDashLength / GameProperties.TileSize / 2;
 		var currentStep = 0.0;
 		var lastPosition : FlxPoint;
+		dashSound.play();
 
 		while(currentStep < GameProperties.PlayerMovementMaxDashLength)
 		{
@@ -365,6 +379,8 @@ class Player extends FlxSprite
 	public function takeDamage(d:Float)
 	{
 		health -= d;
+		takeDamageSound.pitch = GameProperties.rng.float(0.8, 1.2);
+		takeDamageSound.play();
 		if (health <= 0)
 		{
 			alive = false;
