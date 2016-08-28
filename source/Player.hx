@@ -259,10 +259,13 @@ class Player extends FlxSprite
 		{
 			for(npc in _playState.level.npcs)
 			{
-				if(FlxG.overlap(_hitArea, npc))
+				if (npc.alive)
 				{
-					npc.interact();
-					_npcInteraction = true;
+					if(FlxG.overlap(_hitArea, npc))
+					{
+						npc.interact();
+						_npcInteraction = true;
+					}
 				}
 			}
 		}

@@ -145,7 +145,7 @@ class World extends FlxObject
 				continue;
 			
 			var idx : Int = sx + sy * WorldSizeInPatchesX;
-			if ( i == N)
+			if ( i == N-1)
 			{
 				patches[idx] = 3;	// special end tile
 			}
@@ -217,7 +217,7 @@ class World extends FlxObject
 				
 				var idx : Int = i + j * WorldSizeInPatchesX;
 				s += Std.string(patches[idx]) + " ";
-				if (patches[idx] == 1 ||patches[idx] == 3 )
+				if (patches[idx] == 1 || patches[idx] == 3 )
 				{
 					counter += 1;
 					var idxNorth  : Int = (i)     + (j - 1 ) * WorldSizeInPatchesX;
@@ -278,23 +278,39 @@ class World extends FlxObject
 		}
 		
 		
-		for (i in 0...3)
+		// just some debug testing
+		for (i in 0 ... levels.length)
 		{
-			var n : Int = GameProperties.rng.int(0, patchType3Levels.length - 1);
-			var l : TiledLevel = patchType3Levels[n];
-			
-			if (l.spawnChest())
-			{
-				i -= 1;
-			}
-			
-			patchType3Levels.remove(l);
+			var l : TiledLevel = levels[i];
+			l.spawnChest();
 		}
-		for (n in 0...patchType3Levels.length)
-		{
-			var l : TiledLevel = patchType3Levels[n];
-			l.spawnMerchant();
-		}
+		
+		
+		//var hits : Int = 0;
+		//while(true)
+		//{
+			//var n : Int = GameProperties.rng.int(0, patchType3Levels.length - 1);
+			//var l : TiledLevel = patchType3Levels[n];
+			//
+			//if (l.spawnChest())
+			//{
+				//hits += 1;
+				//
+			//}
+			//patchType3Levels.remove(l);
+			//
+			//if (hits >= 4)
+			//{
+				//break;
+			//}
+		//}
+		//for (n in 0...patchType3Levels.length)
+		//{
+			//var l : TiledLevel = patchType3Levels[n];
+			//l.spawnMerchant();
+		//}
+		//
+		
 		
 		
 		currentWorldPosX = 15;

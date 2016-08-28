@@ -77,6 +77,7 @@ class TiledLevel extends TiledMap
 		levelChest = new FlxSprite(-200, -200);
 		levelChest.makeGraphic(GameProperties.TileSize, GameProperties.TileSize, FlxColor.CYAN);
 		levelChest.alive = false;
+		levelChest.immovable = true;
 		
 		
 		// Load Tile Maps
@@ -407,17 +408,40 @@ class TiledLevel extends TiledMap
 	
 	public function updateChest()
 	{
+		if (enemies.length > 0)
+		{
+			npcs.forEach(function (n:NPC) : Void 
+			{
+				n.alpha = 0;
+				n.alive = false;
+			});
+		}
+		else
+		{
+			npcs.forEach(function (n:NPC) : Void 
+			{
+				n.alpha = 1;
+				n.alive = true;
+			});
+		}
+		
 		if (patchType == 3)
 		{
-			if (enemies.length <= 0)
+			if (enemies.length <= 0 )
 			{
 				ActivateChest();
 			}
+			
+		}
+		if (FlxG.keys.justPressed.F4)
+		{
+			ActivateChest();
 		}
 	}
 	
 	function ActivateChest() 
 	{
+		trace (levelChest.x + " " + levelChest.y);
 		levelChest.alpha  = 1.0;
 		
 		// spawn particles, etc...
@@ -425,38 +449,39 @@ class TiledLevel extends TiledMap
 	
 	public function spawnChest() : Bool
 	{
+	
 		if (chestspawned == false)
 		{
 			// no chest spawned
 			return false;
 		}
-		
+		trace ("spawn chest");
 		levelChest.alive = true;
 		levelChest.alpha = 0;
 		return true;
 	}
 	
 	
-	public function spawnMerchant()
+	public function spawnMerchant() : Bool
 	{
 		if ( chestspawned == false)
 		{
-			return;
+			return false;
 		}
 		
 		// spawn a random merchant/trainer/healer
 		var v : Int = GameProperties.rng.int(1, 3);
 		if (v == 1)
 		{
-			npcs.add(new Merchant(levelChest.x, levelChest.y));
+			npcs.add(new Merchant(Std.int(levelChest.x), Std.int(levelChest.y)));
 		}
 		else if (v == 2)
 		{
-			npcs.add(new Trainer(levelChest.x, levelChest.y));
+			npcs.add(new Trainer(Std.int(levelChest.x), Std.int(levelChest.y)));
 		}
 		else if (v == 3)
 		{
-			npcs.add(new Healer(levelChest.x, levelChest.y));
+			npcs.add(new Healer(Std.int(levelChest.x), Std.int(levelChest.y)));
 		}
 		return true;
 	}

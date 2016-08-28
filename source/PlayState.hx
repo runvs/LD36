@@ -43,6 +43,7 @@ class PlayState extends FlxState
 			level.enemies.update(elapsed);
 			level.npcs.update(elapsed);
 			level.coins.update(elapsed);
+			level.updateChest();
 		}
 
 		FlxG.collide(level.enemies, level.collisionMap);
@@ -53,6 +54,10 @@ class PlayState extends FlxState
 		FlxG.collide(level.enemies, level.enemies);
 		FlxG.collide(level.coins, level.collisionMap);
 		FlxG.overlap(player, level.coins, pickupCoin);
+		if (level.chestspawned && level.levelChest.alpha >= 0.95)
+		{
+			FlxG.collide(player, level.levelChest);
+		}
 		
 		level.enemies.forEach(
 		function (e:Enemy) : Void 
@@ -108,7 +113,7 @@ class PlayState extends FlxState
 		super.draw();
 		
 		player.drawHud();
-		level.npcs.forEach(function(npc) { npc.drawHud(); });
+		level.npcs.forEach(function(npc) { if(npc.alive) {npc.drawHud(); }});
 	}
 	
 	public function passExit(o1:FlxObject, o2:FlxObject):Void
