@@ -38,7 +38,6 @@ class NPC extends FlxSprite
 
     public function interact()
     {
-        trace('Player interaction');
     }
 
     //#################################################################

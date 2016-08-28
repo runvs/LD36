@@ -29,6 +29,10 @@ class Trainer extends NPC
     var _currentSelection : Int;
     var _inputDeadTime    : Float;
     var _showInventory    : Bool;
+    
+    var _announceText     : FlxText;
+    var _announceTimeout  : Float;
+    var _announceTimer    : FlxTimer;
 
     //#################################################################
 
@@ -39,6 +43,13 @@ class Trainer extends NPC
 		loadGraphic(AssetPaths.trainer__png, true, 16, 16);
 		animation.add("idle", [0, 1, 2, 3], 5, true);
 		animation.play("idle");
+
+        _announceTimer = new FlxTimer();
+        _announceTimer.start(GameProperties.NPCAnnounceTime, onAnnounceTimer, 0);
+        
+        _announceText = new FlxText(x, y - GameProperties.TileSize, 0, 'Improve your\nskills!');
+        _announceText.alignment = flixel.text.FlxTextAlign.CENTER;
+        _announceTimeout = GameProperties.NPCAnnounceTextTimeout;
 
         _inventory = new FlxSprite(10, 10);
         _inventory.makeGraphic(FlxG.width - 20, 210, FlxColor.GRAY);
@@ -84,6 +95,13 @@ class Trainer extends NPC
     public override function update(elapsed)
     {
         super.update(elapsed);
+
+        if(!alive) return;
+
+        if(_announceTimeout > 0.0)
+        {
+            _announceTimeout -= elapsed;
+        }
 
         if(_player != null)
         {
@@ -226,6 +244,18 @@ class Trainer extends NPC
 
     //#################################################################
 
+    public override function draw()
+    {
+        super.draw();
+
+        if(_announceTimeout > 0.0)
+        {
+            _announceText.draw();
+        }
+    }
+
+    //#################################################################
+
     public override function drawHud()
     {
         super.drawHud();
@@ -254,6 +284,8 @@ class Trainer extends NPC
     {
         super.interact();
 
+        if(!alive) return;
+
         _showInventory = true;
 
         _currentSelection = 0;
@@ -265,6 +297,13 @@ class Trainer extends NPC
             cast(_strengthButton.height + 4, Int),
             FlxColor.fromRGB(0, 0, 0, 64)
         );
+    }
+
+    //#################################################################
+
+    function onAnnounceTimer(timer : FlxTimer)
+    {
+        _announceTimeout = GameProperties.NPCAnnounceTextTimeout;
     }
 
     //#################################################################
