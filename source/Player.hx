@@ -14,6 +14,10 @@ class Player extends FlxSprite
 	public var legsItem   : Item;
 	public var weaponItem : Item;
 
+	public var strength   : Float;
+	public var agility    : Float;
+	public var healthMax  : Float;
+
     var _dashDir        : FlxPoint;
 	var _dashCooldown   : Float;
     var _accelFactor    : Float;
@@ -28,9 +32,6 @@ class Player extends FlxSprite
 	var _coinsText 		: FlxText;
 	
 	var _healthBar 		: HudBar;
-	var _healthMax      : Float;
-
-	var _agility        : Float;
 
 	var _inventory      : Inventory;
 	var _showInventory  : Bool;
@@ -63,7 +64,7 @@ class Player extends FlxSprite
 
 		setPosition(8 * GameProperties.TileSize, 2 * GameProperties.TileSize);
 		
-		health = _healthMax = GameProperties.PlayerHealthMaxDefault;
+		health = healthMax = GameProperties.PlayerHealthMaxDefault;
 		_healthBar = new HudBar(10, 10, 96, 16, false);
 
 		_inventory     = new Inventory(this);
@@ -103,7 +104,7 @@ class Player extends FlxSprite
         handleInput();
 		
 		
-		_healthBar.health = health/_healthMax;
+		_healthBar.health = health/healthMax;
 		_healthBar.update(elapsed);
 		_coinsText.text = Std.string(_coins);
 		_coinsText.update(elapsed);
@@ -315,7 +316,7 @@ class Player extends FlxSprite
 	
 	public function restoreHealth()
 	{
-		health = _healthMax;
+		health = healthMax;
 	}
 	
     //#################################################################
