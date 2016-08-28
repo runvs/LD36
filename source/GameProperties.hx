@@ -9,8 +9,9 @@ class GameProperties
     // ################################################################
     // # General ######################################################
     // ################################################################
-	public static var rng      : FlxRandom = new FlxRandom();
-    public static var TileSize : Int       = 16;
+	public static var rng             : FlxRandom = new FlxRandom();
+    public static var TileSize        : Int       = 16;
+	static public var CoinMagnetRange : Float     = 48;
 
     // ################################################################
     // # World ########################################################
@@ -73,5 +74,4 @@ class GameProperties
     public static var TrainerStrengthBaseCost : Float    = 13;
     public static var TrainerAgilityBaseCost  : Float    = 14;
     public static var TrainerHealthBaseCost   : Float    = 23;
-	static public var CoinMagnetRange 		  : Float    = 48;
 }
