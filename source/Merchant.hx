@@ -193,7 +193,7 @@ class Merchant extends NPC
     function onCloseClick()
     {
         _showInventory = false;
-        _player.toggleNpcInteraction();
+        _player.stopNpcInteraction();
     }
 
     //#################################################################

@@ -213,14 +213,10 @@ class Player extends FlxSprite
 
     //#################################################################
 
-	public function toggleNpcInteraction()
+	public function stopNpcInteraction()
 	{
-		_npcInteraction = !_npcInteraction;
-		
-		if(!_npcInteraction)
-		{
-			_interactingNPC = null;
-		}
+		_npcInteraction = false;
+		_interactingNPC = null;
 	}
 
     //#################################################################

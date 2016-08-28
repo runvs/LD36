@@ -270,6 +270,7 @@ class PlayState extends FlxState
 		
 		player.velocity.set();
 		player.acceleration.set();
+		player.stopNpcInteraction();
 		
 		player.dropAllItems();
 		world.currentWorldPosX = 15;
