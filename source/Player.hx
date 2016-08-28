@@ -94,7 +94,6 @@ class Player extends FlxSprite
 		_coinsText = new FlxText(128, 10, 0, "", 12);
 		_coinsText.scrollFactor.set();
 		
-		
 		attackSound = FlxG.sound.load(AssetPaths.attack1__ogg, 1);
 		dashSound  = FlxG.sound.load(AssetPaths.dash__ogg, 0.25);
 		takeDamageSound = FlxG.sound.load(AssetPaths.takeHit__ogg, 1);
