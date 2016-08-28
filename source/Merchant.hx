@@ -176,6 +176,7 @@ class Merchant extends NPC
                     }
 
                     _player.recalculateBonuses();
+                    _player.coins -= _items[_currentSelection].value;
                 }
             }
         }
