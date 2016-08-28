@@ -46,4 +46,5 @@ class GameProperties
     // ################################################################
     public static var MerchantNewWaresTime        : Float = 5;
     public static var MerchantNewWaresTextTimeout : Float = 2.5;
+    public static var MerchantInputDeadTime       : Float = 0.16;
 }
