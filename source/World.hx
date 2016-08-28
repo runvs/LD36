@@ -20,6 +20,8 @@ class World extends FlxObject
 	public var WorldSizeInPatchesY : Int = 30;
 	
 	
+	public var patchType3Levels : Array<TiledLevel>;
+	
 	
 	
 	public function new() 
@@ -27,9 +29,11 @@ class World extends FlxObject
 		super();
 		
 		levels = new Array<TiledLevel>();
+		patchType3Levels = new Array<TiledLevel>();
+		
 	}
 	
-	public function addLevel(path : String, X: Int, Y : Int, state:PlayState) : TiledLevel
+	public function addLevel(path : String, X: Int, Y : Int, state:PlayState, PatchType: Int) : TiledLevel
 	{
 		//trace("Adding Level"  + path);
 		var lOld = getLevel(X, Y);
@@ -45,9 +49,13 @@ class World extends FlxObject
 		//trace("setting world bounds");
 		l.WorldPosX = X;
 		l.WorldPosY = Y;
+		l.patchType = PatchType;
+		if (PatchType == 3)
+		{
+			patchType3Levels.push(l);
+		}
 		
 		l.spawnEnemies(state);
-		
 		
 		//trace("pushing level to list");
 		levels.push(l);
@@ -72,8 +80,6 @@ class World extends FlxObject
 		var numberOfRuns : Int = 0;
 		while (numberOfRuns <= 9)
 		{
-		
-			
 			var i : Int = GameProperties.rng.int(0, WorldSizeInPatchesX - 1, [14,15,16]);
 			var j : Int = GameProperties.rng.int(0, WorldSizeInPatchesY - 1, [14,15,16]);
 			
@@ -99,13 +105,13 @@ class World extends FlxObject
 			
 			//trace("spawning connection "+ i + " " + j);
 			
-			addPath(patches, dir, offDir, i, j, 6, 10);
-			addPath(patches, offDir, dir, i, j, 6, 10);
+			addPath(patches, dir, offDir, i, j, 6, 10, false);
+			addPath(patches, offDir, dir, i, j, 6, 10, false);
 			numberOfRuns += 1;
 		}
 	}
 	
-	private function addPath(patches : Array<Int>, dir:FlxPoint, offDir : FlxPoint, sx : Int = 15, sy : Int = 15, Nmin:Int = 10, Nmax : Int = 14 )
+	private function addPath(patches : Array<Int>, dir:FlxPoint, offDir : FlxPoint, sx : Int = 15, sy : Int = 15, Nmin:Int = 10, Nmax : Int = 14, overwrite : Bool = true )
 	{
 		var chance : Float = 0;
 		var N : Int = GameProperties.rng.int(Nmin, Nmax);
@@ -145,14 +151,24 @@ class World extends FlxObject
 			}
 			else
 			{
-				patches[idx] = 1;
+				if (patches[idx] == 0)
+				{
+					patches[idx] = 1;
+				}
+				else
+				{
+					if (overwrite)
+					{
+						patches[idx] = 1;
+					}
+				}
 			}
 		}
 	}
 	
 	public function Generate(allLevels:Array<TiledLevel>, state : PlayState) 
 	{	
-		var startLevel : TiledLevel = addLevel("assets/data/start.tmx", 15, 15, state);
+		var startLevel : TiledLevel = addLevel("assets/data/start.tmx", 15, 15, state, 2);
 
 		var patches: Array<Int> = new Array<Int>();
 		for (i in 0 ...WorldSizeInPatchesX)
@@ -201,7 +217,7 @@ class World extends FlxObject
 				
 				var idx : Int = i + j * WorldSizeInPatchesX;
 				s += Std.string(patches[idx]) + " ";
-				if (patches[idx] == 1 )
+				if (patches[idx] == 1 ||patches[idx] == 3 )
 				{
 					counter += 1;
 					var idxNorth  : Int = (i)     + (j - 1 ) * WorldSizeInPatchesX;
@@ -222,7 +238,7 @@ class World extends FlxObject
 						
 						if (allLevels[myIndex].checkExits(bNorth, bSouth, bEast, bWest))
 						{
-							addLevel(allLevels[myIndex].levelPath, i, j, state);
+							addLevel(allLevels[myIndex].levelPath, i, j, state, patches[idx]);
 							//trace("found a fitting patch after N=" + Std.string(depth) + " iterations");
 							break;
 						}
@@ -237,7 +253,7 @@ class World extends FlxObject
 								//trace(myIndex);
 								if (allLevels[myIndex].checkExits(bNorth, bSouth, bEast, bWest))
 								{
-									addLevel(allLevels[myIndex].levelPath, i, j, state);
+									addLevel(allLevels[myIndex].levelPath, i, j, state, patches[idx]);
 									break;
 								}
 							}
@@ -253,6 +269,33 @@ class World extends FlxObject
 		}
 		
 		trace(s);
+		
+		// spawning level chests
+		
+		if (patchType3Levels.length < 4) 
+		{
+			trace ("less than 4 Levels of patchtype 3");
+		}
+		
+		
+		for (i in 0...3)
+		{
+			var n : Int = GameProperties.rng.int(0, patchType3Levels.length - 1);
+			var l : TiledLevel = patchType3Levels[n];
+			
+			if (l.spawnChest())
+			{
+				i -= 1;
+			}
+			
+			patchType3Levels.remove(l);
+		}
+		for (n in 0...patchType3Levels.length)
+		{
+			var l : TiledLevel = patchType3Levels[n];
+			l.spawnMerchant();
+		}
+		
 		
 		currentWorldPosX = 15;
 		currentWorldPosY = 15;

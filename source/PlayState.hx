@@ -101,6 +101,12 @@ class PlayState extends FlxState
 			level.exits.draw();
 			level.topTiles.draw();
 			level.enemies.draw();
+			
+			if ( level.levelChest.alive)
+			{
+				level.levelChest.draw();
+			}
+			
 			level.npcs.draw();
 			level.coins.draw();
 		}

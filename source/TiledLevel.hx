@@ -31,9 +31,14 @@ class TiledLevel extends TiledMap
 	
 	private var tileSet:TiledTileSet;
 	
+	
+	public var patchType : Int = 1;
 	public var WorldPosX : Int = 0;
 	public var WorldPosY : Int = 0;
 	public var levelPath : String = "";
+	
+	public var levelChest : FlxSprite;
+	public var chestspawned : Bool = false;
 	
 	// Array of tilemaps used for collision
 	public var foregroundTiles:FlxGroup;
@@ -68,6 +73,10 @@ class TiledLevel extends TiledMap
 		npcs = new FlxTypedGroup<NPC>();
 		
 		coins  = new FlxSpriteGroup();
+		
+		levelChest = new FlxSprite(-200, -200);
+		levelChest.makeGraphic(GameProperties.TileSize, GameProperties.TileSize, FlxColor.CYAN);
+		levelChest.alive = false;
 		
 		
 		// Load Tile Maps
@@ -295,7 +304,9 @@ class TiledLevel extends TiledMap
 				var h : Int = o.height;
 				s.makeGraphic(w, h);
 				enemyAreas.add(s);
-				
+			case "chest":
+				levelChest.setPosition(x, y);
+				chestspawned = true;
 		}
 	}
 	
@@ -325,9 +336,6 @@ class TiledLevel extends TiledMap
 				}
 			} );
 		}
-		
-		
-		
 		//TODO spawn multiple enemies per area
 	}
 	
@@ -395,6 +403,62 @@ class TiledLevel extends TiledMap
 			coins.add(s);
 			
 		}
+	}
+	
+	public function updateChest()
+	{
+		if (patchType == 3)
+		{
+			if (enemies.length <= 0)
+			{
+				ActivateChest();
+			}
+		}
+	}
+	
+	function ActivateChest() 
+	{
+		levelChest.alpha  = 1.0;
+		
+		// spawn particles, etc...
+	}
+	
+	public function spawnChest() : Bool
+	{
+		if (chestspawned == false)
+		{
+			// no chest spawned
+			return false;
+		}
+		
+		levelChest.alive = true;
+		levelChest.alpha = 0;
+		return true;
+	}
+	
+	
+	public function spawnMerchant()
+	{
+		if ( chestspawned == false)
+		{
+			return;
+		}
+		
+		// spawn a random merchant/trainer/healer
+		var v : Int = GameProperties.rng.int(1, 3);
+		if (v == 1)
+		{
+			npcs.add(new Merchant(levelChest.x, levelChest.y));
+		}
+		else if (v == 2)
+		{
+			npcs.add(new Trainer(levelChest.x, levelChest.y));
+		}
+		else if (v == 3)
+		{
+			npcs.add(new Healer(levelChest.x, levelChest.y));
+		}
+		return true;
 	}
 
 }
