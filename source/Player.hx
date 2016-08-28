@@ -36,6 +36,7 @@ class Player extends FlxSprite
 
 	var _inventory      : Inventory;
 	var _showInventory  : Bool;
+	var _npcInteraction : Bool;
 
     //#################################################################
 
@@ -70,8 +71,9 @@ class Player extends FlxSprite
 		
 		_dashCooldownBar = new HudBar(10, 32, 48, 8, false);
 
-		_inventory     = new Inventory(this);
-		_showInventory = false;
+		_inventory      = new Inventory(this);
+		_showInventory  = false;
+		_npcInteraction = false;
 		
 		_coinsText = new FlxText(128, 10, 0, "", 12);
 		_coinsText.scrollFactor.set();
@@ -121,6 +123,19 @@ class Player extends FlxSprite
 
     function handleInput()
     {
+		if(!_npcInteraction && MyInput.InventoryButtonJustPressed)
+		{
+			_showInventory = !_showInventory;
+		}
+
+		if(_npcInteraction || _showInventory)
+		{
+			// Don't handle player input here when interacting with an
+			// NPC.
+			// TODO handle input when showing inventory
+			return;
+		}
+
         var vx : Float = MyInput.xVal * _accelFactor;
 		var vy : Float = MyInput.yVal * _accelFactor;
 		var l : Float = Math.sqrt(vx * vx + vy * vy);
@@ -167,11 +182,6 @@ class Player extends FlxSprite
 		if(_attackCooldown <= 0.0)
 		{
 			if(MyInput.AttackButtonJustPressed) attack();
-		}
-
-		if(MyInput.InventoryButtonJustPressed)
-		{
-			_showInventory = !_showInventory;
 		}
     }
 
@@ -234,11 +244,26 @@ class Player extends FlxSprite
 	function attack()
 	{
 		_attackCooldown += GameProperties.PlayerAttackCooldown;
+		
+		var enemyHit = false;
 		for(enemy in _playState.level.enemies)
 		{
-			if(FlxG.overlap(this._hitArea, enemy))
+			if(FlxG.overlap(_hitArea, enemy))
 			{
 				enemy.hit(GameProperties.PlayerAttackBaseDamage, this.x, this.y);
+				enemyHit = true;
+			}
+		}
+
+		if(!enemyHit)
+		{
+			for(npc in _playState.level.npcs)
+			{
+				if(FlxG.overlap(_hitArea, npc))
+				{
+					npc.interact();
+					_npcInteraction = true;
+				}
 			}
 		}
 	}

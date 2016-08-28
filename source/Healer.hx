@@ -15,7 +15,7 @@ class Healer extends NPC
 
     public override function interact()
     {
-        
+        super.interact();
     }
 
     //#################################################################

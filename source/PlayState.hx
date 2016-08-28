@@ -78,8 +78,6 @@ class PlayState extends FlxState
 		}
 	}
 	
-	
-	
 	public function pickupCoin(o1:FlxObject, o2:FlxObject):Void
 	{
 		if ( o2.alive)
@@ -88,9 +86,6 @@ class PlayState extends FlxState
 			player.pickUpCoins();
 		}
 	}
-	
-	
-	
 	
 	override public function draw () : Void
 	{
@@ -113,7 +108,7 @@ class PlayState extends FlxState
 		super.draw();
 		
 		player.drawHud();
-		
+		level.npcs.forEach(function(npc) { npc.drawHud(); });
 	}
 	
 	public function passExit(o1:FlxObject, o2:FlxObject):Void
@@ -130,13 +125,8 @@ class PlayState extends FlxState
 		if (Std.is(o2, Exit))
 		{
 			var e : Exit = cast o2;
-			
-		
 			TransitionLevel(e);
-			
-
 		}
-		
 	}
 	
 	private function TransitionLevel(e : Exit)

@@ -1,7 +1,9 @@
 package;
 
+import flixel.FlxSprite;
 import flixel.util.FlxTimer;
 import flixel.text.FlxText;
+import flixel.FlxG;
 
 class Merchant extends NPC
 {
@@ -10,6 +12,9 @@ class Merchant extends NPC
     var _newWaresTimer   : FlxTimer;
     var _newWaresText    : FlxText;
     var _newWaresTimeout : Float;
+
+    var _inventory     : FlxSprite;
+    var _showInventory : Bool;
 
     //#################################################################
 
@@ -24,6 +29,11 @@ class Merchant extends NPC
         _newWaresTimeout = GameProperties.MerchantNewWaresTextTimeout;
 
         makeGraphic(GameProperties.TileSize, GameProperties.TileSize, flixel.util.FlxColor.CYAN);
+
+        _inventory = new FlxSprite(10, 10);
+        _inventory.makeGraphic(FlxG.width - 20, FlxG.height - 20, flixel.util.FlxColor.GRAY);
+        _inventory.scrollFactor.set();
+        _showInventory = false;
     }
 
     //#################################################################
@@ -52,6 +62,18 @@ class Merchant extends NPC
 
     //#################################################################
 
+    public override function drawHud()
+    {
+        super.drawHud();
+
+        if(_showInventory)
+        {
+            _inventory.draw();
+        }
+    }
+
+    //#################################################################
+
     function onNewWaresTimer(timer : FlxTimer)
     {
         _newWaresTimeout = GameProperties.MerchantNewWaresTextTimeout;
@@ -61,7 +83,9 @@ class Merchant extends NPC
 
     public override function interact()
     {
-        
+        super.interact();
+
+        _showInventory = true;
     }
 
     // ################################################################

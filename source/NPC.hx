@@ -15,9 +15,16 @@ class NPC extends FlxSprite
 
     //#################################################################
 
-    public function interact()
+    public function drawHud()
     {
         
+    }
+
+    //#################################################################
+
+    public function interact()
+    {
+        trace('Player interaction');
     }
 
     //#################################################################
