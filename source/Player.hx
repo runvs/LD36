@@ -32,6 +32,7 @@ class Player extends FlxSprite
 	var _coinsText 		: FlxText;
 	
 	var _healthBar 		: HudBar;
+	var _dashCooldownBar: HudBar;
 
 	var _inventory      : Inventory;
 	var _showInventory  : Bool;
@@ -66,6 +67,8 @@ class Player extends FlxSprite
 		
 		health = healthMax = GameProperties.PlayerHealthMaxDefault;
 		_healthBar = new HudBar(10, 10, 96, 16, false);
+		
+		_dashCooldownBar = new HudBar(10, 32, 48, 8, false);
 
 		_inventory     = new Inventory(this);
 		_showInventory = false;
@@ -106,6 +109,8 @@ class Player extends FlxSprite
 		
 		_healthBar.health = health/healthMax;
 		_healthBar.update(elapsed);
+		_dashCooldownBar.update(elapsed);
+		_dashCooldownBar.health = 1.0 - _dashCooldown / GameProperties.PlayerMovementDashCooldown;
 		_coinsText.text = Std.string(_coins);
 		_coinsText.update(elapsed);
 
@@ -276,6 +281,7 @@ class Player extends FlxSprite
 	public function drawHud()
 	{
 		_healthBar.draw();
+		_dashCooldownBar.draw();
 		_coinsText.draw();
 		
 		if(_showInventory)

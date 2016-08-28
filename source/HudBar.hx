@@ -28,6 +28,7 @@ class HudBar extends FlxSprite
 		
 		_background = new FlxSprite(x-2,y-2);
 		_background.makeGraphic(Std.int(w) + 4, Std.int(h) + 4, FlxColor.GRAY);
+		_background.alpha = 0.75;
 		_background.scrollFactor.set();
 		
 	}
