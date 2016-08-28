@@ -37,6 +37,7 @@ class Player extends FlxSprite
 	var _inventory      : Inventory;
 	var _showInventory  : Bool;
 	var _npcInteraction : Bool;
+	var _interactingNPC : NPC;
 
     //#################################################################
 
@@ -131,8 +132,13 @@ class Player extends FlxSprite
 		if(_npcInteraction || _showInventory)
 		{
 			// Don't handle player input here when interacting with an
-			// NPC.
+			// NPC. Let the NPC handle the input instead.
 			// TODO handle input when showing inventory
+
+			if(_interactingNPC != null)
+			{
+				_interactingNPC.handleInput(this);
+			}
 			return;
 		}
 
@@ -184,6 +190,18 @@ class Player extends FlxSprite
 			if(MyInput.AttackButtonJustPressed) attack();
 		}
     }
+
+    //#################################################################
+
+	public function toggleNpcInteraction()
+	{
+		_npcInteraction = !_npcInteraction;
+		
+		if(!_npcInteraction)
+		{
+			_interactingNPC = null;
+		}
+	}
 
     //#################################################################
 
@@ -263,6 +281,7 @@ class Player extends FlxSprite
 				{
 					npc.interact();
 					_npcInteraction = true;
+					_interactingNPC = npc;
 				}
 			}
 		}
