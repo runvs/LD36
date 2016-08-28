@@ -62,6 +62,7 @@ class Merchant extends NPC
     public override function interact()
     {
         
+        super.interact();
     }
 
     // ################################################################
