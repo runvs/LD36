@@ -323,6 +323,13 @@ class TiledLevel extends TiledMap
 		}
 		else
 		{
+			var dx = 15 - WorldPosX;
+			var dy = 15 - WorldPosY;
+			var l  = Math.sqrt(dx * dx + dy * dy);
+
+			if(l <= 1) l = 1;
+			l = Math.pow(l, 1.3);
+
 			enemyAreas.forEach(
 			function (s:FlxSprite) : Void 
 			{
@@ -332,7 +339,7 @@ class TiledLevel extends TiledMap
 				
 				for (n in 0...N)
 				{
-					var enemy = new Enemy(GameProperties.EnemyDamageDefault, GameProperties.EnemyHealthDefault, 5, state);
+					var enemy = new Enemy(GameProperties.EnemyDamageDefault * l, GameProperties.EnemyHealthDefault * l, 5, state);
 					
 					var ex : Float = GameProperties.rng.float(s.x, s.x + s.width);
 					var ey : Float = GameProperties.rng.float(s.y, s.y + s.height);
