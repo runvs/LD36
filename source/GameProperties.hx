@@ -65,4 +65,7 @@ class GameProperties
     // ################################################################
     public static var TrainerColorAvailable   : FlxColor = FlxColor.BLACK;
     public static var TrainerColorUnavailable : FlxColor = FlxColor.fromRGB(128, 0, 0);
+    public static var TrainerStrengthBaseCost : Float    = 13;
+    public static var TrainerAgilityBaseCost  : Float    = 14;
+    public static var TrainerHealthBaseCost   : Float    = 23;
 }

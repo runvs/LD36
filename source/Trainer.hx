@@ -279,18 +279,38 @@ class Trainer extends NPC
 
     function onStrengthClick()
     {
+        if(_player != null && _player.coins >= getStrengthCosts())
+        {
+            _player.coins -= getStrengthCosts();
+            _player.strength += 1;
+        }
     }
 
     //#################################################################
 
     function onAgilityClick()
     {
+        if(_player != null && _player.coins >= getAgilityCosts())
+        {
+            _player.coins -= getAgilityCosts();
+            _player.agility += 1;
+        }
     }
 
     //#################################################################
 
     function onHealthClick()
     {
+        if(_player != null && _player.coins >= getHealthCosts())
+        {
+            trace('Health click');
+
+            _player.coins -= getHealthCosts();
+
+            var ratio = _player.health / _player.healthMax;
+            _player.healthMax += 1;
+            _player.health = _player.healthMax * ratio;
+        }
     }
 
     //#################################################################
@@ -299,7 +319,9 @@ class Trainer extends NPC
     {
         if(_player != null)
         {
+            var value = GameProperties.TrainerStrengthBaseCost + Math.pow(_player.strength, 0.8) * 7;
 
+            return cast(Math.round(value), Int);
         }
         
         return 0;
@@ -309,6 +331,13 @@ class Trainer extends NPC
 
     function getAgilityCosts() : Int
     {
+        if(_player != null)
+        {
+            var value = GameProperties.TrainerAgilityBaseCost + Math.pow(_player.agility, 0.8) * 8;
+
+            return cast(Math.round(value), Int);
+        }
+        
         return 0;
     }
 
@@ -316,6 +345,13 @@ class Trainer extends NPC
 
     function getHealthCosts() : Int
     {
+        if(_player != null)
+        {
+            var value = GameProperties.TrainerHealthBaseCost + Math.pow(_player.health, 0.8) * 10;
+
+            return cast(Math.round(value), Int);
+        }
+
         return 0;
     }
 
