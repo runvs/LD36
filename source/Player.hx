@@ -26,6 +26,7 @@ class Player extends FlxSprite
 
     var _dashDir        : FlxPoint;
 	var _dashCooldown   : Float;
+    var _dashSpeedMax   : Float;
     var _accelFactor    : Float;
 
 	var _playState      : PlayState;
@@ -146,7 +147,10 @@ class Player extends FlxSprite
 		_healthBar.health = health / healthMax;
 		_healthBar.update(elapsed);
 
-		_dashCooldownBar.health = 1.0 - _dashCooldown / GameProperties.PlayerMovementDashCooldown;
+        _dashSpeedMax = GameProperties.PlayerMovementDashCooldown - agilityBonus / 50;
+        _dashSpeedMax = _dashSpeedMax < 0.5 ? 0.5 : _dashSpeedMax;
+
+		_dashCooldownBar.health = 1.0 - _dashCooldown / _dashSpeedMax;
 		_dashCooldownBar.update(elapsed);
 		
         _coinsText.text = Std.string(coins);
@@ -210,7 +214,8 @@ class Player extends FlxSprite
 			if (MyInput.DashButtonJustPressed)
 			{
 				dash();
-				_dashCooldown = GameProperties.PlayerMovementDashCooldown;
+				_dashCooldown = _dashSpeedMax;
+                trace(_dashSpeedMax);
 				this.velocity.set(this.velocity.x/2, this.velocity.y/2);
 			}
 		}
