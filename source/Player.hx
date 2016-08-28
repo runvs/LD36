@@ -162,10 +162,6 @@ class Player extends FlxSprite
 		{
 			if(MyInput.AttackButtonJustPressed) attack();
 		}
-		else
-		{
-			
-		}
 
 		if(MyInput.InventoryButtonJustPressed)
 		{
