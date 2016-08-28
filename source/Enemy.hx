@@ -135,7 +135,7 @@ class Enemy extends FlxSprite
     public function hit(damage: Float, px:Float, py:Float)
     {
         CurrentHealth -= damage;
-        trace(CurrentHealth);
+        //trace(CurrentHealth);
 		
 		// calculate pushback
 		var dir : FlxVector = new FlxVector (x -px, y - py);

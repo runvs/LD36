@@ -97,7 +97,7 @@ class World extends FlxObject
 			
 			var offDir : FlxPoint = new FlxPoint( -dir.y, dir.x);
 			
-			trace("spawning connection "+ i + " " + j);
+			//trace("spawning connection "+ i + " " + j);
 			
 			addPath(patches, dir, offDir, i, j, 6, 10);
 			addPath(patches, offDir, dir, i, j, 6, 10);
@@ -223,7 +223,7 @@ class World extends FlxObject
 						if (allLevels[myIndex].checkExits(bNorth, bSouth, bEast, bWest))
 						{
 							addLevel(allLevels[myIndex].levelPath, i, j, state);
-							trace("found a fitting patch after N=" + Std.string(depth) + " iterations");
+							//trace("found a fitting patch after N=" + Std.string(depth) + " iterations");
 							break;
 						}
 						

@@ -38,6 +38,8 @@ class TiledLevel extends TiledMap
 	
 	// Array of tilemaps used for collision
 	public var foregroundTiles:FlxGroup;
+		// Array of tilemaps used for collision
+	public var topTiles:FlxGroup;
 	
 	public var collisionMap : FlxSpriteGroup;
 	
@@ -60,6 +62,7 @@ class TiledLevel extends TiledMap
 		levelPath = tiledLevel ;
 		
 		foregroundTiles = new FlxGroup();
+		topTiles = new FlxGroup();
 		collisionMap = new FlxSpriteGroup();
 		
 		exits = new FlxTypedGroup<Exit>();
@@ -75,6 +78,8 @@ class TiledLevel extends TiledMap
 		{
 			if (layer.type != TiledLayerType.TILE) continue;
 			var tileLayer:TiledTileLayer = cast layer;
+			
+			
 			
 			
 			var tileSheetName:String = tileLayer.properties.get("tileset");
@@ -107,20 +112,20 @@ class TiledLevel extends TiledMap
 			{
 				for (j in 0...tilemap.heightInTiles)
 				{
-					var tileType : Int = tilemap.getTile(i, j);
-					//if (tileType == 0) continue;
-					//if (tileType == 5 || tileType == 6 || tileType == 7 
-					//||tileType == 16 || tileType == 17 || tileType == 26
-					//||tileType == 19 || tileType == 20
-					//||tileType == 29 || tileType == 30
-					//||tileType == 9 || tileType == 10)
-					//{
-						//tilemap.setTile(i, j, 0);
-						//
-						//loadSpecialTile(i, j, tileType);
-					//}
-					//else
-					//{
+					
+					if (tileLayer.name == "top")
+					{
+						var tileType : Int = tilemap.getTile(i, j);
+						var s : FlxSprite = new FlxSprite(i * 16, j * 16);
+						s.immovable = true;
+						s.loadGraphic(AssetPaths.tileset__png, true, 16, 16);
+						s.animation.add("idle", [tileType-1]);
+						s.animation.play("idle");
+						topTiles.add(s);
+					}
+					else
+					{
+						var tileType : Int = tilemap.getTile(i, j);
 						var s : FlxSprite = new FlxSprite(i * 16, j * 16);
 						s.immovable = true;
 						s.loadGraphic(AssetPaths.tileset__png, true, 16, 16);
@@ -128,7 +133,7 @@ class TiledLevel extends TiledMap
 						s.animation.play("idle");
 						foregroundTiles.add(s);
 						CreateCollisionTile(i, j, tileType);
-					//}
+					}
 				}
 			}
 		}
@@ -287,7 +292,8 @@ class TiledLevel extends TiledMap
 				{
 					
 				}
-			case "enemies":
+			case "enemy_area":
+				//trace("loaded enemy area for map" + levelPath);
 				var s : FlxSprite = new FlxSprite(x, y);
 				var w : Int = o.width;
 				var h : Int = o.height;
@@ -301,11 +307,30 @@ class TiledLevel extends TiledMap
 	{
 		if (enemyAreas.length == 0)
 		{
-			trace("no areas to spawn enemies");
+			trace("no areas to spawn enemies in " + levelPath);
+		}
+		else
+		{
+			enemyAreas.forEach(
+			function (s:FlxSprite) : Void 
+			{
+				var sizeinTiles : Float = s.width * s.height / GameProperties.TileSize / GameProperties.TileSize;
+				
+				var N : Int = Std.int(sizeinTiles / 20) +1;
+				
+				for (n in 0...N)
+				{
+					var enemy = new Enemy(GameProperties.EnemyDamageDefault, GameProperties.EnemyHealthDefault, 5, state);
+					
+					var ex : Float = GameProperties.rng.float(s.x, s.x + s.width);
+					var ey : Float = GameProperties.rng.float(s.y, s.y + s.height);
+					enemy.setPosition(ex, ey);
+					enemies.add(enemy);
+				}
+			} );
 		}
 		
-		var enemy = new Enemy(GameProperties.EnemyDamageDefault, GameProperties.EnemyHealthDefault, 5, state);
-		enemies.add(enemy);
+		
 		
 		//TODO spawn multiple enemies per area
 	}
