@@ -39,6 +39,7 @@ class Inventory extends FlxSprite
         _legsItemText.scrollFactor.set();
         _weaponItemText.scrollFactor.set();
 
+        _statsCaptionText.scrollFactor.set();
         _statsText.scrollFactor.set();
 
         makeGraphic(FlxG.width - 20, FlxG.height - 20, flixel.util.FlxColor.GRAY);
