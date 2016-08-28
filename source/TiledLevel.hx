@@ -391,7 +391,7 @@ class TiledLevel extends TiledMap
 		{
 			var coinAngle : Float = 2*Math.PI / N * i;
 			
-			var s: FlxSprite = new FlxSprite(enemy.x + 8, enemy.y + 16);
+			var s: FlxSprite = new FlxSprite(enemy.x + 8, enemy.y + 8);
 			
 			//s.makeGraphic(6, 6, FlxColor.YELLOW);
 			s.loadGraphic(AssetPaths.gems__png, true, 8, 8);

@@ -5,6 +5,7 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxSpriteGroup;
+import flixel.text.FlxText;
 import sys.FileSystem;
 
 class PlayState extends FlxState
@@ -15,6 +16,10 @@ class PlayState extends FlxState
 	
 	public var allLevels : Array<TiledLevel>;
 	public var world : World;
+	
+	
+	public var TechnologyFound : Int;
+	private var _technologyFoundText : FlxText;
 	
 	override public function create():Void
 	{
@@ -29,6 +34,11 @@ class PlayState extends FlxState
 		add(player);
 
 		FlxG.camera.follow(player);
+		
+		TechnologyFound  = 0;
+		_technologyFoundText = new FlxText(10, 48, 0, "Tech Found: 0", 10);
+		_technologyFoundText.scrollFactor.set();
+		
 	}
 
 	override public function update(elapsed:Float):Void
@@ -56,7 +66,18 @@ class PlayState extends FlxState
 		FlxG.overlap(player, level.coins, pickupCoin);
 		if (level.chestinLevelFound && level.levelChest.alpha == 1 && level.levelChest.alive)
 		{
-			FlxG.collide(player, level.levelChest);
+			FlxG.collide(player, level.levelChest, function(o1:FlxObject, o2:FlxObject) 
+			{ 
+				o2.alive = false;
+				if (Std.is(o2, FlxSprite))
+				{
+					var s : FlxSprite = cast o2;
+					s.alpha = 0;
+					FindTechnology();
+				}
+				
+			} );
+			
 		}
 		
 		level.enemies.forEach(
@@ -81,6 +102,13 @@ class PlayState extends FlxState
 		{
 			RespawnInCity();
 		}
+	}
+	
+	function FindTechnology() 
+	{
+		TechnologyFound += 1;
+		_technologyFoundText.text =  "Tech Found: " + Std.string(TechnologyFound);
+		
 	}
 	
 	public function pickupCoin(o1:FlxObject, o2:FlxObject):Void
@@ -113,6 +141,7 @@ class PlayState extends FlxState
 		super.draw();
 		
 		player.drawHud();
+		_technologyFoundText.draw();
 		level.npcs.forEach(function(npc) { if(npc.alive) {npc.drawHud(); }});
 	}
 	
