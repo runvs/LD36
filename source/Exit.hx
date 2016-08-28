@@ -17,7 +17,8 @@ class Exit extends FlxSprite
 	public function new(X:Float=0, Y:Float=0, W:Int, H : Int) 
 	{
 		super(X, Y);
-		this.makeGraphic(W, H, FlxColor.GRAY);		
+		this.makeGraphic(W, H, FlxColor.GRAY);	
+		this.alpha = 0;
 		this.immovable = true;
 	}
 	

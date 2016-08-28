@@ -251,9 +251,11 @@ class PlayState extends FlxState
 			level.coins.draw();
 			_flocks.draw();
 			
-			overlay.draw();
+			
 		}
 		super.draw();
+		
+		overlay.draw();
 		
 		if (controlsEnabled)
 		{

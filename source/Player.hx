@@ -66,6 +66,7 @@ class Player extends FlxSprite
 
 		_hitArea = new FlxSprite();
 		_hitArea.makeGraphic(16, 16, flixel.util.FlxColor.fromRGB(255, 255, 255, 64));
+		_hitArea.alpha = 0;
 		_facing = Facing.SOUTH;
 		_attackCooldown = 0.0;
 		
