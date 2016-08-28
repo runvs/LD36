@@ -23,7 +23,7 @@ class GameProperties
     // ################################################################
     public static var PlayerMovementAcceleration  : Float    = 500.0;
     public static var PlayerMovementDrag          : FlxPoint = new FlxPoint(2500, 2500);
-    public static var PlayerMovementMaxVelocity   : FlxPoint = new FlxPoint(95, 95);
+    public static var PlayerMovementMaxVelocity  (default, null) : FlxPoint = new FlxPoint(95, 95);
     public static var PlayerMovementDashCooldown  : Float    = 1.0;
 	public static var PlayerMovementMaxDashLength : Float    = 40.0;
     public static var PlayerAttackBaseDamage      : Float    = 10.0;

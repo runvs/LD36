@@ -98,6 +98,11 @@ class PlayState extends FlxState
 			
 		}
 		
+		if (FlxG.keys.justPressed.F5)
+		{
+			TechnologyFound += 1;
+		}
+		
 		
 		MyInput.update();
 		
@@ -283,22 +288,22 @@ class PlayState extends FlxState
 			if (e.dir == ExitDirection.NORTH)
 			{
 				enter = ExitDirection.SOUTH;
-				offsetY = -24;
+				offsetY = -20;
 			}
 			else if (e.dir == ExitDirection.SOUTH)
 			{
 				enter = ExitDirection.NORTH;
-				offsetY = 24 + e.height;
+				offsetY = 20 + e.height;
 			}
 			else if (e.dir == ExitDirection.EAST)
 			{
 				enter = ExitDirection.WEST;
-				offsetX = 24 + e.width;
+				offsetX = 20 + e.width;
 			}
 			else if (e.dir == ExitDirection.WEST)
 			{
 				enter = ExitDirection.EAST;
-				offsetX = -24 ;
+				offsetX = -20 ;
 			}	
 			
 
