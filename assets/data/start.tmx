@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="26" height="24" tilewidth="16" tileheight="16" nextobjectid="81">
- <tileset firstgid="1" name="tileset.png" tilewidth="16" tileheight="16" tilecount="112" columns="28">
-  <image source="../images/tileset.png" width="448" height="64"/>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="26" height="24" tilewidth="16" tileheight="16" nextobjectid="85">
+ <tileset firstgid="1" name="tileset.png" tilewidth="16" tileheight="16" tilecount="140" columns="28">
+  <image source="../images/tileset.png" width="448" height="80"/>
  </tileset>
  <layer name="Kachelebene 1" width="26" height="24">
   <properties>
@@ -30,6 +30,21 @@
   <object id="80" name="exit_west" type="exit" x="0" y="256" width="16" height="32">
    <properties>
     <property name="direction" value="west"/>
+   </properties>
+  </object>
+  <object id="81" name="merchant" type="merchant" x="352" y="96" width="16" height="16">
+   <properties>
+    <property name="type" value="merchant"/>
+   </properties>
+  </object>
+  <object id="83" name="trainer" type="merchant" x="96" y="48" width="16" height="16">
+   <properties>
+    <property name="type" value="trainer"/>
+   </properties>
+  </object>
+  <object id="84" name="healer" type="merchant" x="80" y="320" width="16" height="16">
+   <properties>
+    <property name="type" value="healer"/>
    </properties>
   </object>
  </objectgroup>

@@ -272,6 +272,8 @@ class TiledLevel extends TiledMap
 					throw "exit direction '" + dir + "' not known";
 				}
 				exits.add(e);
+			case "merchant":
+				//TODO FIX
 			case "enemies":
 				var s : FlxSprite = new FlxSprite(x, y);
 				var w : Int = o.width;
