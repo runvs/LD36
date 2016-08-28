@@ -24,7 +24,11 @@ class Healer extends NPC
     var _currentSelection : Int;
     var _inputDeadTime    : Float;
     var _showInventory    : Bool;
-    
+
+    var _announceText     : FlxText;
+    var _announceTimeout  : Float;
+    var _announceTimer    : FlxTimer;
+
     var _numberOfHeals : Int;
 
     //#################################################################
@@ -36,6 +40,13 @@ class Healer extends NPC
 		loadGraphic(AssetPaths.healer__png, true, 16, 16);
 		animation.add("idle", [0, 1, 2, 3], 5, true);
         animation.play("idle");
+
+        _announceTimer = new FlxTimer();
+        _announceTimer.start(GameProperties.NPCAnnounceTime, onAnnounceTimer, 0);
+        
+        _announceText = new FlxText(x, y - GameProperties.TileSize, 0, 'I can heal you!');
+        _announceText.alignment = flixel.text.FlxTextAlign.CENTER;
+        _announceTimeout = GameProperties.NPCAnnounceTextTimeout;
 
         _inventory = new FlxSprite(10, 10);
         _inventory.makeGraphic(FlxG.width - 20, 210, FlxColor.GRAY);
@@ -73,6 +84,13 @@ class Healer extends NPC
     public override function update(elapsed)
     {
         super.update(elapsed);
+
+        if(!alive) return;
+
+        if(_announceTimeout > 0.0)
+        {
+            _announceTimeout -= elapsed;
+        }
 
         if(_player != null)
         {
@@ -158,6 +176,18 @@ class Healer extends NPC
 
     //#################################################################
 
+    public override function draw()
+    {
+        super.draw();
+
+        if(_announceTimeout > 0.0)
+        {
+            _announceText.draw();
+        }
+    }
+
+    //#################################################################
+
     public override function drawHud()
     {
         super.drawHud();
@@ -192,6 +222,13 @@ class Healer extends NPC
             cast(_healButton.height + 4, Int),
             FlxColor.fromRGB(0, 0, 0, 64)
         );
+    }
+
+    //#################################################################
+
+    function onAnnounceTimer(timer : FlxTimer)
+    {
+        _announceTimeout = GameProperties.NPCAnnounceTextTimeout;
     }
 
     //#################################################################

@@ -41,7 +41,7 @@ class Merchant extends NPC
 
         _newWaresText = new FlxText(x, y - GameProperties.TileSize, 0, 'New wares\neverybody!');
         _newWaresText.alignment = flixel.text.FlxTextAlign.CENTER;
-        _newWaresTimeout = GameProperties.MerchantNewWaresTextTimeout;
+        _newWaresTimeout = GameProperties.NPCAnnounceTextTimeout;
         _newWaresBar = new HudBar(150, 190, 80, 15, false);
 
         loadGraphic(AssetPaths.Merchant__png, true, 16, 16);
@@ -82,6 +82,8 @@ class Merchant extends NPC
     public override function update(elapsed)
     {
         super.update(elapsed);
+
+        if(!alive) return;
 
         if(_newWaresTimeout > 0.0)
         {
@@ -242,7 +244,7 @@ class Merchant extends NPC
 
     function onNewWaresTimer(timer : FlxTimer)
     {
-        _newWaresTimeout = GameProperties.MerchantNewWaresTextTimeout;
+        _newWaresTimeout = GameProperties.NPCAnnounceTextTimeout;
         _items = recreateInventory();
     }
 
@@ -291,6 +293,8 @@ class Merchant extends NPC
     public override function interact()
     {
         super.interact();
+
+        if(!alive) return;
 
         _showInventory = true;
 

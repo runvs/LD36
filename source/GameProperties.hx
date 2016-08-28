@@ -43,10 +43,15 @@ class GameProperties
 	public static var EnemyHealthDefault               : Float    = 45;
 
     // ################################################################
+    // # NPC ##########################################################
+    // ################################################################
+    public static var NPCAnnounceTextTimeout : Float    = 2.5;
+    public static var NPCAnnounceTime        : Float    = 10;
+
+    // ################################################################
     // # Merchant #####################################################
     // ################################################################
-    public static var MerchantNewWaresTime        : Float    = 5;
-    public static var MerchantNewWaresTextTimeout : Float    = 2.5;
+    public static var MerchantNewWaresTime        : Float    = 15;
     public static var MerchantInputDeadTime       : Float    = 0.16;
     public static var MerchantColorAvailable      : FlxColor = FlxColor.BLACK;
     public static var MerchantColorUnavailable    : FlxColor = FlxColor.RED;
