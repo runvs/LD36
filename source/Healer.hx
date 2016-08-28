@@ -65,7 +65,7 @@ class Healer extends NPC
         _currentSelection = 0;
         _inputDeadTime    = 0;
         _showInventory    = false;
-        _numberOfHeals           = 0;
+        _numberOfHeals    = 0;
     }
 
     //#################################################################
@@ -207,8 +207,7 @@ class Healer extends NPC
     {
         if(_player.coins >= getHealCosts() && _player.health != 1.0)
         {
-            _player.health += GameProperties.HealerHealAmount;
-            if(_player.health > 1.0) _player.health = 1.0;
+            _player.health += _player.healthMax;
             
             _player.coins -= getHealCosts();
             _numberOfHeals++;
