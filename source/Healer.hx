@@ -198,7 +198,7 @@ class Healer extends NPC
 
     function getHealCosts() : Int
     {
-        return GameProperties.HealerBaseCosts + Math.pow(_numberOfHeals, 0.25);
+        return GameProperties.HealerBaseCosts + cast(Math.pow(_numberOfHeals, 0.25), Int);
     }
 
     //#################################################################
