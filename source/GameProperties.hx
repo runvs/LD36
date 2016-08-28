@@ -40,4 +40,10 @@ class GameProperties
 	public static var EnemyAttackingTime               : Float    = 0.65;
 	public static var EnemyDamageDefault 			   : Float    = 0.24;
 	public static var EnemyHealthDefault               : Float    = 45;
+
+    // ################################################################
+    // # Merchant #####################################################
+    // ################################################################
+    public static var MerchantNewWaresTime        : Float = 5;
+    public static var MerchantNewWaresTextTimeout : Float = 2.5;
 }
