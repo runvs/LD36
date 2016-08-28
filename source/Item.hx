@@ -19,7 +19,7 @@ class Item {
 
     public function new(itemType : ItemType, name : String, agilityBonus : Float, strengthBonus : Float, healthBonus : Float)
     {
-        itemType = itemType;
+        this.itemType = itemType;
         this.name = name;
 
         this.agilityBonus  = agilityBonus;

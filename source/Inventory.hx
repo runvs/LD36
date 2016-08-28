@@ -15,6 +15,9 @@ class Inventory extends FlxSprite
     var _legsItemText   : FlxText;
     var _weaponItemText : FlxText;
 
+    var _statsCaptionText : FlxText;
+    var _statsText        : FlxText;
+
     //#################################################################
 
     public function new(player : Player)
@@ -28,10 +31,15 @@ class Inventory extends FlxSprite
         _legsItemText   = new FlxText(20, 60, 0, '');
         _weaponItemText = new FlxText(20, 80, 0, '');
 
+        _statsCaptionText = new FlxText(20, 140, 0, '');
+        _statsText        = new FlxText(100, 140, 0, '');
+
         _headItemText.scrollFactor.set();
         _torsoItemText.scrollFactor.set();
         _legsItemText.scrollFactor.set();
         _weaponItemText.scrollFactor.set();
+
+        _statsText.scrollFactor.set();
 
         makeGraphic(FlxG.width - 20, FlxG.height - 20, flixel.util.FlxColor.GRAY);
         scrollFactor.set();
@@ -48,21 +56,43 @@ class Inventory extends FlxSprite
         {
             _headItemText.text = "Head: " + _player.headItem.toString();
         }
+        else
+        {
+            _headItemText.text = "Head: empty";
+        }
 
         if(_player.torsoItem != null)
         {
             _torsoItemText.text = "Torso: " + _player.torsoItem.toString();
+        }
+        else
+        {
+            _torsoItemText.text = "Torso: empty";
         }
 
         if(_player.legsItem != null)
         {
             _legsItemText.text = "Legs: " + _player.legsItem.toString();
         }
+        else
+        {
+            _legsItemText.text = "Legs: empty";
+        }
 
         if(_player.weaponItem != null)
         {
             _weaponItemText.text = "Weapon: " + _player.weaponItem.toString();
         }
+        else
+        {
+            _weaponItemText.text = "Weapon: empty";
+        }
+
+        _statsCaptionText.text  = 'Health:\nStrength:\nAgility:';
+
+        _statsText.text  = '${_player.health}/${_player.healthMax}\n';
+        _statsText.text += '${_player.strength}\n';
+        _statsText.text += '${_player.agility}';
     }
 
     //#################################################################
@@ -71,25 +101,13 @@ class Inventory extends FlxSprite
     {
         super.draw();
 
-        if(_player.headItem != null)
-        {
-            _headItemText.draw();
-        }
+        _headItemText.draw();
+        _torsoItemText.draw();
+        _legsItemText.draw();
+        _weaponItemText.draw();
 
-        if(_player.torsoItem != null)
-        {
-            _torsoItemText.draw();
-        }
-
-        if(_player.legsItem != null)
-        {
-            _legsItemText.draw();
-        }
-
-        if(_player.weaponItem != null)
-        {
-            _weaponItemText.draw();
-        }
+        _statsCaptionText.draw();
+        _statsText.draw();
     }
 
     //#################################################################
