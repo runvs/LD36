@@ -148,7 +148,7 @@ class TiledLevel extends TiledMap
 			// no collision for tiles in row 0
 			return;
 		}
-		else if (rowIndex == 1)
+		else if (rowIndex == 1 ||rowIndex == 2)
 		{
 			//trace("addinc collision sprite at " + Std.string(x) + " " + Std.string(y) );
 			var c : FlxSprite = new FlxSprite(x * 16, y * 16);
@@ -289,7 +289,7 @@ class TiledLevel extends TiledMap
 			trace("no areas to spawn enemies");
 		}
 		
-		var enemy = new Enemy(0.15, 25, 5, state);
+		var enemy = new Enemy(GameProperties.EnemyDamageDefault, GameProperties.EnemyHealthDefault, 5, state);
 		enemies.add(enemy);
 		
 		//TODO spawn multiple enemies per area

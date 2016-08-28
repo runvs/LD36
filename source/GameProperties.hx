@@ -24,7 +24,7 @@ class GameProperties
     public static var PlayerMovementDrag          : FlxPoint = new FlxPoint(2500, 2500);
     public static var PlayerMovementMaxVelocity   : FlxPoint = new FlxPoint(95, 95);
     public static var PlayerMovementDashCooldown  : Float    = 1.0;
-	public static var PlayerMovementMaxDashLength : Float    = 100.0;
+	public static var PlayerMovementMaxDashLength : Float    = 40.0;
     public static var PlayerAttackBaseDamage      : Float    = 10.0;
     public static var PlayerAttackCooldown        : Float    = 0.45;
 	public static var PlayerHealthMaxDefault      : Float    = 1.0;
@@ -38,4 +38,6 @@ class GameProperties
     public static var EnemyMovementRandomWalkThinkTime : Float    = 0.250;
 	public static var EnemyAttackTimerMax			   : Float 	  = 0.45;
 	public static var EnemyAttackingTime               : Float    = 0.65;
+	public static var EnemyDamageDefault 			   : Float    = 0.24;
+	public static var EnemyHealthDefault               : Float    = 45;
 }

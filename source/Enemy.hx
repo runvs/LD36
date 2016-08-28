@@ -61,7 +61,7 @@ class Enemy extends FlxSprite
 		
 		
 		_attackingUnderlay = new FlxSprite(x, y);
-		var sf : Float = 3;
+		var sf : Float = 3.5;
 		_attackingUnderlay.makeGraphic(Std.int(GameProperties.TileSize * sf), Std.int(GameProperties.TileSize * sf));
 		var ofs : Float = -GameProperties.TileSize * 0.5 + GameProperties.TileSize * sf * 0.5;
 		_attackingUnderlay.offset.set(ofs, ofs);
@@ -93,7 +93,7 @@ class Enemy extends FlxSprite
 				doMovement();
 				
 				
-				if (_distanceToPlayer <= GameProperties.TileSize * 1.3)
+				if (_distanceToPlayer <= GameProperties.TileSize * 1.9)
 				{
 					Attack();	
 				}

@@ -99,7 +99,8 @@ class World extends FlxObject
 			
 			trace("spawning connection "+ i + " " + j);
 			
-			addPath(patches, dir, offDir, i, j, 4, 9);
+			addPath(patches, dir, offDir, i, j, 6, 10);
+			addPath(patches, offDir, dir, i, j, 6, 10);
 			numberOfRuns += 1;
 		}
 	}
