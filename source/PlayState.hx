@@ -155,8 +155,8 @@ class PlayState extends FlxState
 		}
 		super.draw();
 		
-		player.drawHud();
 		_technologyFoundText.draw();
+		player.drawHud();
 		level.npcs.forEach(function(npc) { if(npc.alive) {npc.drawHud(); }});
 	}
 	

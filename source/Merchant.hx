@@ -85,6 +85,11 @@ class Merchant extends NPC
                 {
                     _itemTexts.members[i].color = GameProperties.MerchantColorUnavailable;
                 }
+
+                if(_items[i].sold)
+                {
+                    _itemTexts.members[i].color = GameProperties.MerchantColorSold;
+                }
             }
         }
 
@@ -133,6 +138,25 @@ class Merchant extends NPC
             if(_currentSelection == _items.length)
             {
                 onCloseClick();
+            }
+            else
+            {
+                if(_items[_currentSelection].value <= _player.coins)
+                {
+                    _items[_currentSelection].sold = true;
+                    
+                    switch _items[_currentSelection].itemType
+                    {
+                        case ItemType.HEAD:
+                            _player.headItem   = _items[_currentSelection];
+                        case ItemType.TORSO:
+                            _player.torsoItem  = _items[_currentSelection];
+                        case ItemType.LEGS:
+                            _player.legsItem   = _items[_currentSelection];
+                        case ItemType.WEAPON:
+                            _player.weaponItem = _items[_currentSelection];
+                    }
+                }
             }
         }
 
@@ -248,7 +272,11 @@ class Merchant extends NPC
         super.interact();
 
         _showInventory = true;
+
         _currentSelection = 0;
+        _listSelection.x = 20;
+        _listSelection.makeGraphic(FlxG.width - 40, 20, FlxColor.fromRGB(0, 0, 0, 64));
+        _listSelection.y = 20 + 20 * _currentSelection;
     }
 
     // ################################################################
