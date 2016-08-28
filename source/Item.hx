@@ -17,6 +17,8 @@ class Item {
 
     public var itemType : ItemType;
 
+    static var json : ItemData;
+
     //#################################################################
 
     public function new(itemType : ItemType, name : String, agilityBonus : Float, strengthBonus : Float, healthBonus : Float)
@@ -35,14 +37,14 @@ class Item {
 
     function calculateValue() : Int
     {
-        return cast(Math.round(agilityBonus + strengthBonus + healthBonus * Math.PI), Int);
+        return cast(Math.abs(Math.round(agilityBonus + strengthBonus + healthBonus * Math.PI)), Int);
     }
 
     //#################################################################
 
     public function toString() : String
     {
-        return '$name\n    ${(agilityBonus >= 0 ? "+" : "-")}$agilityBonus Agi, ${(strengthBonus >= 0 ? "+" : "-")}$strengthBonus Str, ${(healthBonus >= 0 ? "+" : "-")}$healthBonus Health, Value: $value';
+        return '$name\n    ${(agilityBonus >= 0 ? "+" : "")}$agilityBonus Agi, ${(strengthBonus >= 0 ? "+" : "")}$strengthBonus Str, ${(healthBonus >= 0 ? "+" : "")}$healthBonus Health, Value: $value';
     }
 
     //#################################################################
@@ -55,7 +57,11 @@ class Item {
             itemType = GameProperties.rng.getObject(selection);
         }
 
-        var json : ItemData = Json.parse(File.getContent(AssetPaths.items__json));
+        if(json == null)
+        {
+            json = Json.parse(File.getContent(AssetPaths.items__json));
+        }
+        
         var baseName : String;
         switch(itemType)
         {

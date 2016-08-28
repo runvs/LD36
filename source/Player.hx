@@ -17,6 +17,8 @@ class Player extends FlxSprite
 	public var strength   : Float;
 	public var agility    : Float;
 	public var healthMax  : Float;
+	
+	public var coins      : Int;
 
     var _dashDir        : FlxPoint;
 	var _dashCooldown   : Float;
@@ -27,8 +29,6 @@ class Player extends FlxSprite
 	var _hitArea        : FlxSprite;
 	var _facing         : Facing;
 	var _attackCooldown : Float;
-	
-	var _coins			: Int ;
 	var _coinsText 		: FlxText;
 	
 	var _healthBar 		: HudBar;
@@ -66,7 +66,7 @@ class Player extends FlxSprite
         _dashCooldown = 0;
         _dashDir = new FlxPoint();
 		
-		_coins = 0;
+		coins = 0;
 		legsItem = new Item(ItemType.LEGS, 'Iron Diaper', 10, 0, 0);
 		weaponItem = new Item(ItemType.WEAPON, 'Mighty Longsword of Mutilation', 0, 20, 0);
 
@@ -134,7 +134,7 @@ class Player extends FlxSprite
 		_healthBar.update(elapsed);
 		_dashCooldownBar.update(elapsed);
 		_dashCooldownBar.health = 1.0 - _dashCooldown / GameProperties.PlayerMovementDashCooldown;
-		_coinsText.text = Std.string(_coins);
+		_coinsText.text = Std.string(coins);
 		_coinsText.update(elapsed);
 
 		_inventory.update(elapsed);
@@ -213,14 +213,10 @@ class Player extends FlxSprite
 
     //#################################################################
 
-	public function toggleNpcInteraction()
+	public function stopNpcInteraction()
 	{
-		_npcInteraction = !_npcInteraction;
-		
-		if(!_npcInteraction)
-		{
-			_interactingNPC = null;
-		}
+		_npcInteraction = false;
+		_interactingNPC = null;
 	}
 
     //#################################################################
@@ -361,7 +357,7 @@ class Player extends FlxSprite
 	
 	public function pickUpCoins() 
 	{
-		_coins += 1;
+		coins += 1;
 	}
 
     //#################################################################

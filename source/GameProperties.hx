@@ -2,6 +2,7 @@ package;
 
 import flixel.math.FlxPoint;
 import flixel.math.FlxRandom;
+import flixel.util.FlxColor;
 
 class GameProperties
 {
@@ -44,6 +45,9 @@ class GameProperties
     // ################################################################
     // # Merchant #####################################################
     // ################################################################
-    public static var MerchantNewWaresTime        : Float = 5;
-    public static var MerchantNewWaresTextTimeout : Float = 2.5;
+    public static var MerchantNewWaresTime        : Float    = 5;
+    public static var MerchantNewWaresTextTimeout : Float    = 2.5;
+    public static var MerchantInputDeadTime       : Float    = 0.16;
+    public static var MerchantColorAvailable      : FlxColor = FlxColor.BLACK;
+    public static var MerchantColorUnavailable    : FlxColor = FlxColor.RED;
 }

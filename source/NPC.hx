@@ -24,7 +24,8 @@ class NPC extends FlxSprite
 
     public function handleInput(player: Player)
     {
-
+        player.velocity.set();
+        player.acceleration.set();
     }
 
     //#################################################################
