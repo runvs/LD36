@@ -337,9 +337,9 @@ class Player extends FlxSprite
 
     //#################################################################
 
-    function getDamage() : Float
+    public function getDamage() : Float
     {
-        return GameProperties.PlayerAttackBaseDamage + Math.pow(strength + strengthBonus, 0.25);
+        return GameProperties.PlayerAttackBaseDamage + Math.pow(strength + strengthBonus, 0.25) * 3;
     }
 
     //#################################################################
