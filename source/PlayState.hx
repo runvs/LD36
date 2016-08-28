@@ -54,7 +54,7 @@ class PlayState extends FlxState
 		FlxG.collide(level.enemies, level.enemies);
 		FlxG.collide(level.coins, level.collisionMap);
 		FlxG.overlap(player, level.coins, pickupCoin);
-		if (level.chestspawned && level.levelChest.alpha >= 0.95)
+		if (level.chestinLevelFound && level.levelChest.alpha >= 0.95)
 		{
 			FlxG.collide(player, level.levelChest);
 		}
@@ -267,6 +267,10 @@ class PlayState extends FlxState
 	function RespawnInCity() 
 	{
 		player.restoreHealth();
+		
+		player.velocity.set();
+		player.acceleration.set();
+		
 		player.dropAllItems();
 		world.currentWorldPosX = 15;
 		world.currentWorldPosY = 15;

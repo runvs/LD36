@@ -38,7 +38,7 @@ class TiledLevel extends TiledMap
 	public var levelPath : String = "";
 	
 	public var levelChest : FlxSprite;
-	public var chestspawned : Bool = false;
+	public var chestinLevelFound : Bool = false;
 	
 	// Array of tilemaps used for collision
 	public var foregroundTiles:FlxGroup;
@@ -307,7 +307,7 @@ class TiledLevel extends TiledMap
 				enemyAreas.add(s);
 			case "chest":
 				levelChest.setPosition(x, y);
-				chestspawned = true;
+				chestinLevelFound = true;
 		}
 	}
 	
@@ -441,8 +441,11 @@ class TiledLevel extends TiledMap
 	
 	function ActivateChest() 
 	{
-		trace (levelChest.x + " " + levelChest.y);
-		levelChest.alpha  = 1.0;
+		if (levelChest.alpha != 1.0 && chestinLevelFound)
+		{
+			trace (levelChest.x + " " + levelChest.y);
+			levelChest.alpha  = 1.0;
+		}
 		
 		// spawn particles, etc...
 	}
@@ -450,7 +453,7 @@ class TiledLevel extends TiledMap
 	public function spawnChest() : Bool
 	{
 	
-		if (chestspawned == false)
+		if (chestinLevelFound == false)
 		{
 			// no chest spawned
 			return false;
@@ -464,7 +467,7 @@ class TiledLevel extends TiledMap
 	
 	public function spawnMerchant() : Bool
 	{
-		if ( chestspawned == false)
+		if ( chestinLevelFound == false)
 		{
 			return false;
 		}

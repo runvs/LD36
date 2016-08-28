@@ -74,6 +74,19 @@ class Merchant extends NPC
 
     //#################################################################
 
+    public override function handleInput(player: Player)
+    {
+        super.handleInput(player);
+
+        if(MyInput.SpecialButtonJustPressed)
+        {
+            _showInventory = false;
+            player.toggleNpcInteraction();
+        }
+    }
+
+    //#################################################################
+
     function onNewWaresTimer(timer : FlxTimer)
     {
         _newWaresTimeout = GameProperties.MerchantNewWaresTextTimeout;

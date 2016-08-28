@@ -17,7 +17,14 @@ class NPC extends FlxSprite
 
     public function drawHud()
     {
-        
+
+    }
+
+    //#################################################################
+
+    public function handleInput(player: Player)
+    {
+
     }
 
     //#################################################################
