@@ -41,6 +41,7 @@ class PlayState extends FlxState
 			level.foregroundTiles.update(elapsed);
 			level.exits.update(elapsed);
 			level.enemies.update(elapsed);
+			level.npcs.update(elapsed);
 			level.coins.update(elapsed);
 		}
 
@@ -100,6 +101,7 @@ class PlayState extends FlxState
 			level.exits.draw();
 			level.topTiles.draw();
 			level.enemies.draw();
+			level.npcs.draw();
 			level.coins.draw();
 		}
 		super.draw();

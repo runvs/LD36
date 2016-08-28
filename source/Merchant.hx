@@ -1,10 +1,9 @@
 package;
 
-import flixel.FlxSprite;
 import flixel.util.FlxTimer;
 import flixel.text.FlxText;
 
-class Merchant extends FlxSprite
+class Merchant extends NPC
 {
     //#################################################################
 
@@ -14,9 +13,9 @@ class Merchant extends FlxSprite
 
     //#################################################################
 
-    public override function new(x, y)
+    public override function new(x : Int, y : Int)
     {
-        super();
+        super(x, y);
 
         _newWaresTimer = new FlxTimer();
         _newWaresTimer.start(GameProperties.MerchantNewWaresTime, onNewWaresTimer, 0);
@@ -25,7 +24,6 @@ class Merchant extends FlxSprite
         _newWaresTimeout = GameProperties.MerchantNewWaresTextTimeout;
 
         makeGraphic(GameProperties.TileSize, GameProperties.TileSize, flixel.util.FlxColor.CYAN);
-        setPosition(x, y);
     }
 
     //#################################################################
@@ -57,6 +55,13 @@ class Merchant extends FlxSprite
     function onNewWaresTimer(timer : FlxTimer)
     {
         _newWaresTimeout = GameProperties.MerchantNewWaresTextTimeout;
+    }
+
+    //#################################################################
+
+    public override function interact()
+    {
+        
     }
 
     // ################################################################

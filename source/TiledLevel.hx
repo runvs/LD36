@@ -35,7 +35,6 @@ class TiledLevel extends TiledMap
 	public var WorldPosY : Int = 0;
 	public var levelPath : String = "";
 	
-	
 	// Array of tilemaps used for collision
 	public var foregroundTiles:FlxGroup;
 		// Array of tilemaps used for collision
@@ -43,17 +42,14 @@ class TiledLevel extends TiledMap
 	
 	public var collisionMap : FlxSpriteGroup;
 	
-	
 	public var exits : FlxTypedGroup<Exit>;
 	
 	public var enemies : FlxTypedGroup<Enemy>;
+	public var npcs    : FlxTypedGroup<NPC>;
 	
 	public var coins : FlxSpriteGroup;
 
-	
 	private var enemyAreas : FlxSpriteGroup;
-	
-	
 	
 	public function new(tiledLevel:Dynamic)
 	{
@@ -69,6 +65,7 @@ class TiledLevel extends TiledMap
 		
 		enemyAreas = new FlxSpriteGroup();
 		enemies = new FlxTypedGroup<Enemy>();
+		npcs = new FlxTypedGroup<NPC>();
 		
 		coins  = new FlxSpriteGroup();
 		
@@ -278,19 +275,18 @@ class TiledLevel extends TiledMap
 				}
 				exits.add(e);
 			case "merchant":
-				//TODO FIX
 				var type : String = o.properties.get("type");
 				if (type == "merchant") 
 				{
-					
+					npcs.add(new Merchant(x, y));
 				}
 				else if (type == "trainer")
 				{
-					
+					npcs.add(new Trainer(x, y));
 				}
-				else // healer
+				else if(type == "healer")
 				{
-					
+					npcs.add(new Healer(x, y));
 				}
 			case "enemy_area":
 				//trace("loaded enemy area for map" + levelPath);
