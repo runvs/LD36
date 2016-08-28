@@ -347,7 +347,8 @@ class Trainer extends NPC
             _player.coins -= getHealthCosts();
 
             var ratio = _player.health / _player.healthMax;
-            _player.healthMax += 1;
+            _player.healthBase += 1;
+            _player.healthMax = GameProperties.PlayerHealthMaxDefault + _player.healthBase + _player.healthBonus;
             _player.health = _player.healthMax * ratio;
         }
     }

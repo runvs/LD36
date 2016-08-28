@@ -21,6 +21,7 @@ class Player extends FlxSprite
 	public var agilityBonus  : Float;
 	public var strengthBonus : Float;
 	public var healthBonus   : Float;
+	public var healthBase    : Float;
 	
 	public var coins : Int;
 
@@ -80,7 +81,8 @@ class Player extends FlxSprite
         _dashCooldown = 0;
         _dashDir = new FlxPoint();
 		
-		coins = 0;
+		coins      = 0;
+		healthBase = 0;
 
 		_playState = playState;
 
@@ -146,7 +148,7 @@ class Player extends FlxSprite
 		}
 		
         var healthFactor = health / healthMax;
-        healthMax = GameProperties.PlayerHealthMaxDefault + healthBonus;
+        healthMax = GameProperties.PlayerHealthMaxDefault + healthBase + healthBonus;
         health    = healthMax * healthFactor;
 		
 		_healthBar.health = health / healthMax;
