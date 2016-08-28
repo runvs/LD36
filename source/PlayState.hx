@@ -319,16 +319,15 @@ class PlayState extends FlxState
 	function RespawnInCity() 
 	{
 		player.restoreHealth();
-		
 		player.velocity.set();
 		player.acceleration.set();
 		player.stopNpcInteraction();
-		
 		player.dropAllItems();
-		world.currentWorldPosX = 15;
-		world.currentWorldPosY = 15;
 		player.setPosition(8 * GameProperties.TileSize, 4 * GameProperties.TileSize);
 		player.alive = true;
+
+		world.currentWorldPosX = 15;
+		world.currentWorldPosY = 15;
 		LoadLevel();
 	}
 }
