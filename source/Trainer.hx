@@ -109,6 +109,7 @@ class Trainer extends NPC
             _strengthText.text = 'Current strength: ${_player.strength}\nUpgrade cost: ${getStrengthCosts()}';
             _agilityText.text = 'Current agility: ${_player.agility}\nUpgrade cost: ${getAgilityCosts()}';
             _healthText.text = 'Current health: ${_player.health}\nUpgrade cost: ${getHealthCosts()}';
+            _healthText.text = 'Current health: ${GameProperties.roundForDisplay(_player.health)}\nUpgrade cost: ${getHealthCosts()}';
 
             if(_player.coins >= getStrengthCosts())
             {
