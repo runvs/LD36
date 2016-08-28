@@ -28,6 +28,11 @@ class Inventory extends FlxSprite
         _legsItemText   = new FlxText(20, 60, 0, '');
         _weaponItemText = new FlxText(20, 80, 0, '');
 
+        _headItemText.scrollFactor.set();
+        _torsoItemText.scrollFactor.set();
+        _legsItemText.scrollFactor.set();
+        _weaponItemText.scrollFactor.set();
+
         makeGraphic(FlxG.width - 20, FlxG.height - 20, flixel.util.FlxColor.GRAY);
         scrollFactor.set();
         setPosition(10, 10);
