@@ -274,6 +274,19 @@ class TiledLevel extends TiledMap
 				exits.add(e);
 			case "merchant":
 				//TODO FIX
+				var type : String = o.properties.get("type");
+				if (type == "merchant") 
+				{
+					
+				}
+				else if (type == "trainer")
+				{
+					
+				}
+				else // healer
+				{
+					
+				}
 			case "enemies":
 				var s : FlxSprite = new FlxSprite(x, y);
 				var w : Int = o.width;
