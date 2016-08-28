@@ -68,4 +68,5 @@ class GameProperties
     public static var TrainerStrengthBaseCost : Float    = 13;
     public static var TrainerAgilityBaseCost  : Float    = 14;
     public static var TrainerHealthBaseCost   : Float    = 23;
+	static public var CoinMagnetRange 		  : Float    = 48;
 }

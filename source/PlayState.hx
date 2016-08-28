@@ -122,6 +122,9 @@ class PlayState extends FlxState
 				level.enemies.update(elapsed);
 				level.npcs.update(elapsed);
 				level.coins.update(elapsed);
+				
+				updateCoins(elapsed);
+				
 				level.updateChest();
 			}
 
@@ -182,6 +185,26 @@ class PlayState extends FlxState
 				WinGame();
 			}
 		}
+	}
+	
+	function updateCoins(elapsed:Float) 
+	{
+		level.coins.forEach(function(s) 
+		{ 
+			var dx : Float = player.x +8 - s.x - 4;
+			var dy : Float = player.y + 8 - s.y - 4;
+			
+			var lsq  : Float = (dx * dx + dy * dy) ;
+			if (lsq< GameProperties.CoinMagnetRange * GameProperties.CoinMagnetRange)
+			{
+				var l :Float = Math.sqrt(lsq);
+				dx /= l;
+				dy /= l;
+				
+				s.x += dx * 32 * elapsed;
+				s.y += dy * 32 * elapsed;
+			}
+		} );
 	}
 	
 	function WinGame() 
