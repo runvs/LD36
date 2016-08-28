@@ -6,6 +6,8 @@ import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
 import sys.FileSystem;
 
 class PlayState extends FlxState
@@ -20,6 +22,9 @@ class PlayState extends FlxState
 	
 	public var TechnologyFound : Int;
 	private var _technologyFoundText : FlxText;
+	
+	private var overlay : FlxSprite;
+	private var controlsEnabled : Bool;
 	
 	override public function create():Void
 	{
@@ -38,6 +43,14 @@ class PlayState extends FlxState
 		TechnologyFound  = 0;
 		_technologyFoundText = new FlxText(10, 48, 0, "Tech Found: 0", 10);
 		_technologyFoundText.scrollFactor.set();
+		
+		controlsEnabled = false;
+		overlay = new FlxSprite(0, 0);
+		overlay.scrollFactor.set();
+		overlay.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		overlay.alpha = 1.0;
+		FlxTween.tween(overlay, { alpha :0 }, 0.5, { onComplete : function(t) { controlsEnabled = true; }} );
+		
 		
 	}
 
@@ -137,6 +150,8 @@ class PlayState extends FlxState
 			
 			level.npcs.draw();
 			level.coins.draw();
+			
+			overlay.draw();
 		}
 		super.draw();
 		
