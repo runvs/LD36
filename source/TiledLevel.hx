@@ -390,7 +390,7 @@ class TiledLevel extends TiledMap
 	
 	public function spawnCoins(enemy:Enemy) 
 	{
-		var N : Int = GameProperties.rng.int(5, 6);
+		var N : Int = GameProperties.rng.int(3, 4);
 		for (i in 0...N)
 		{
 			var coinAngle : Float = 2*Math.PI / N * i;
