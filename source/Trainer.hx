@@ -108,7 +108,6 @@ class Trainer extends NPC
             _coinsText.text = 'Current coins: ${_player.coins}';
             _strengthText.text = 'Current strength: ${_player.strength}\nUpgrade cost: ${getStrengthCosts()}';
             _agilityText.text = 'Current agility: ${_player.agility}\nUpgrade cost: ${getAgilityCosts()}';
-            _healthText.text = 'Current health: ${_player.health}\nUpgrade cost: ${getHealthCosts()}';
             _healthText.text = 'Current health: ${GameProperties.roundForDisplay(_player.health)}\nUpgrade cost: ${getHealthCosts()}';
 
             if(_player.coins >= getStrengthCosts())
@@ -348,7 +347,7 @@ class Trainer extends NPC
             _player.coins -= getHealthCosts();
 
             var ratio = _player.health / _player.healthMax;
-            _player.healthBase += 1;
+            _player.healthBase += 0.25;
             _player.healthMax = GameProperties.PlayerHealthMaxDefault + _player.healthBase + _player.healthBonus;
             _player.health = _player.healthMax * ratio;
         }
