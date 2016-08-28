@@ -246,7 +246,11 @@ class Merchant extends NPC
         super.interact();
 
         _showInventory = true;
+
         _currentSelection = 0;
+        _listSelection.x = 20;
+        _listSelection.makeGraphic(FlxG.width - 40, 20, FlxColor.fromRGB(0, 0, 0, 64));
+        _listSelection.y = 20 + 20 * _currentSelection;
     }
 
     // ################################################################
