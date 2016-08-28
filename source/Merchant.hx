@@ -174,6 +174,8 @@ class Merchant extends NPC
                         case ItemType.WEAPON:
                             _player.weaponItem = _items[_currentSelection];
                     }
+
+                    _player.recalculateBonuses();
                 }
             }
         }
