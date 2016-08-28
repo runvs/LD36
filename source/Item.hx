@@ -1,6 +1,8 @@
 package;
 
 import flixel.FlxSprite;
+import sys.io.File;
+import haxe.Json;
 
 class Item {
     //#################################################################
@@ -44,4 +46,67 @@ class Item {
     }
 
     //#################################################################
+
+    public static function createRandom(?itemType : ItemType) : Item
+    {
+        if(itemType == null)
+        {
+            var selection = [ItemType.HEAD, ItemType.TORSO, ItemType.LEGS, ItemType.WEAPON];
+            itemType = GameProperties.rng.getObject(selection);
+        }
+
+        var json : ItemData = Json.parse(File.getContent(AssetPaths.items__json));
+        var baseName : String;
+        switch(itemType)
+        {
+            case ItemType.HEAD:
+                baseName = GameProperties.rng.getObject(json.baseNames.head);
+            case ItemType.TORSO:
+                baseName = GameProperties.rng.getObject(json.baseNames.torso);
+            case ItemType.LEGS:
+                baseName = GameProperties.rng.getObject(json.baseNames.legs);
+            case ItemType.WEAPON:
+                baseName = GameProperties.rng.getObject(json.baseNames.weapon);
+        }
+
+        var randomIndex = GameProperties.rng.int(0, json.prefixes.length - 1);
+        var prefix = json.prefixes[randomIndex];
+
+        randomIndex = GameProperties.rng.int(0, json.suffixes.length - 1);
+        var suffix = json.suffixes[randomIndex];
+
+        var strBonus  = prefix.strengthBonus + suffix.strengthBonus;
+        var agiBonus  = prefix.agilityBonus  + suffix.agilityBonus;
+        var hlthBonus = prefix.healthBonus   + suffix.healthBonus;
+
+        return new Item(
+            itemType,
+            StringTools.trim('${prefix.name} $baseName ${suffix.name}'),
+            strBonus,
+            agiBonus,
+            hlthBonus
+        );
+    }
+
+    //#################################################################
+}
+
+typedef Affix = {
+    var name          : String;
+    var strengthBonus : Float;
+    var agilityBonus  : Float;
+    var healthBonus   : Float;
+}
+
+typedef BaseName = {
+    var head  : Array<String>;
+    var torso  : Array<String>;
+    var legs   : Array<String>;
+    var weapon : Array<String>;
+}
+
+typedef ItemData = {
+    var prefixes : Array<Affix>;
+    var suffixes : Array<Affix>;
+    var baseNames: BaseName;
 }

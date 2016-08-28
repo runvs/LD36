@@ -1,0 +1,30 @@
+{
+    "prefixes": [
+        { "name": "", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
+        { "name": "", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
+        { "name": "", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
+        { "name": "", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
+        { "name": "", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
+        { "name": "Sturdy", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
+        { "name": "Static", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
+        { "name": "Crimson", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
+        { "name": "Whimsy", "strengthBonus": -7, "agilityBonus": -2, "healthBonus": 0},
+        { "name": "Healing", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 10}
+    ],
+    "baseNames": {
+        "head":   ["Cap", "Helmet"],
+        "torso":  ["Vest", "Leather Armor", "Plate Armor"],
+        "legs":   ["Leather Pants"],
+        "weapon": ["Longsword", "Knife", "Morning Star"]
+    },
+    "suffixes": [
+        { "name": "", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
+        { "name": "", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
+        { "name": "", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
+        { "name": "", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
+        { "name": "of Pestilence", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
+        { "name": "of Mutilation", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
+        { "name": "of Helpfulness", "strengthBonus": 10, "agilityBonus": 20, "healthBonus": 0},
+        { "name": "of Health", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 10}
+    ]
+}
