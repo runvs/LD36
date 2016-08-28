@@ -18,10 +18,12 @@ class Merchant extends NPC
     var _newWaresTimer   : FlxTimer;
     var _newWaresText    : FlxText;
     var _newWaresTimeout : Float;
+    var _newWaresBar     : HudBar;
 
-    var _inventory     : FlxSprite;
-    var _items         : Array<Item>;
-    var _showInventory : Bool;
+    var _inventory       : FlxSprite;
+    var _inventoryBorder : FlxSprite;
+    var _items           : Array<Item>;
+    var _showInventory   : Bool;
 
     var _listBackground   : FlxSprite;
     var _listSelection    : FlxSprite;
@@ -29,6 +31,7 @@ class Merchant extends NPC
     var _currentSelection : Int;
     var _inputDeadTime    : Float;
     var _closeButton      : FlxButton;
+    var _coinsText        : FlxText;
 
     //#################################################################
 
@@ -39,28 +42,39 @@ class Merchant extends NPC
         _newWaresTimer = new FlxTimer();
         _newWaresTimer.start(GameProperties.MerchantNewWaresTime, onNewWaresTimer, 0);
 
-        _newWaresText = new FlxText(x, y - GameProperties.TileSize, 0, 'New wares everybody!');
+        _newWaresText = new FlxText(x, y - GameProperties.TileSize, 0, 'New wares\neverybody!');
+        _newWaresText.alignment = flixel.text.FlxTextAlign.CENTER;
         _newWaresTimeout = GameProperties.MerchantNewWaresTextTimeout;
+        _newWaresBar = new HudBar(150, 190, 80, 15, false);
 
-        this.loadGraphic(AssetPaths.Merchant__png, true, 16, 16);
-		this.animation.add("idle", [0, 1, 2, 3], 4, true);
-		this.animation.play("idle");
+        loadGraphic(AssetPaths.Merchant__png, true, 16, 16);
+		animation.add("idle", [0, 1, 2, 3], 4, true);
+        animation.play("idle");
+        _showInventory = false;
 
         _inventory = new FlxSprite(10, 10);
-        _inventory.makeGraphic(FlxG.width - 20, FlxG.height - 20, FlxColor.GRAY);
+        _inventory.makeGraphic(FlxG.width - 20, 210, FlxColor.GRAY);
         _inventory.scrollFactor.set();
-        _showInventory = false;
+
+        _inventoryBorder = new FlxSprite(9, 9);
+        _inventoryBorder.makeGraphic(cast(_inventory.width + 2, Int), cast(_inventory.height + 2, Int), FlxColor.BLACK);
+        _inventoryBorder.scrollFactor.set();
 
         _items = recreateInventory();
         _listBackground = new FlxSprite(20, 20);
-        _listBackground.makeGraphic(FlxG.width - 40, 165, FlxColor.WHITE);
+        _listBackground.makeGraphic(FlxG.width - 40, 160, FlxColor.WHITE);
         _listBackground.scrollFactor.set();
 
         _listSelection = new FlxSprite(20, 20);
         _listSelection.makeGraphic(FlxG.width - 40, 20, FlxColor.fromRGB(0, 0, 0, 64));
         _listSelection.scrollFactor.set();
 
-        _closeButton = new FlxButton(20, FlxG.height - 40, 'Close', onCloseClick);
+        _closeButton = new FlxButton(0, 190, 'Close', onCloseClick);
+        _closeButton.x = FlxG.width - 20 - _closeButton.width;
+        _closeButton.scrollFactor.set();
+
+        _coinsText   = new FlxText(20, 190, 0, 'Current coins: 0');
+        _coinsText.scrollFactor.set();
 
         _currentSelection = 0;
         _inputDeadTime    = 0;
@@ -77,9 +91,12 @@ class Merchant extends NPC
             _newWaresTimeout -= elapsed;
         }
 
+        _newWaresBar.health = 1 - _newWaresTimer.progress;
+        _newWaresBar.update(elapsed);
+
         if(_player != null)
         {
-            for(i in 0...(_items.length - 1))
+            for(i in 0..._items.length)
             {
                 if(_player.coins < _items[i].value)
                 {
@@ -91,6 +108,8 @@ class Merchant extends NPC
                     _itemTexts.members[i].color = GameProperties.MerchantColorSold;
                 }
             }
+
+            _coinsText.text = 'Current coins: ${_player.coins}';
         }
 
         _listSelection.update(elapsed);
@@ -117,12 +136,15 @@ class Merchant extends NPC
 
         if(_showInventory)
         {
+            _inventoryBorder.draw();
             _inventory.draw();
             _listBackground.draw();
             _listSelection.draw();
 
             _closeButton.draw();
             _itemTexts.draw();
+            _coinsText.draw();
+            _newWaresBar.draw();
         }
     }
 
