@@ -51,4 +51,12 @@ class GameProperties
     public static var MerchantColorAvailable      : FlxColor = FlxColor.BLACK;
     public static var MerchantColorUnavailable    : FlxColor = FlxColor.RED;
     public static var MerchantColorSold           : FlxColor = FlxColor.GRAY;
+
+    // ################################################################
+    // # Healer #######################################################
+    // ################################################################
+    public static var HealerBaseCosts        : Int      = 100;
+    public static var HealerHealAmount       : Float    = 0.5;
+    public static var HealerColorAvailable   : FlxColor = FlxColor.BLACK;
+    public static var HealerColorUnavailable : FlxColor = FlxColor.RED;
 }
