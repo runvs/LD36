@@ -59,4 +59,10 @@ class GameProperties
     public static var HealerHealAmount       : Float    = 1.0;
     public static var HealerColorAvailable   : FlxColor = FlxColor.BLACK;
     public static var HealerColorUnavailable : FlxColor = FlxColor.RED;
+
+    // ################################################################
+    // # Trainer ######################################################
+    // ################################################################
+    public static var TrainerColorAvailable   : FlxColor = FlxColor.BLACK;
+    public static var TrainerColorUnavailable : FlxColor = FlxColor.fromRGB(128, 0, 0);
 }
