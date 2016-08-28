@@ -89,10 +89,11 @@ class Inventory extends FlxSprite
             _weaponItemText.text = "Weapon: empty";
         }
 
-        _statsCaptionText.text  = 'Health:\nStrength:\nAgility:';
+        _statsCaptionText.text  = 'Health:\nStrength:\nDamage:\nAgility:';
 
         _statsText.text  = '${GameProperties.roundForDisplay(_player.health)}/${_player.healthMax}\n';
         _statsText.text += '${_player.strength}\n';
+        _statsText.text += '${GameProperties.roundForDisplay(_player.getDamage())}';
         _statsText.text += '${_player.agility}';
     }
 
