@@ -140,8 +140,8 @@ class Player extends FlxSprite
 		}
 		
         var healthFactor = health / healthMax;
-        healthMax += healthBonus;
-        health     = healthMax * healthFactor;
+        healthMax = GameProperties.PlayerHealthMaxDefault + healthBonus;
+        health    = healthMax * healthFactor;
 		
 		_healthBar.health = health / healthMax;
 		_healthBar.update(elapsed);
