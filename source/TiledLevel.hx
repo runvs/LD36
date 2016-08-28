@@ -324,7 +324,7 @@ class TiledLevel extends TiledMap
 			{
 				var sizeinTiles : Float = s.width * s.height / GameProperties.TileSize / GameProperties.TileSize;
 				
-				var N : Int = Std.int(sizeinTiles / 20) +1;
+				var N : Int = Std.int(sizeinTiles / 25) +1;
 				
 				for (n in 0...N)
 				{
@@ -392,14 +392,21 @@ class TiledLevel extends TiledMap
 			var coinAngle : Float = 2*Math.PI / N * i;
 			
 			var s: FlxSprite = new FlxSprite(enemy.x + 8, enemy.y + 16);
-			s.makeGraphic(6, 6, FlxColor.YELLOW);
+			
+			//s.makeGraphic(6, 6, FlxColor.YELLOW);
+			s.loadGraphic(AssetPaths.gems__png, true, 8, 8);
+			s.animation.add("idle", [GameProperties.rng.int(0, 6)], 30, true);
+			s.animation.play("idle");
+			
+			
 			s.velocity.set(Math.cos(coinAngle) * 120, Math.sin(coinAngle) * 120);
 			s.drag.set(250, 250);
 			
-			s.offset.set(0, -3);
+			s.offset.set(0, -2);
 			s.elasticity = 0.5;
 			
-			FlxTween.tween(s.offset, { y:5 }, 0.75, { ease:FlxEase.sineInOut, type:FlxTween.PINGPONG, startDelay:GameProperties.rng.float(0, 0.5) } );
+			FlxTween.tween(s.offset, { y:3 }, 0.75, { ease:FlxEase.sineInOut, type:FlxTween.PINGPONG, startDelay:GameProperties.rng.float(0, 0.5) } );
+			
 			
 			coins.add(s);
 			

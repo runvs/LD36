@@ -54,7 +54,7 @@ class PlayState extends FlxState
 		FlxG.collide(level.enemies, level.enemies);
 		FlxG.collide(level.coins, level.collisionMap);
 		FlxG.overlap(player, level.coins, pickupCoin);
-		if (level.chestinLevelFound && level.levelChest.alpha >= 0.95)
+		if (level.chestinLevelFound && level.levelChest.alpha == 1 && level.levelChest.alive)
 		{
 			FlxG.collide(player, level.levelChest);
 		}
