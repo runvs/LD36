@@ -8,7 +8,10 @@ class Healer extends NPC
     {
         super(x, y);
 
-        makeGraphic(GameProperties.TileSize, GameProperties.TileSize, flixel.util.FlxColor.PURPLE);
+        //makeGraphic(GameProperties.TileSize, GameProperties.TileSize, flixel.util.FlxColor.PURPLE);
+		this.loadGraphic(AssetPaths.healer__png, true, 16, 16);
+		this.animation.add("idle", [0, 1, 2, 3], 5, true);
+		this.animation.play("idle");
     }
 
     //#################################################################

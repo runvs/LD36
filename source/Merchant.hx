@@ -42,7 +42,9 @@ class Merchant extends NPC
         _newWaresText = new FlxText(x, y - GameProperties.TileSize, 0, 'New wares everybody!');
         _newWaresTimeout = GameProperties.MerchantNewWaresTextTimeout;
 
-        makeGraphic(GameProperties.TileSize, GameProperties.TileSize, FlxColor.CYAN);
+        this.loadGraphic(AssetPaths.Merchant__png, true, 16, 16);
+		this.animation.add("idle", [0, 1, 2, 3], 4, true);
+		this.animation.play("idle");
 
         _inventory = new FlxSprite(10, 10);
         _inventory.makeGraphic(FlxG.width - 20, FlxG.height - 20, FlxColor.GRAY);

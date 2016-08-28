@@ -32,17 +32,17 @@
     <property name="direction" value="west"/>
    </properties>
   </object>
-  <object id="81" name="merchant" type="merchant" x="352" y="96" width="16" height="16">
+  <object id="81" name="merchant" type="merchant" x="352" y="80" width="16" height="16">
    <properties>
     <property name="type" value="merchant"/>
    </properties>
   </object>
-  <object id="83" name="trainer" type="merchant" x="96" y="48" width="16" height="16">
+  <object id="83" name="trainer" type="merchant" x="112" y="48" width="16" height="16">
    <properties>
     <property name="type" value="trainer"/>
    </properties>
   </object>
-  <object id="84" name="healer" type="merchant" x="80" y="320" width="16" height="16">
+  <object id="84" name="healer" type="merchant" x="112" y="336" width="16" height="16">
    <properties>
     <property name="type" value="healer"/>
    </properties>

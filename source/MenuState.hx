@@ -92,17 +92,24 @@ class MenuState extends FlxState
 			
 			if (inputTimer <= 0)
 			{
-				if (MyInput.yVal > 0.45)
+				var vx : Float = MyInput.xVal * 500;
+				var vy : Float = MyInput.yVal * 500;
+				var l : Float = Math.sqrt(vx * vx + vy * vy);
+
+				if (l >= 25)
 				{
-					//trace("down");
-					selector += 1;
-					inputTimer += 0.25;
-				}
-				if (MyInput.yVal < -0.45)
-				{
-					//trace("up");
-					selector -= 1;
-					inputTimer += 0.25;
+					if(vy > 0)
+					{
+						//trace("down");
+						selector += 1;
+						inputTimer = 0.25;
+					}
+					else
+					{
+						//trace("up");
+						selector -= 1;
+						inputTimer = 0.25;
+					}
 				}
 			}
 			
