@@ -75,8 +75,6 @@ class Player extends FlxSprite
         _dashDir = new FlxPoint();
 		
 		coins = 0;
-		legsItem = new Item(ItemType.LEGS, 'Iron Diaper', 10, 0, 0);
-		weaponItem = new Item(ItemType.WEAPON, 'Mighty Longsword of Mutilation', 0, 20, 0);
 
 		_playState = playState;
 
