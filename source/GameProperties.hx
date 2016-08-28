@@ -56,7 +56,7 @@ class GameProperties
     // # Healer #######################################################
     // ################################################################
     public static var HealerBaseCosts        : Int      = 15;
-    public static var HealerHealAmount       : Float    = 0.5;
+    public static var HealerHealAmount       : Float    = 1.0;
     public static var HealerColorAvailable   : FlxColor = FlxColor.BLACK;
     public static var HealerColorUnavailable : FlxColor = FlxColor.RED;
 }
