@@ -41,7 +41,7 @@ class Item {
 
     function calculateValue() : Int
     {
-        return cast(Math.abs(Math.round(agilityBonus + strengthBonus + healthBonus * Math.PI)), Int);
+        return cast(Math.abs(Math.round(agilityBonus + strengthBonus + healthBonus * GameProperties.InflationValue)), Int);
     }
 
     //#################################################################

@@ -11,7 +11,8 @@ class GameProperties
     // ################################################################
 	public static var rng             : FlxRandom = new FlxRandom();
     public static var TileSize        : Int       = 16;
-	static public var CoinMagnetRange : Float     = 48;
+	public static var CoinMagnetRange : Float     = 48;
+    public static var InflationValue  : Float     = Math.PI * 2.37;
 
     // ################################################################
     // # World ########################################################
