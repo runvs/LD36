@@ -121,13 +121,17 @@ class PlayState extends FlxState
 				level.updateChest();
 			}
 
-			FlxG.collide(level.enemies, level.collisionMap);
+			
 			
 			FlxG.collide(player, level.collisionMap);
 			FlxG.overlap(player, level.exits, passExit);
 			FlxG.collide(player, level.enemies);
 			FlxG.collide(player, level.npcs);
+			
 			FlxG.collide(level.enemies, level.enemies);
+			FlxG.collide(level.enemies, level.collisionMap);
+			FlxG.collide(level.enemies, level.exits);
+			
 			FlxG.collide(level.coins, level.collisionMap);
 			FlxG.overlap(player, level.coins, pickupCoin);
 			if (level.chestinLevelFound && level.levelChest.alpha == 1 && level.levelChest.alive)
@@ -252,79 +256,94 @@ class PlayState extends FlxState
 	
 	private function TransitionLevel(e : Exit)
 	{
-	
-		var newPosX : Int = world.currentWorldPosX;
-		var newPosY : Int = world.currentWorldPosY;
-		if (e.dir == ExitDirection.NORTH)
+		if (controlsEnabled == false)
 		{
-			newPosY -=1;
+			return;
 		}
-		else if (e.dir == ExitDirection.SOUTH)
+		controlsEnabled = false;
+		FlxTween.tween(overlay, { alpha:1.0 }, 0.75, {onComplete:function (t)
 		{
-			newPosY +=1;
-		}
-		else if (e.dir == ExitDirection.WEST)
-		{
-			newPosX -=1;
-		}
-		else if (e.dir == ExitDirection.EAST)
-		{
-			newPosX +=1;
-		}
-		
-		
-		var newLevel :TiledLevel = world.getLevel(newPosX, newPosY);
-		if (newLevel != null)
-		{
-			world.currentWorldPosX = newPosX;
-			world.currentWorldPosY = newPosY;
-			level = newLevel;
-			trace("new Level " + level.levelPath);
-			FlxG.camera.setScrollBoundsRect(0, 0, level.fullWidth, level.fullHeight, true);
-
-			var enter : ExitDirection = ExitDirection.EAST;
-			var offsetX : Float  = 0;
-			var offsetY : Float = 0 ;
+			//overlay.alpha = 0;
+			
+			FlxTween.tween(overlay, { alpha:0 }, 0.5, {onComplete :function(t2){controlsEnabled = true;} });
+			
+			
+			var newPosX : Int = world.currentWorldPosX;
+			var newPosY : Int = world.currentWorldPosY;
 			if (e.dir == ExitDirection.NORTH)
 			{
-				enter = ExitDirection.SOUTH;
-				offsetY = -20;
+				newPosY -=1;
 			}
 			else if (e.dir == ExitDirection.SOUTH)
 			{
-				enter = ExitDirection.NORTH;
-				offsetY = 20 + e.height;
-			}
-			else if (e.dir == ExitDirection.EAST)
-			{
-				enter = ExitDirection.WEST;
-				offsetX = 20 + e.width;
+				newPosY +=1;
 			}
 			else if (e.dir == ExitDirection.WEST)
 			{
-				enter = ExitDirection.EAST;
-				offsetX = -20 ;
-			}	
-			
-
-			var exit : Exit = level.getExit(enter);
-			if (exit == null)
+				newPosX -=1;
+			}
+			else if (e.dir == ExitDirection.EAST)
 			{
-				trace("WARNING: no exit found");
-				player.setPosition(offsetX, offsetY);
-				player.velocity.set();
-				player.acceleration.set();
+				newPosX +=1;
+			}
+			
+			
+			var newLevel :TiledLevel = world.getLevel(newPosX, newPosY);
+			if (newLevel != null)
+			{
+				world.currentWorldPosX = newPosX;
+				world.currentWorldPosY = newPosY;
+				level = newLevel;
+				trace("new Level " + level.levelPath);
+				FlxG.camera.setScrollBoundsRect(0, 0, level.fullWidth, level.fullHeight, true);
+
+				var enter : ExitDirection = ExitDirection.EAST;
+				var offsetX : Float  = 0;
+				var offsetY : Float = 0 ;
+				if (e.dir == ExitDirection.NORTH)
+				{
+					enter = ExitDirection.SOUTH;
+					offsetY = -20;
+				}
+				else if (e.dir == ExitDirection.SOUTH)
+				{
+					enter = ExitDirection.NORTH;
+					offsetY = 20 + e.height;
+				}
+				else if (e.dir == ExitDirection.EAST)
+				{
+					enter = ExitDirection.WEST;
+					offsetX = 20 + e.width;
+				}
+				else if (e.dir == ExitDirection.WEST)
+				{
+					enter = ExitDirection.EAST;
+					offsetX = -20 ;
+				}	
 				
+
+				var exit : Exit = level.getExit(enter);
+				if (exit == null)
+				{
+					trace("WARNING: no exit found");
+					player.setPosition(offsetX, offsetY);
+					player.velocity.set();
+					player.acceleration.set();
+					
+				}
+				else
+				{
+					player.setPosition(exit.x + offsetX, exit.y + offsetY);
+				}
 			}
 			else
 			{
-				player.setPosition(exit.x + offsetX, exit.y + offsetY);
+				trace("WARNING: trying to load a level that is not there!");
 			}
-		}
-		else
-		{
-			trace("WARNING: trying to load a level that is not there!");
-		}
+		}});
+		
+		
+		
 	}
 	
 	private function LoadLevel()

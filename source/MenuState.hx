@@ -62,6 +62,7 @@ class MenuState extends FlxState
 		sprite.loadGraphic(AssetPaths.Hero__png, true, 16, 16);
 		sprite.animation.add("walk_east",  [3, 7, 11, 15], 8);
 		sprite.animation.play("walk_east"); 
+		sprite.setPosition(t_play.x - 24, t_play.y);
 		add(sprite);
 		
 		
