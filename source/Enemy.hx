@@ -30,6 +30,8 @@ class Enemy extends FlxSprite
 	var _attacking:Bool;
 	public var _attackingUnderlay : FlxSprite;
 	
+	var _facing         : Facing;
+	
 
     //#################################################################
 
@@ -49,7 +51,19 @@ class Enemy extends FlxSprite
         _rng          = new FlxRandom();
         _playerLocked = false;
 
-        makeGraphic(16, 16, flixel.util.FlxColor.fromRGB(255, 0, 255));
+        //makeGraphic(16, 16, flixel.util.FlxColor.fromRGB(255, 0, 255));
+		this.loadGraphic(AssetPaths.enemy__png, true, 16, 16);
+		this.animation.add("walk_south", [0, 8, 16,  24], 8);
+		this.animation.add("walk_west",  [1, 9, 17,  25], 8);
+		this.animation.add("walk_north", [2, 10, 18, 26], 8);
+		this.animation.add("walk_east",  [3, 11, 19, 27], 8);
+		this.animation.add("attackUP",   [4, 12], 3, false);
+		this.animation.add("attackDOWN", [12, 20, 28,28,28], 4, false);
+		this.animation.add("idle", [0]);
+		this.animation.play("idle");
+		
+		_facing = Facing.SOUTH;
+		
         setPosition(128, 160);
 		this.color = FlxColor.WHITE;
 
@@ -80,6 +94,7 @@ class Enemy extends FlxSprite
 			velocity.set();
 			acceleration.set();
 			immovable = true;
+			
 		}
 		else
 		{
@@ -91,6 +106,9 @@ class Enemy extends FlxSprite
 			if (_idleTimer <= 0)
 			{
 				doMovement();
+				
+				doAnimations();
+				
 				
 				
 				if (_distanceToPlayer <= GameProperties.TileSize * 1.9)
@@ -111,11 +129,14 @@ class Enemy extends FlxSprite
 			if (AttackTimer <= 0)
 			{
 				_attacking = true;
+				this.animation.play("attackUP", true);
 				_attackingUnderlay.alive = true;
 				
 				var t : FlxTimer = new FlxTimer();
 				t.start(GameProperties.EnemyAttackingTime, function(t: FlxTimer) 
 				{
+					FlxG.camera.shake(0.0025, 0.2);
+					this.animation.play("attackDOWN");
 					_attacking = false; 
 					_idleTimer = 0.2;  
 					AttackTimer = GameProperties.EnemyAttackTimerMax;
@@ -207,6 +228,42 @@ class Enemy extends FlxSprite
             }
         }
     }
+	
+	function doAnimations():Void 
+	{
+		var vx : Float = velocity.x;
+		var vy : Float = velocity.y;
+		
+		if (vx * vx + vy * vy > GameProperties.EnemyMovementMaxVelocity.x * GameProperties.EnemyMovementMaxVelocity.y / 8 / 8)
+		{
+			if(vx > 0)
+			{
+				_facing = Facing.EAST;
+				this.animation.play("walk_east",false);
+			
+			}
+			else if(vx < 0)
+			{
+				_facing = Facing.WEST;
+				this.animation.play("walk_west",false);
+				
+			}
+			else
+			{
+				if (vy > 0) 
+				{
+					_facing = Facing.SOUTH;
+					this.animation.play("walk_south",false);
+				}
+				
+				if (vy < 0) 
+				{
+					_facing = Facing.NORTH;
+					this.animation.play("walk_north",false);
+				}
+			}
+		}
+	}
 
     //#################################################################
 

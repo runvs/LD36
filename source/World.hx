@@ -246,7 +246,7 @@ class World extends FlxObject
 						}
 						
 						depth += 1;
-						if (depth >= 50)
+						if (depth >= 30)
 						{
 							myIndex = 0;
 							//trace("error: no level found, direct search");

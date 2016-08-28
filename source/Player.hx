@@ -45,11 +45,18 @@ class Player extends FlxSprite
     {
         super();
 
-        makeGraphic(16, 16, flixel.util.FlxColor.ORANGE);
+        //makeGraphic(16, 16, flixel.util.FlxColor.ORANGE);
+		this.loadGraphic(AssetPaths.Hero__png, true, 16, 16);
+		this.animation.add("walk_south", [0, 4, 8,  12], 8);
+		this.animation.add("walk_west",  [1, 5, 9,  13], 8);
+		this.animation.add("walk_north", [2, 6, 10, 14], 8);
+		this.animation.add("walk_east",  [3, 7, 11, 15], 8);
+		this.animation.add("idle", [0]);
+		this.animation.play("idle");
 
 		_hitArea = new FlxSprite();
 		_hitArea.makeGraphic(16, 16, flixel.util.FlxColor.fromRGB(255, 255, 255, 64));
-		_facing = Facing.EAST;
+		_facing = Facing.SOUTH;
 		_attackCooldown = 0.0;
 
 		_accelFactor = GameProperties.PlayerMovementAcceleration;
@@ -90,24 +97,37 @@ class Player extends FlxSprite
 		{
 			case Facing.EAST:
 				_hitArea.setPosition(x + GameProperties.TileSize, y);
+				this.animation.play("walk_east", false);
 			case Facing.WEST:
 				_hitArea.setPosition(x - GameProperties.TileSize, y);
+				this.animation.play("walk_west", false);
 			case Facing.NORTH:
 				_hitArea.setPosition(x, y - GameProperties.TileSize);
+				this.animation.play("walk_north", false);
 			case Facing.SOUTH:
 				_hitArea.setPosition(x, y + GameProperties.TileSize);
+				this.animation.play("walk_south", false);
 			
 			case Facing.NORTHEAST:
 				_hitArea.setPosition(x + GameProperties.TileSize / 2, y - GameProperties.TileSize / 2);
+				this.animation.play("walk_north", false);
 			case Facing.NORTHWEST:
 				_hitArea.setPosition(x - GameProperties.TileSize / 2, y - GameProperties.TileSize / 2);
+				this.animation.play("walk_north", false);
 			case Facing.SOUTHEAST:
 				_hitArea.setPosition(x + GameProperties.TileSize / 2, y + GameProperties.TileSize / 2);
+				this.animation.play("walk_south", false);
 			case Facing.SOUTHWEST:
 				_hitArea.setPosition(x - GameProperties.TileSize / 2, y + GameProperties.TileSize / 2);
+				this.animation.play("walk_south", false);
 		}
 
         handleInput();
+		var l : Float = velocity.distanceTo(new FlxPoint());
+		if (l <= GameProperties.PlayerMovementMaxVelocity.x / 8 )
+		{
+			this.animation.play("idle", true);
+		}
 		
 		
 		_healthBar.health = health/healthMax;
