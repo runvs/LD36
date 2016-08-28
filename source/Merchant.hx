@@ -75,6 +75,14 @@ class Merchant extends NPC
             _newWaresTimeout -= elapsed;
         }
 
+        for(i in 0...(_items.length - 1))
+        {
+            if(_player.coins < _items[i].value)
+            {
+                _itemTexts.members[i].color = GameProperties.MerchantColorUnavailable;
+            }
+        }
+
         _listSelection.update(elapsed);
         _closeButton.update(elapsed);
     }
@@ -219,7 +227,7 @@ class Merchant extends NPC
         for(i in 0...items.length)
         {
             var text = new FlxText(25, 20 * (i + 1), 0, items[i].toString());
-            text.color = FlxColor.BLACK;
+            text.color = GameProperties.MerchantColorAvailable;
             text.scrollFactor.set();
 
             _itemTexts.add(text);
