@@ -19,18 +19,22 @@ class MyInput
 	public static var SpecialButtonPressed       : Bool;
 	public static var InventoryButtonJustPressed : Bool;
 	
+	public static var GamePadConnected 			 : Bool;
+	
 	public static function update ()
 	{
 		DashButtonJustPressed      = false;
 		AttackButtonJustPressed    = false;
 		SpecialButtonJustPressed   = false;
 		InventoryButtonJustPressed = false;
+		GamePadConnected = false;
 		
 		xVal = 0;
 		yVal = 0;
 		var gp : FlxGamepad = FlxG.gamepads.firstActive;
 		if (gp != null)
 		{
+			GamePadConnected = true;
 			xVal = gp.getXAxis(FlxGamepadInputID.LEFT_ANALOG_STICK);
 			yVal = gp.getYAxis(FlxGamepadInputID.LEFT_ANALOG_STICK);
 			DashButtonJustPressed = gp.justPressed.X;

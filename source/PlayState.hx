@@ -8,7 +8,9 @@ import flixel.group.FlxSpriteGroup;
 import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
+import flixel.util.FlxAxes;
 import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 import sys.FileSystem;
 
 class PlayState extends FlxState
@@ -28,6 +30,10 @@ class PlayState extends FlxState
 	private var controlsEnabled : Bool;
 	var pickupSound : FlxSound;
 	
+	var started : Bool = false;
+	
+	var introText : UpcomingMessages;
+	
 	override public function create():Void
 	{
 		super.create();
@@ -43,7 +49,7 @@ class PlayState extends FlxState
 		FlxG.camera.follow(player);
 		
 		TechnologyFound  = 0;
-		_technologyFoundText = new FlxText(10, 48, 0, "Tech Found: 0", 10);
+		_technologyFoundText = new FlxText(10, 48, 0, "Tech Found: 0 / 4", 10);
 		_technologyFoundText.scrollFactor.set();
 		
 		pickupSound = FlxG.sound.load(AssetPaths.pickup__ogg, 0.5, false);
@@ -53,80 +59,129 @@ class PlayState extends FlxState
 		overlay.scrollFactor.set();
 		overlay.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		overlay.alpha = 1.0;
-		FlxTween.tween(overlay, { alpha :0 }, 0.5, { onComplete : function(t) { controlsEnabled = true; }} );
 		
+		introText = new UpcomingMessages(0,0, 200, "");
+		introText.screenCenter(FlxAxes.X);
 		
+		introText.y = FlxG.height / 2 - 100;
+		
+		introText.scrollFactor.set();
 		
 		
 	}
 
 	override public function update(elapsed:Float):Void
 	{
-		MyInput.update();
-		clearEnemies();
-		super.update(elapsed);
-		if (level != null)
-		{
-			level.foregroundTiles.update(elapsed);
-			level.exits.update(elapsed);
-			level.enemies.update(elapsed);
-			level.npcs.update(elapsed);
-			level.coins.update(elapsed);
-			level.updateChest();
-		}
-
-		FlxG.collide(level.enemies, level.collisionMap);
 		
-		FlxG.collide(player, level.collisionMap);
-		FlxG.overlap(player, level.exits, passExit);
-		FlxG.collide(player, level.enemies);
-		FlxG.collide(level.enemies, level.enemies);
-		FlxG.collide(level.coins, level.collisionMap);
-		FlxG.overlap(player, level.coins, pickupCoin);
-		if (level.chestinLevelFound && level.levelChest.alpha == 1 && level.levelChest.alive)
+		if (!started)
 		{
-			FlxG.collide(player, level.levelChest, function(o1:FlxObject, o2:FlxObject) 
-			{ 
-				o2.alive = false;
-				if (Std.is(o2, FlxSprite))
-				{
-					var s : FlxSprite = cast o2;
-					s.alpha = 0;
-					FindTechnology();
-				}
-				
-			} );
+			started = true;
+			FlxTween.tween(overlay, { alpha :0 }, 11, { onComplete : function(t) { controlsEnabled = true; }} );
 			
-		}
-		
-		level.enemies.forEach(
-		function (e:Enemy) : Void 
-		{ 
-		
-			if (e._attackingUnderlay.alpha >= 0.51 && e._attackingUnderlay.alive == true)
+			FlxTween.tween(introText, { alpha : 0 }, 1.0, { startDelay : 10 } );
+			
+			
+			var str : String = "This is the temple of Angkor Wat.\n" +
+			"I expect some ancient technology.\nAccording to my sources, there must be 4 chests.\n";
+			
+			if (MyInput.GamePadConnected)
 			{
-				//trace(e._attackingUnderlay.alpha);
-				
-				if (FlxG.pixelPerfectOverlap(e._attackingUnderlay, player,1))
-				{
-					player.takeDamage(e.AttackStrength);
-					e._attackingUnderlay.alive = false;
-					FlxG.camera.shake(0.0085, 0.25);
-				}
-			
+				str += "Controls (XBox360):\nMove - Left Stick\nAttack - A\nDash - X\nInventory - Y";
 			}
-		} );
-	
-		if (player.alive == false)
-		{
-			RespawnInCity();
+			else
+			{
+				str += "Controls (Keys):\nMove - Arrows\nAttack - X\nDash - C\nInventory - F";
+			}
+			
+			
+			introText.SetText(str);
+			
 		}
+		
+		
+		MyInput.update();
+		
+		introText.update(elapsed);
+		if (controlsEnabled)
+		{
+			clearEnemies();
+			super.update(elapsed);
+			if (level != null)
+			{
+				level.foregroundTiles.update(elapsed);
+				level.exits.update(elapsed);
+				level.enemies.update(elapsed);
+				level.npcs.update(elapsed);
+				level.coins.update(elapsed);
+				level.updateChest();
+			}
+
+			FlxG.collide(level.enemies, level.collisionMap);
+			
+			FlxG.collide(player, level.collisionMap);
+			FlxG.overlap(player, level.exits, passExit);
+			FlxG.collide(player, level.enemies);
+			FlxG.collide(player, level.npcs);
+			FlxG.collide(level.enemies, level.enemies);
+			FlxG.collide(level.coins, level.collisionMap);
+			FlxG.overlap(player, level.coins, pickupCoin);
+			if (level.chestinLevelFound && level.levelChest.alpha == 1 && level.levelChest.alive)
+			{
+				FlxG.collide(player, level.levelChest, function(o1:FlxObject, o2:FlxObject) 
+				{ 
+					o2.alive = false;
+					if (Std.is(o2, FlxSprite))
+					{
+						var s : FlxSprite = cast o2;
+						s.alpha = 0;
+						FindTechnology();
+					}
+					
+				} );
+				
+			}
+			
+			level.enemies.forEach(
+			function (e:Enemy) : Void 
+			{ 
+			
+				if (e._attackingUnderlay.alpha >= 0.51 && e._attackingUnderlay.alive == true)
+				{
+					//trace(e._attackingUnderlay.alpha);
+					
+					if (FlxG.pixelPerfectOverlap(e._attackingUnderlay, player,1))
+					{
+						player.takeDamage(e.AttackStrength);
+						e._attackingUnderlay.alive = false;
+						FlxG.camera.shake(0.0085, 0.25);
+					}
+				
+				}
+			} );
+		
+			if (player.alive == false)
+			{
+				RespawnInCity();
+			}
+			
+			if (TechnologyFound >= 4)
+			{
+				WinGame();
+			}
+		}
+	}
+	
+	function WinGame() 
+	{
+		controlsEnabled = false;
+		FlxTween.tween(overlay, { alpha:1 }, 1.5, { onComplete:function(t) { FlxG.switchState(new MenuState()); }} );
+		
 	}
 	
 	function FindTechnology() 
 	{
 		TechnologyFound += 1;
-		_technologyFoundText.text =  "Tech Found: " + Std.string(TechnologyFound);
+		_technologyFoundText.text =  "Tech Found: " + Std.string(TechnologyFound) + " / 4";
 		
 	}
 	
@@ -163,8 +218,12 @@ class PlayState extends FlxState
 		}
 		super.draw();
 		
-		_technologyFoundText.draw();
-		player.drawHud();
+		if (controlsEnabled)
+		{
+			_technologyFoundText.draw();
+			player.drawHud();
+		}
+		introText.draw();
 		level.npcs.forEach(function(npc) { if(npc.alive) {npc.drawHud(); }});
 	}
 	
@@ -286,8 +345,9 @@ class PlayState extends FlxState
 		{
 			
 			if (levels[i].lastIndexOf(".tmx") == -1) continue;
-			//trace(levels[i]);
+			if (levels[i] == "start.tmx") continue;
 			var l : TiledLevel = new TiledLevel("assets/data/" + levels[i]);
+			
 			allLevels.push(l);
 		}
 		trace("generate Levels");

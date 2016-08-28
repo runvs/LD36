@@ -15,6 +15,7 @@ class NPC extends FlxSprite
         super();
 
         setPosition(x, y);
+		this.immovable = true;
     }
 
     //#################################################################

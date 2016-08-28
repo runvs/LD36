@@ -206,6 +206,63 @@ class World extends FlxObject
 		
 		// patches created, now create level parts respectively
 		
+		// debug
+		for (j in 1...WorldSizeInPatchesY-1)
+		{
+			for (i in 1...WorldSizeInPatchesX -1)
+			{
+				var idx : Int = i + j * WorldSizeInPatchesX;
+				patches[idx] = 0;
+			}
+		}
+		{
+			var i = 15;
+			var j = 15;
+			var idx : Int = i + j * WorldSizeInPatchesX;
+			patches[idx] = 2;
+		}
+			{
+			var i = 14;
+			var j = 15;
+			var idx : Int = i + j * WorldSizeInPatchesX;
+			patches[idx] = 3;
+		}
+			{
+			var i = 16;
+			var j = 15;
+			var idx : Int = i + j * WorldSizeInPatchesX;
+			patches[idx] = 3;
+		}
+			{
+			var i = 15;
+			var j = 14;
+			var idx : Int = i + j * WorldSizeInPatchesX;
+			patches[idx] = 3;
+		}
+		{
+			var i = 15;
+			var j = 16;
+			var idx : Int = i + j * WorldSizeInPatchesX;
+			patches[idx] = 3;
+		}
+		{
+			var i = 14;
+			var j = 16;
+			var idx : Int = i + j * WorldSizeInPatchesX;
+			patches[idx] = 3;
+		}
+		{
+			var i = 16;
+			var j = 16;
+			var idx : Int = i + j * WorldSizeInPatchesX;
+			patches[idx] = 3;
+		}
+		{
+			var i = 15;
+			var j = 17;
+			var idx : Int = i + j * WorldSizeInPatchesX;
+			patches[idx] = 3;
+		}
 		
 		var s : String  = "";
 		
@@ -279,20 +336,16 @@ class World extends FlxObject
 			trace ("less than 4 Levels of patchtype 3");
 		}
 		
-		
-		//// just some debug testing
-		//for (i in 0 ... levels.length)
-		//{
-			//var l : TiledLevel = levels[i];
-			//l.spawnChest();
-		//}
-		
+		//trace ("spawning chests on " + Std.string(patchType3Levels.length) + " patches");
 		
 		var hits : Int = 0;
 		while(true)
 		{
+			//trace("patchtype3levels: " + (patchType3Levels.length - 1) + " hits :" + hits);
 			var n : Int = GameProperties.rng.int(0, patchType3Levels.length - 1);
 			var l : TiledLevel = patchType3Levels[n];
+			
+			//trace ("n: " + n + " l :" + l );
 			
 			if (l.spawnChest())
 			{
@@ -301,11 +354,14 @@ class World extends FlxObject
 			}
 			patchType3Levels.remove(l);
 			
+			
 			if (hits >= 4)
 			{
+				trace ("stop spawning chests");
 				break;
 			}
 		}
+		trace ("spawn merchants");
 		for (n in 0...patchType3Levels.length)
 		{
 			var l : TiledLevel = patchType3Levels[n];

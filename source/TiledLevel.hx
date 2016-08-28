@@ -75,7 +75,9 @@ class TiledLevel extends TiledMap
 		coins  = new FlxSpriteGroup();
 		
 		levelChest = new FlxSprite(-200, -200);
-		levelChest.makeGraphic(GameProperties.TileSize, GameProperties.TileSize, FlxColor.CYAN);
+		//levelChest.makeGraphic(GameProperties.TileSize, GameProperties.TileSize, FlxColor.CYAN);
+		levelChest.loadGraphic(AssetPaths.chest__png, false, 16, 16);
+		
 		levelChest.alive = false;
 		levelChest.immovable = true;
 		
@@ -450,7 +452,7 @@ class TiledLevel extends TiledMap
 	{
 		if (levelChest.alpha != 1.0 && chestinLevelFound)
 		{
-			trace (levelChest.x + " " + levelChest.y);
+			//trace (levelChest.x + " " + levelChest.y);
 			levelChest.alpha  = 1.0;
 		}
 		
@@ -459,9 +461,10 @@ class TiledLevel extends TiledMap
 	
 	public function spawnChest() : Bool
 	{
-	
+		//trace ("tiledlevel.spawnchest");
 		if (chestinLevelFound == false)
 		{
+			trace ("no chest in level found " + levelPath + " " + levelChest.x + " " + levelChest.y );
 			// no chest spawned
 			return false;
 		}
