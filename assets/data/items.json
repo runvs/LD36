@@ -5,26 +5,28 @@
         { "name": "", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
         { "name": "", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
         { "name": "", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
-        { "name": "Sturdy", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
-        { "name": "Static", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
-        { "name": "Crimson", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
+        { "name": "Sturdy", "strengthBonus": 5, "agilityBonus": 4, "healthBonus": 3},
+        { "name": "Static", "strengthBonus": 4, "agilityBonus": 0, "healthBonus": 0},
+        { "name": "Crimson", "strengthBonus": 6, "agilityBonus": 5, "healthBonus": 0},
         { "name": "Whimsy", "strengthBonus": -7, "agilityBonus": -2, "healthBonus": 0},
-        { "name": "Healing", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 10}
+        { "name": "Healing", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 7},
+        { "name": "Thorny", "strengthBonus": 2, "agilityBonus": 0, "healthBonus": -0.25}
     ],
     "baseNames": {
-        "head":   ["Cap", "Helmet"],
-        "torso":  ["Vest", "Leather Armor", "Plate Armor"],
-        "legs":   ["Leather Pants"],
-        "weapon": ["Longsword", "Knife", "Morning Star"]
+        "head":   ["Cap", "Helmet", "Hat", "Ushanka"],
+        "torso":  ["Vest", "Leather Armor", "Plate Armor", "Robe"],
+        "legs":   ["Leather Pants", "Cloth Pants", "Loincloth"],
+        "weapon": ["Longsword", "Knife", "Morning Star", "Bardiche"]
     },
     "suffixes": [
         { "name": "", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
         { "name": "", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
         { "name": "", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
         { "name": "", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
-        { "name": "of Pestilence", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
-        { "name": "of Mutilation", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 0},
-        { "name": "of Helpfulness", "strengthBonus": 10, "agilityBonus": 20, "healthBonus": 0},
-        { "name": "of Health", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 10}
+        { "name": "of Pestilence", "strengthBonus": 3, "agilityBonus": 0, "healthBonus": 0},
+        { "name": "of Mutilation", "strengthBonus": 13, "agilityBonus": 0, "healthBonus": 0},
+        { "name": "of Helpfulness", "strengthBonus": 10, "agilityBonus": 5, "healthBonus": 2},
+        { "name": "of Health", "strengthBonus": 0, "agilityBonus": 0, "healthBonus": 3},
+        { "name": "of Thorns", "strengthBonus": 3, "agilityBonus": 0, "healthBonus": -0.5}
     ]
 }
