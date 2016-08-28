@@ -75,11 +75,14 @@ class Merchant extends NPC
             _newWaresTimeout -= elapsed;
         }
 
-        for(i in 0...(_items.length - 1))
+        if(_player != null)
         {
-            if(_player.coins < _items[i].value)
+            for(i in 0...(_items.length - 1))
             {
-                _itemTexts.members[i].color = GameProperties.MerchantColorUnavailable;
+                if(_player.coins < _items[i].value)
+                {
+                    _itemTexts.members[i].color = GameProperties.MerchantColorUnavailable;
+                }
             }
         }
 
@@ -243,6 +246,7 @@ class Merchant extends NPC
         super.interact();
 
         _showInventory = true;
+        _currentSelection = 0;
     }
 
     // ################################################################
