@@ -25,7 +25,7 @@ class Healer extends NPC
     var _inputDeadTime    : Float;
     var _showInventory    : Bool;
     
-    var _healed : Int;
+    var _numberOfHeals : Int;
 
     //#################################################################
 
@@ -65,7 +65,7 @@ class Healer extends NPC
         _currentSelection = 0;
         _inputDeadTime    = 0;
         _showInventory    = false;
-        _healed           = 0;
+        _numberOfHeals           = 0;
     }
 
     //#################################################################
@@ -198,7 +198,7 @@ class Healer extends NPC
 
     function getHealCosts() : Int
     {
-        return GameProperties.HealerBaseCosts;
+        return GameProperties.HealerBaseCosts + Math.pow(_numberOfHeals, 0.25);
     }
 
     //#################################################################
@@ -211,7 +211,7 @@ class Healer extends NPC
             if(_player.health > 1.0) _player.health = 1.0;
             
             _player.coins -= getHealCosts();
-            _healed++;
+            _numberOfHeals++;
         }
     }
 
