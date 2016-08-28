@@ -5,6 +5,10 @@ import flixel.FlxSprite;
 class NPC extends FlxSprite
 {
     //#################################################################
+
+    var _player : Player;
+
+    //#################################################################
     
     public override function new(x : Int, y : Int)
     {
@@ -24,8 +28,9 @@ class NPC extends FlxSprite
 
     public function handleInput(player: Player)
     {
-        player.velocity.set();
-        player.acceleration.set();
+        if(_player == null) _player = player;
+        _player.velocity.set();
+        _player.acceleration.set();
     }
 
     //#################################################################

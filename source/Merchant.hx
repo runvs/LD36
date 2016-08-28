@@ -6,14 +6,11 @@ import flixel.text.FlxText;
 import flixel.FlxG;
 import flixel.group.FlxGroup;
 import flixel.util.FlxColor;
-import flixel.tweens.FlxTween;
 import flixel.ui.FlxButton;
 
 class Merchant extends NPC
 {
     //#################################################################
-
-    var _player : Player;
 
     var _newWaresTimer   : FlxTimer;
     var _newWaresText    : FlxText;
@@ -152,8 +149,7 @@ class Merchant extends NPC
 
     public override function handleInput(player: Player)
     {
-        if(_player == null) _player = player;
-        super.handleInput(_player);
+        super.handleInput(player);
 
         if(MyInput.AttackButtonJustPressed)
         {
