@@ -46,10 +46,9 @@ class Player extends FlxSprite
 	var _npcInteraction : Bool;
 	var _interactingNPC : NPC;
 	
-	var attackSound : FlxSound;
-	var dashSound : FlxSound;
+	var attackSound     : FlxSound;
+	var dashSound       : FlxSound;
 	var takeDamageSound : FlxSound;
-	
 
     //#################################################################
 
@@ -57,13 +56,13 @@ class Player extends FlxSprite
     {
         super();
 
-		this.loadGraphic(AssetPaths.Hero__png, true, 16, 16);
-		this.animation.add("walk_south", [0, 4, 8,  12], 8);
-		this.animation.add("walk_west",  [1, 5, 9,  13], 8);
-		this.animation.add("walk_north", [2, 6, 10, 14], 8);
-		this.animation.add("walk_east",  [3, 7, 11, 15], 8);
-		this.animation.add("idle", [0]);
-		this.animation.play("idle");
+		loadGraphic(AssetPaths.Hero__png, true, 16, 16);
+		animation.add("walk_south", [0, 4, 8,  12], 8);
+		animation.add("walk_west",  [1, 5, 9,  13], 8);
+		animation.add("walk_north", [2, 6, 10, 14], 8);
+		animation.add("walk_east",  [3, 7, 11, 15], 8);
+		animation.add("idle", [0]);
+		animation.play("idle");
 
 		_hitArea = new FlxSprite();
 		_hitArea.makeGraphic(16, 16, flixel.util.FlxColor.fromRGB(255, 255, 255, 64));
@@ -115,36 +114,36 @@ class Player extends FlxSprite
 		{
 			case Facing.EAST:
 				_hitArea.setPosition(x + GameProperties.TileSize, y);
-				this.animation.play("walk_east", false);
+				animation.play("walk_east", false);
 			case Facing.WEST:
 				_hitArea.setPosition(x - GameProperties.TileSize, y);
-				this.animation.play("walk_west", false);
+				animation.play("walk_west", false);
 			case Facing.NORTH:
 				_hitArea.setPosition(x, y - GameProperties.TileSize);
-				this.animation.play("walk_north", false);
+				animation.play("walk_north", false);
 			case Facing.SOUTH:
 				_hitArea.setPosition(x, y + GameProperties.TileSize);
-				this.animation.play("walk_south", false);
+				animation.play("walk_south", false);
 			
 			case Facing.NORTHEAST:
 				_hitArea.setPosition(x + GameProperties.TileSize / 2, y - GameProperties.TileSize / 2);
-				this.animation.play("walk_north", false);
+				animation.play("walk_north", false);
 			case Facing.NORTHWEST:
 				_hitArea.setPosition(x - GameProperties.TileSize / 2, y - GameProperties.TileSize / 2);
-				this.animation.play("walk_north", false);
+				animation.play("walk_north", false);
 			case Facing.SOUTHEAST:
 				_hitArea.setPosition(x + GameProperties.TileSize / 2, y + GameProperties.TileSize / 2);
-				this.animation.play("walk_south", false);
+				animation.play("walk_south", false);
 			case Facing.SOUTHWEST:
 				_hitArea.setPosition(x - GameProperties.TileSize / 2, y + GameProperties.TileSize / 2);
-				this.animation.play("walk_south", false);
+				animation.play("walk_south", false);
 		}
 
         handleInput();
 		var l : Float = velocity.distanceTo(new FlxPoint());
 		if (l <= GameProperties.PlayerMovementMaxVelocity.x / 8 )
 		{
-			this.animation.play("idle", true);
+			animation.play("idle", true);
 		}
 		
         var healthFactor = health / healthMax;
@@ -214,7 +213,7 @@ class Player extends FlxSprite
 				if(vy < 0) _facing = Facing.NORTH;
 			}
 		}
-		this.acceleration.set(vx, vy);
+		acceleration.set(vx, vy);
 		
 		if (_dashCooldown <= 0)
 		{
@@ -223,7 +222,7 @@ class Player extends FlxSprite
 				dash();
 				_dashCooldown = _dashSpeedMax;
                 trace(_dashSpeedMax);
-				this.velocity.set(this.velocity.x/2, this.velocity.y/2);
+				velocity.set(velocity.x/2, velocity.y/2);
 			}
 		}
 		else
@@ -313,7 +312,7 @@ class Player extends FlxSprite
 		{
 			if(FlxG.overlap(_hitArea, enemy))
 			{
-				enemy.hit(getDamage(), this.x, this.y);
+				enemy.hit(getDamage(), x, y);
 				enemyHit = true;
 			}
 		}
