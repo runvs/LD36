@@ -304,8 +304,14 @@ class Player extends FlxSprite
 	function attack()
 	{
 		_attackCooldown += GameProperties.PlayerAttackCooldown;
-		_attackSound.pitch = GameProperties.rng.float(0.8, 1.2);
-		_attackSound.play();
+
+		if(GameProperties.SoundTimeout <= 0.0)
+		{
+			_attackSound.pitch = GameProperties.rng.float(0.8, 1.2);
+			_attackSound.play();
+
+			GameProperties.SoundTimeout = GameProperties.SoundTimeoutMax;
+		}
 		
 		var enemyHit = false;
 		for(enemy in _playState.level.enemies)
@@ -348,7 +354,12 @@ class Player extends FlxSprite
 		var stepSize = GameProperties.PlayerMovementMaxDashLength / GameProperties.TileSize / 2;
 		var currentStep = 0.0;
 		var lastPosition : FlxPoint;
-		_dashSound.play();
+
+		if(GameProperties.SoundTimeout <= 0.0)
+		{
+			_dashSound.play();	
+			GameProperties.SoundTimeout = GameProperties.SoundTimeoutMax;
+		}
 
 		while(currentStep < GameProperties.PlayerMovementMaxDashLength)
 		{
@@ -402,8 +413,14 @@ class Player extends FlxSprite
 	public function takeDamage(d:Float)
 	{
 		health -= d;
-		_takeDamageSound.pitch = GameProperties.rng.float(0.8, 1.2);
-		_takeDamageSound.play();
+		if(GameProperties.SoundTimeout <= 0.0)
+		{
+			_takeDamageSound.pitch = GameProperties.rng.float(0.8, 1.2);
+			_takeDamageSound.play();
+
+			GameProperties.SoundTimeout = GameProperties.SoundTimeoutMax;
+		}
+
 		if (health <= 0)
 		{
 			alive = false;

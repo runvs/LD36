@@ -115,6 +115,13 @@ class PlayState extends FlxState
 			_flocks.update(elapsed);
 			clearEnemies();
 			super.update(elapsed);
+
+			if(GameProperties.SoundTimeout > 0.0)
+			{
+				GameProperties.SoundTimeout -= elapsed;
+			}
+			
+
 			if (level != null)
 			{
 				level.foregroundTiles.update(elapsed);
@@ -128,8 +135,6 @@ class PlayState extends FlxState
 				level.updateChest();
 			}
 
-			
-			
 			FlxG.collide(player, level.collisionMap);
 			FlxG.overlap(player, level.exits, passExit);
 			FlxG.collide(player, level.enemies);
@@ -227,8 +232,14 @@ class PlayState extends FlxState
 		{
 			o2.alive = false;
 			player.pickUpCoins();
-			pickupSound.pitch = GameProperties.rng.float(0.5, 1.1);
-			pickupSound.play();
+
+			if(GameProperties.SoundTimeout <= 0.0)
+			{
+				pickupSound.pitch = GameProperties.rng.float(0.5, 1.1);
+				pickupSound.play();
+				
+				GameProperties.SoundTimeout = GameProperties.SoundTimeoutMax;
+			}
 		}
 	}
 	
