@@ -46,9 +46,9 @@ class Player extends FlxSprite
 	var _npcInteraction : Bool;
 	var _interactingNPC : NPC;
 	
-	var attackSound     : FlxSound;
-	var dashSound       : FlxSound;
-	var takeDamageSound : FlxSound;
+	var _attackSound     : FlxSound;
+	var _dashSound       : FlxSound;
+	var _takeDamageSound : FlxSound;
 
     //#################################################################
 
@@ -99,9 +99,9 @@ class Player extends FlxSprite
 		_coinsText = new FlxText(128, 10, 0, "", 12);
 		_coinsText.scrollFactor.set();
 		
-		attackSound = FlxG.sound.load(AssetPaths.attack1__ogg, 1);
-		dashSound  = FlxG.sound.load(AssetPaths.dash__ogg, 0.25);
-		takeDamageSound = FlxG.sound.load(AssetPaths.takeHit__ogg, 1);
+		_attackSound     = FlxG.sound.load(AssetPaths.attack1__ogg, 1);
+		_dashSound       = FlxG.sound.load(AssetPaths.dash__ogg, 0.25);
+		_takeDamageSound = FlxG.sound.load(AssetPaths.takeHit__ogg, 1);
     }
 
     //#################################################################
@@ -304,8 +304,8 @@ class Player extends FlxSprite
 	function attack()
 	{
 		_attackCooldown += GameProperties.PlayerAttackCooldown;
-		attackSound.pitch = GameProperties.rng.float(0.8, 1.2);
-		attackSound.play();
+		_attackSound.pitch = GameProperties.rng.float(0.8, 1.2);
+		_attackSound.play();
 		
 		var enemyHit = false;
 		for(enemy in _playState.level.enemies)
@@ -348,7 +348,7 @@ class Player extends FlxSprite
 		var stepSize = GameProperties.PlayerMovementMaxDashLength / GameProperties.TileSize / 2;
 		var currentStep = 0.0;
 		var lastPosition : FlxPoint;
-		dashSound.play();
+		_dashSound.play();
 
 		while(currentStep < GameProperties.PlayerMovementMaxDashLength)
 		{
@@ -402,8 +402,8 @@ class Player extends FlxSprite
 	public function takeDamage(d:Float)
 	{
 		health -= d;
-		takeDamageSound.pitch = GameProperties.rng.float(0.8, 1.2);
-		takeDamageSound.play();
+		_takeDamageSound.pitch = GameProperties.rng.float(0.8, 1.2);
+		_takeDamageSound.play();
 		if (health <= 0)
 		{
 			alive = false;
