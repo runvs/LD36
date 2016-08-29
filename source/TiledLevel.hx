@@ -13,6 +13,7 @@ import flixel.addons.editors.tiled.TiledTileLayer;
 import flixel.addons.editors.tiled.TiledTileSet;
 import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;
+import flixel.system.FlxSound;
 import flixel.tile.FlxTilemap;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -56,6 +57,8 @@ class TiledLevel extends TiledMap
 
 	private var enemyAreas : FlxSpriteGroup;
 	
+	private var chestAppearSound : FlxSound;
+	
 	public function new(tiledLevel:Dynamic)
 	{
 		super(tiledLevel);
@@ -82,6 +85,8 @@ class TiledLevel extends TiledMap
 		
 		levelChest.alive = false;
 		levelChest.immovable = true;
+		
+		chestAppearSound = FlxG.sound.load(AssetPaths.chestappear__ogg, 0.5);
 		
 		
 		// Load Tile Maps
@@ -463,6 +468,7 @@ class TiledLevel extends TiledMap
 		{
 			//trace (levelChest.x + " " + levelChest.y);
 			levelChest.alpha  = 1.0;
+			chestAppearSound.play();
 		}
 		
 		// spawn particles, etc...

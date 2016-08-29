@@ -36,6 +36,7 @@ class CreditsState extends FlxState
 		text.text = "A game by\n\n" +
 		"Julian Dinges\n-code-\n\n@xXBloodyOrange\n-graphics-" + 
 		"\n\nSimon  Weis \n-code-\n\n" +
+		"@Malvareth\n-playtesting-\n\n" +
 		"music by jaws vs paws, CC-by-nc-sa\nobtained from freemusicarchive.org\n\n\n" +
 		"created  for  LDJAM36 \n2016-08-27  to  2016-08-28\n\n" +
 		"Tools  used\n HaxeFlixel, Tiled, Aseprite, \nSmartTimelapse, SFXR,\nspeedcrunch, cygwin";
