@@ -3,6 +3,7 @@ package;
 import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.math.FlxPoint;
+import flixel.math.FlxVector;
 import flixel.text.FlxText;
 import flixel.system.FlxSound;
 import flixel.tweens.FlxTween;
@@ -33,6 +34,9 @@ class Player extends FlxSprite
 	var _dashCooldown   : Float;
     var _dashSpeedMax   : Float;
     var _accelFactor    : Float;
+	var _dashSprite1    : FlxSprite;
+	var _dashSprite2    : FlxSprite;
+	var _dashSprite3    : FlxSprite;
 
 	var _playState      : PlayState;
 
@@ -70,6 +74,24 @@ class Player extends FlxSprite
 		animation.add("walk_east",  [3, 7, 11, 15], 8);
 		animation.add("idle", [0]);
 		animation.play("idle");
+
+		_dashSprite1 = new FlxSprite();
+		_dashSprite1.loadGraphic(AssetPaths.Hero__png, true, 16, 16);
+		_dashSprite1.animation.add("idle", [0]);
+		_dashSprite1.animation.play("idle");
+		_dashSprite1.alpha = 0.0;
+		
+		_dashSprite2 = new FlxSprite();
+		_dashSprite2.loadGraphic(AssetPaths.Hero__png, true, 16, 16);
+		_dashSprite2.animation.add("idle", [0]);
+		_dashSprite2.animation.play("idle");
+		_dashSprite2.alpha = 0.0;
+		
+		_dashSprite3 = new FlxSprite();
+		_dashSprite3.loadGraphic(AssetPaths.Hero__png, true, 16, 16);
+		_dashSprite3.animation.add("idle", [0]);
+		_dashSprite3.animation.play("idle");
+		_dashSprite3.alpha = 0.0;
 		
 		dustparticles = new MyParticleSystem();
 		dustparticles.mySize = 500;
@@ -125,6 +147,10 @@ class Player extends FlxSprite
     {
         super.update(elapsed);
 		dustparticles.update(elapsed);
+
+		_dashSprite1.update(elapsed);
+		_dashSprite2.update(elapsed);
+		_dashSprite3.update(elapsed);
 
 		switch _facing
 		{
@@ -394,7 +420,8 @@ class Player extends FlxSprite
 	{
 		var stepSize = GameProperties.PlayerMovementMaxDashLength / GameProperties.TileSize / 2;
 		var currentStep = 0.0;
-		var lastPosition : FlxPoint;
+		var lastPosition : FlxVector;
+		var initialPosition = new FlxVector(x, y);
 
 		if(GameProperties.SoundTimeout <= 0.0)
 		{
@@ -404,13 +431,33 @@ class Player extends FlxSprite
 
 		while(currentStep < GameProperties.PlayerMovementMaxDashLength)
 		{
-			lastPosition = getPosition();
+			lastPosition = new FlxVector(x, y);
 
 			setPosition(x + _dashDir.x * stepSize, y + _dashDir.y * stepSize);
 
 			if(FlxG.overlap(this, _playState.level.collisionMap))
 			{
 				setPosition(lastPosition.x, lastPosition.y);
+
+				var dashSprite2Position = lastPosition.subtractNew(initialPosition).scale(0.33);
+				var dashSprite3Position = lastPosition.subtractNew(initialPosition).scale(0.66);
+				
+				_dashSprite1.setPosition(initialPosition.x, initialPosition.y);
+				_dashSprite2.setPosition(initialPosition.x + dashSprite2Position.x, initialPosition.y + dashSprite2Position.y);
+				_dashSprite3.setPosition(initialPosition.x + dashSprite3Position.x, initialPosition.y + dashSprite3Position.y);
+
+				trace(_dashSprite1.getPosition());
+				trace(_dashSprite2.getPosition());
+				trace(_dashSprite3.getPosition());
+
+				_dashSprite1.alpha = 0.9;
+				_dashSprite2.alpha = 0.9;
+				_dashSprite3.alpha = 0.9;
+
+				FlxTween.tween(_dashSprite1, { alpha: 0 }, 2);
+				FlxTween.tween(_dashSprite2, { alpha: 0 }, 1.5);
+				FlxTween.tween(_dashSprite3, { alpha: 0 }, 1);
+
 				break;
 			}
 
@@ -423,6 +470,10 @@ class Player extends FlxSprite
 	public override function draw() 
 	{
 		dustparticles.draw();
+
+		_dashSprite1.draw();
+		_dashSprite2.draw();
+		_dashSprite3.draw();
 		
 		super.draw();
 
