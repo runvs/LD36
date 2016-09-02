@@ -5,6 +5,8 @@ import flixel.FlxG;
 import flixel.math.FlxPoint;
 import flixel.text.FlxText;
 import flixel.system.FlxSound;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
 
 class Player extends FlxSprite
 {
@@ -397,12 +399,24 @@ class Player extends FlxSprite
 	{
 		coins += 1;
 	}
+	
+	public function heal(f:Float)
+	{
+		if (health >= healthMax) return;
+		
+		this.health += f;
+		if (f >= healthMax)
+		f = healthMax;
+		
+		FlxTween.color(this, 0.25, FlxColor.GREEN, FlxColor.WHITE, { type : FlxTween.PERSIST} );
+	}
 
     //#################################################################
 	
 	public function takeDamage(d:Float)
 	{
 		health -= d;
+		FlxTween.color(this, 0.18, FlxColor.RED, FlxColor.WHITE, { type : FlxTween.PERSIST} );
 		takeDamageSound.pitch = GameProperties.rng.float(0.8, 1.2);
 		takeDamageSound.play();
 		if (health <= 0)
