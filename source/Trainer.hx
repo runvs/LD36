@@ -248,7 +248,7 @@ class Trainer extends NPC
     {
         super.draw();
 
-        if(_announceTimeout > 0.0)
+        if(_announceTimeout > 0.0 && alive)
         {
             _announceText.draw();
         }

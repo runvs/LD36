@@ -121,7 +121,7 @@ class Merchant extends NPC
     {
         super.draw();
 
-        if(_newWaresTimeout > 0.0)
+        if(_newWaresTimeout > 0.0 && alive)
         {
             _newWaresText.draw();
         }
