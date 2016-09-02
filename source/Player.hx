@@ -90,9 +90,14 @@ class Player extends FlxSprite
 		setPosition(8 * GameProperties.TileSize, 2 * GameProperties.TileSize);
 		
 		health = healthMax = GameProperties.PlayerHealthMaxDefault;
+		
 		_healthBar = new HudBar(10, 10, 96, 16, false);
+		_healthBar.color = GameProperties.ColorHealthBar;
+		_healthBar._background.color = FlxColor.fromRGB(100, 100, 100, 100);
 		
 		_dashCooldownBar = new HudBar(10, 32, 48, 8, false);
+		_dashCooldownBar.color = GameProperties.ColorStaminaBar;
+		_dashCooldownBar._background.color = FlxColor.fromRGB(100, 100, 100, 100);
 
 		_inventory      = new Inventory(this);
 		_showInventory  = false;
