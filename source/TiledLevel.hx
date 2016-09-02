@@ -307,6 +307,10 @@ class TiledLevel extends TiledMap
 				{
 					npcs.add(new Healer(x, y));
 				}
+				else if(type == "talker")
+				{
+					npcs.add(new TalkingNPC(x, y));
+				}
 			case "enemy_area":
 				//trace("loaded enemy area for map" + levelPath);
 				var s : FlxSprite = new FlxSprite(x, y);

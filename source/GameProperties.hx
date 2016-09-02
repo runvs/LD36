@@ -50,7 +50,8 @@ class GameProperties
     // # NPC ##########################################################
     // ################################################################
     public static var NPCAnnounceTextTimeout : Float    = 2.5;
-    public static var NPCAnnounceTime        : Float    = 10;
+    public static var NPCAnnounceTime        : Float    = 5;
+    public static var NPCTalkDistance        : Float    = 4; // In tiles
 
     // ################################################################
     // # Merchant #####################################################

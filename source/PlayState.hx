@@ -128,6 +128,7 @@ class PlayState extends FlxState
 
 			if (level != null)
 			{
+				playerInRange();
 				level.foregroundTiles.update(elapsed);
 				level.exits.update(elapsed);
 				level.enemies.update(elapsed);
@@ -195,6 +196,27 @@ class PlayState extends FlxState
 			}
 		}
 	}
+
+	function playerInRange()
+    {
+		for(npc in level.npcs)
+		{
+			var playerPosition = player.getPosition();
+			var npcPosition    = npc.getPosition();
+			if(Math.abs(playerPosition.distanceTo(npcPosition)) <= GameProperties.NPCTalkDistance * GameProperties.TileSize)
+			{
+				if(!npc.playerInRange)
+					trace('player is now in range of ${Type.typeof(npc)}');
+				npc.playerInRange = true;
+			}
+			else
+			{
+				if(npc.playerInRange)
+					trace('player is now out of range of ${Type.typeof(npc)}');
+				npc.playerInRange = false;
+			}
+		}
+    }
 	
 	function updateCoins(elapsed:Float) 
 	{
