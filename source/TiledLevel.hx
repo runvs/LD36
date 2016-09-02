@@ -337,7 +337,7 @@ class TiledLevel extends TiledMap
 			var l  = Math.sqrt(dx * dx + dy * dy);
 
 			if(l <= 1) l = 1;
-			l = Math.pow(l, 1.3);
+			l = Math.pow(l, 0.55);
 
 			enemyAreas.forEach(
 			function (s:FlxSprite) : Void 
@@ -406,7 +406,7 @@ class TiledLevel extends TiledMap
 	
 	public function spawnCoins(enemy:Enemy) 
 	{
-		var N : Int = GameProperties.rng.int(3, 5);
+		var N : Int = GameProperties.rng.int(4, 6);
 		for (i in 0...N)
 		{
 			var coinAngle : Float = 2*Math.PI / N * i;

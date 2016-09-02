@@ -152,8 +152,8 @@ class LevelSorter
 				
 		}
 		
-		trace(levelsN.length);
-		trace(levelsNS.length);
+		//trace(levelsN.length);
+		//trace(levelsNS.length);
 	
 	}
 	
