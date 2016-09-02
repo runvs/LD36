@@ -48,6 +48,9 @@ class PlayState extends FlxState
 		player = new Player(this);
 		add(player);
 
+		var cloudLayer = new CloudLayer();
+		add(cloudLayer);
+
 		FlxG.camera.follow(player);
 		
 		TechnologyFound  = 0;
