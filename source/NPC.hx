@@ -6,6 +6,8 @@ class NPC extends FlxSprite
 {
     //#################################################################
 
+    public var playerInRange : Bool;
+
     var _player : Player;
 
     //#################################################################
@@ -16,6 +18,7 @@ class NPC extends FlxSprite
 
         setPosition(x, y);
 		this.immovable = true;
+        playerInRange = false;
     }
 
     //#################################################################
