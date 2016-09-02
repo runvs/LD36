@@ -36,6 +36,11 @@ class PlayState extends FlxState
 	
 	var _flocks : Flocks;
 	
+	var _introTween1 :FlxTween;
+	var _introTween2 :FlxTween;
+	var _isInIntro : Bool = false;
+	
+	
 	override public function create():Void
 	{
 		super.create();
@@ -82,9 +87,8 @@ class PlayState extends FlxState
 		if (!started)
 		{
 			started = true;
-			FlxTween.tween(overlay, { alpha :0 }, 11, { onComplete : function(t) { controlsEnabled = true; }} );
-			
-			FlxTween.tween(introText, { alpha : 0 }, 1.0, { startDelay : 10 } );
+			_introTween1 = FlxTween.tween(overlay, { alpha :0 }, 11, { onComplete : function(t) { _isInIntro = false; controlsEnabled = true; }} );
+			_introTween2 = FlxTween.tween(introText, { alpha : 0 }, 1.0, { startDelay : 10 } );
 			
 			
 			var str : String = "This is the temple of Angkor Wat.\n" +
@@ -101,6 +105,7 @@ class PlayState extends FlxState
 			
 			
 			introText.SetText(str);
+			_isInIntro = true;
 			
 		}
 		
@@ -193,6 +198,21 @@ class PlayState extends FlxState
 			if (TechnologyFound >= 4)
 			{
 				WinGame();
+			}
+		}
+		else
+		{
+			if (_isInIntro)
+			{
+				if (MyInput.AttackButtonJustPressed  || MyInput.DashButtonJustPressed || MyInput.InventoryButtonJustPressed)
+				{
+					_introTween1.cancel();
+					_introTween2.cancel();
+					overlay.alpha = 0;
+					_isInIntro = false;
+					controlsEnabled = true;
+					introText.alpha = 0;
+				}
 			}
 		}
 	}
