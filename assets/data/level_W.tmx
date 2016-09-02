@@ -23,7 +23,7 @@
   <object id="78" name="chest" type="chest" x="192" y="144" width="16" height="16"/>
  </objectgroup>
  <objectgroup name="enemies">
-  <object id="77" name="enemy_area" type="enemy_area" x="128" y="80" width="160" height="112"/>
+  <object id="77" name="enemy_area" type="enemy_area" x="128" y="80" width="160" height="96"/>
  </objectgroup>
  <layer name="top" width="26" height="20">
   <properties>
