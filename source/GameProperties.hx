@@ -67,7 +67,7 @@ class GameProperties
     // ################################################################
 	public static var ColorHealthBar              : FlxColor = FlxColor.fromRGB(255, 50, 50);
 	public static var ColorStaminaBar             : FlxColor = FlxColor.fromRGB(55, 175, 175);
-	
+	static public var ColorDustParticles          : FlxColor = FlxColor.fromRGB(150,150, 150);
     // ################################################################
     // # Healer #######################################################
     // ################################################################
@@ -84,6 +84,7 @@ class GameProperties
     public static var TrainerStrengthBaseCost : Float    = 13;
     public static var TrainerAgilityBaseCost  : Float    = 14;
     public static var TrainerHealthBaseCost   : Float    = 23;
+	
 
     //#################################################################
 

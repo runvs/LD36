@@ -8,6 +8,8 @@ import flixel.system.FlxSound;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 
+using flixel.util.FlxSpriteUtil;
+
 class Player extends FlxSprite
 {
     //#################################################################
@@ -51,6 +53,9 @@ class Player extends FlxSprite
 	var _attackSound     : FlxSound;
 	var _dashSound       : FlxSound;
 	var _takeDamageSound : FlxSound;
+	
+	var dustparticles : MyParticleSystem;
+	var dustTime : Float;
 
     //#################################################################
 
@@ -65,6 +70,9 @@ class Player extends FlxSprite
 		animation.add("walk_east",  [3, 7, 11, 15], 8);
 		animation.add("idle", [0]);
 		animation.play("idle");
+		
+		dustparticles = new MyParticleSystem();
+		dustparticles.mySize = 500;
 
 		_hitArea = new FlxSprite();
 		_hitArea.makeGraphic(16, 16, flixel.util.FlxColor.fromRGB(255, 255, 255, 64));
@@ -116,6 +124,7 @@ class Player extends FlxSprite
     public override function update(elapsed: Float)
     {
         super.update(elapsed);
+		dustparticles.update(elapsed);
 
 		switch _facing
 		{
@@ -151,6 +160,31 @@ class Player extends FlxSprite
 		if (l <= GameProperties.PlayerMovementMaxVelocity.x / 8 )
 		{
 			animation.play("idle", true);
+		}
+		else
+		{
+			dustTime -= FlxG.elapsed;
+			if (dustTime <= 0)
+			{
+				dustTime += 0.25;
+				dustparticles.Spawn( 3,
+				function (s : FlxSprite) : Void
+				{
+					s.alive = true;
+					var T : Float = 1.25;
+					s.setPosition(x + GameProperties.rng.float(0, this.width) , y + height + GameProperties.rng.float( 0, 1) );
+					s.alpha = GameProperties.rng.float(0.125, 0.35);
+					FlxTween.tween(s, { alpha:0 }, T, { onComplete: function(t:FlxTween) : Void { s.alive = false; } } );
+					var v : Float = GameProperties.rng.float(0.75, 1.0);
+					s.scale.set(v, v);
+					FlxTween.tween(s.scale, { x: 2.5, y:2.5 }, T);
+				},
+				function(s:FlxSprite) : Void 
+				{
+					s.makeGraphic(7, 7, FlxColor.TRANSPARENT);
+					s.drawCircle(4, 4, 3, GameProperties.ColorDustParticles);
+				});
+			}
 		}
 		
         var healthFactor = health / healthMax;
@@ -228,7 +262,7 @@ class Player extends FlxSprite
 			{
 				dash();
 				_dashCooldown = _dashSpeedMax;
-                trace(_dashSpeedMax);
+                //trace(_dashSpeedMax);
 				velocity.set(velocity.x/2, velocity.y/2);
 			}
 		}
@@ -388,6 +422,8 @@ class Player extends FlxSprite
 	
 	public override function draw() 
 	{
+		dustparticles.draw();
+		
 		super.draw();
 
 		_hitArea.draw();
