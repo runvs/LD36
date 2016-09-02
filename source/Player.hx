@@ -450,7 +450,7 @@ class Player extends FlxSprite
 	{
 		var stepSize = GameProperties.PlayerMovementMaxDashLength / GameProperties.TileSize / 2;
 		var currentStep = 0.0;
-		var lastPosition : FlxVector;
+		var lastPosition    = new FlxVector(x, y);
 		var initialPosition = new FlxVector(x, y);
 
 		if(GameProperties.SoundTimeout <= 0.0)
@@ -468,31 +468,26 @@ class Player extends FlxSprite
 			if(FlxG.overlap(this, _playState.level.collisionMap))
 			{
 				setPosition(lastPosition.x, lastPosition.y);
-
-				var dashSprite2Position = lastPosition.subtractNew(initialPosition).scale(0.33);
-				var dashSprite3Position = lastPosition.subtractNew(initialPosition).scale(0.66);
-				
-				_dashSprite1.setPosition(initialPosition.x, initialPosition.y);
-				_dashSprite2.setPosition(initialPosition.x + dashSprite2Position.x, initialPosition.y + dashSprite2Position.y);
-				_dashSprite3.setPosition(initialPosition.x + dashSprite3Position.x, initialPosition.y + dashSprite3Position.y);
-
-				trace(_dashSprite1.getPosition());
-				trace(_dashSprite2.getPosition());
-				trace(_dashSprite3.getPosition());
-
-				_dashSprite1.alpha = 0.9;
-				_dashSprite2.alpha = 0.9;
-				_dashSprite3.alpha = 0.9;
-
-				FlxTween.tween(_dashSprite1, { alpha: 0 }, 2);
-				FlxTween.tween(_dashSprite2, { alpha: 0 }, 1.5);
-				FlxTween.tween(_dashSprite3, { alpha: 0 }, 1);
-
 				break;
 			}
 
 			currentStep += stepSize;
 		}
+
+		var dashSprite2Position = lastPosition.subtractNew(initialPosition).scale(0.33);
+		var dashSprite3Position = lastPosition.subtractNew(initialPosition).scale(0.66);
+		
+		_dashSprite1.setPosition(initialPosition.x, initialPosition.y);
+		_dashSprite2.setPosition(initialPosition.x + dashSprite2Position.x, initialPosition.y + dashSprite2Position.y);
+		_dashSprite3.setPosition(initialPosition.x + dashSprite3Position.x, initialPosition.y + dashSprite3Position.y);
+
+		_dashSprite1.alpha = 0.9;
+		_dashSprite2.alpha = 0.9;
+		_dashSprite3.alpha = 0.9;
+
+		FlxTween.tween(_dashSprite1, { alpha: 0 }, 0.3);
+		FlxTween.tween(_dashSprite2, { alpha: 0 }, 0.4);
+		FlxTween.tween(_dashSprite3, { alpha: 0 }, 0.5);
 	}
 
     //#################################################################
