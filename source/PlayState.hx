@@ -323,6 +323,10 @@ class PlayState extends FlxState
 		{
 			_technologyFoundText.draw();
 			player.drawHud();
+			if (player.isInInventory())
+			{
+				world.patchImage.draw();
+			}
 		}
 		introText.draw();
 		level.npcs.forEach(function(npc) { if(npc.alive) {npc.drawHud(); }});
@@ -385,6 +389,7 @@ class PlayState extends FlxState
 			{
 				world.currentWorldPosX = newPosX;
 				world.currentWorldPosY = newPosY;
+				world.VisitPatch();
 				level = newLevel;
 				trace("new Level " + level.levelPath);
 				FlxG.camera.setScrollBoundsRect(0, 0, level.fullWidth, level.fullHeight, true);
@@ -442,6 +447,7 @@ class PlayState extends FlxState
 	{
 		trace("Load Level");
 		var newLevel :TiledLevel = world.getLevel(world.currentWorldPosX, world.currentWorldPosY);
+		world.VisitPatch();
 		if (newLevel != null)
 		{
 			level = newLevel;

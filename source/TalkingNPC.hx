@@ -19,7 +19,8 @@ class TalkingNPC extends NPC
         'I like talking',
         'Who are you?',
         'I\'ve heard here\nare many treasures!',
-        'Are you here for the treasure, too?'
+        'Are you here for the treasure, too?',
+		'When you die,\nyou loose your items'
     ];
 
     //#################################################################

@@ -1,8 +1,10 @@
 package;
 
+import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
+import flixel.util.FlxColor;
 
 /**
  * ...
@@ -21,6 +23,12 @@ class World extends FlxObject
 	
 	
 	public var patchType3Levels : Array<TiledLevel>;
+	
+	private var _patches : Array<Int>;
+	private var _patchesVisited : Array<Int>;
+	
+	
+	public var patchImage : FlxSprite;
 
 	
 	public function new() 
@@ -29,7 +37,7 @@ class World extends FlxObject
 		
 		levels = new Array<TiledLevel>();
 		patchType3Levels = new Array<TiledLevel>();
-		
+	
 	}
 	
 	public function addLevel(path : String, X: Int, Y : Int, state:PlayState, PatchType: Int)
@@ -185,11 +193,13 @@ class World extends FlxObject
 		}
 	}
 	
+	
+	
+	
+	
+	
 	public function Generate(allLevels:Array<TiledLevel>, state : PlayState) 
 	{	
-		
-		
-		
 		////////////////////////////////////////////////////
 		// sort levels according to exits
 		////////////////////////////////////////////////////
@@ -235,7 +245,21 @@ class World extends FlxObject
 		patches[idx] = 2;	// start
 		addLevel("assets/data/start.tmx", 15, 15, state, 2);
 		
-			
+		////////////////////////////////////////////////////
+		// create image from patches
+		////////////////////////////////////////////////////
+		_patches = patches;
+		_patchesVisited = new Array<Int>();
+		for (i in 0 ...WorldSizeInPatchesX)
+		{
+			for (j in 0...WorldSizeInPatchesY)
+			{
+				_patchesVisited.push(0);
+			}
+		}
+		_patchesVisited[idx] = 1;
+		
+		
 		////////////////////////////////////////////////////
 		// patches created, now patch level parts together
 		////////////////////////////////////////////////////
@@ -343,5 +367,54 @@ class World extends FlxObject
 	}
 	
 	
+	public function VisitPatch()
+	{
+		var _idx : Int = currentWorldPosX + currentWorldPosY * WorldSizeInPatchesX;
+		_patchesVisited[_idx] = 1;
+		
+		// recreate image
+		patchImage = new FlxSprite();
+		patchImage.makeGraphic(4 * WorldSizeInPatchesX + 8, 4 * WorldSizeInPatchesY + 8, FlxColor.fromRGB(100, 100, 100) );
+		patchImage.setPosition(FlxG.width - patchImage.width - 16, FlxG.height - patchImage.height - 16);
+		patchImage.scrollFactor.set();
+		
+		var sCurrent : FlxSprite = new FlxSprite();
+		sCurrent.makeGraphic(2, 2, FlxColor.WHITE);
+		
+		
+		
+		for (i in 0 ...WorldSizeInPatchesX)
+		{
+			for (j in 0...WorldSizeInPatchesY)
+			{
+				var idx : Int = i + j * WorldSizeInPatchesX;
+				if (_patchesVisited[idx] == 0) continue;
+				if (_patches[idx] == 0) continue;
+				
+				sCurrent.color = FlxColor.GRAY;
+				patchImage.stamp(sCurrent, i * 4 + 1, j * 4 + 1);
+				
+				if (i == currentWorldPosX && j == currentWorldPosY)	
+				{
+					sCurrent.color = FlxColor.WHITE;
+					patchImage.stamp(sCurrent, i * 4 + 1, j * 4 + 1);
+				}
+				if ( _patches[idx] == 3)	
+				{
+					sCurrent.color = FlxColor.YELLOW;
+					patchImage.stamp(sCurrent, i * 4 + 1, j * 4 + 1);
+				}
+				if (i == 15 && j == 15)		// city
+				{
+					sCurrent.color = FlxColor.ORANGE;
+					patchImage.stamp(sCurrent, i * 4 + 1, j * 4 + 1);
+				}
+			}
+		}
+		
+		
+		
+		
+	}
 
 }

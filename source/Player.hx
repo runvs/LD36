@@ -56,6 +56,11 @@ class Player extends FlxSprite
 	
 	var dustparticles : MyParticleSystem;
 	var dustTime : Float;
+	
+	public function isInInventory () : Bool 
+	{
+		return _showInventory;
+	}
 
     //#################################################################
 
