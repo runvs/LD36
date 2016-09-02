@@ -28,7 +28,7 @@ class TalkingNPC extends NPC
     {
         super(x, y);
 
-		makeGraphic(16, 16, FlxColor.PINK);
+		loadGraphic(AssetPaths.Talker__png, true, 16, 16);
 
         _announceTimer = new FlxTimer();
         _announceTimer.start(GameProperties.NPCAnnounceTime, onAnnounceTimer, 0);
