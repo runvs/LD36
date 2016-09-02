@@ -57,6 +57,8 @@ class Player extends FlxSprite
 	var dustparticles : MyParticleSystem;
 	var dustTime : Float;
 	
+	var _slashSprite     :FlxSprite;
+	
 	public function isInInventory () : Bool 
 	{
 		return _showInventory;
@@ -122,6 +124,11 @@ class Player extends FlxSprite
 		_attackSound     = FlxG.sound.load(AssetPaths.attack1__ogg, 1);
 		_dashSound       = FlxG.sound.load(AssetPaths.dash__ogg, 0.25);
 		_takeDamageSound = FlxG.sound.load(AssetPaths.takeHit__ogg, 1);
+		
+		_slashSprite = new FlxSprite();
+		_slashSprite.loadGraphic(AssetPaths.slash__png, true, 16, 16);
+		_slashSprite.animation.add("slash", [4, 5, 6, 3], 14, false);
+		_slashSprite.origin.set(8, 8);
     }
 
     //#################################################################
@@ -130,34 +137,50 @@ class Player extends FlxSprite
     {
         super.update(elapsed);
 		dustparticles.update(elapsed);
-
+		_slashSprite.update(elapsed);
+		_slashSprite.setPosition(_hitArea.x, _hitArea.y);
 		switch _facing
 		{
 			case Facing.EAST:
 				_hitArea.setPosition(x + GameProperties.TileSize, y);
 				animation.play("walk_east", false);
+				_slashSprite.angle = 90;
+				
 			case Facing.WEST:
 				_hitArea.setPosition(x - GameProperties.TileSize, y);
 				animation.play("walk_west", false);
+				_slashSprite.angle = -90;
+				
 			case Facing.NORTH:
 				_hitArea.setPosition(x, y - GameProperties.TileSize);
 				animation.play("walk_north", false);
+				_slashSprite.angle = 0;
+				
 			case Facing.SOUTH:
 				_hitArea.setPosition(x, y + GameProperties.TileSize);
 				animation.play("walk_south", false);
+				_slashSprite.angle = 180;
 			
 			case Facing.NORTHEAST:
 				_hitArea.setPosition(x + GameProperties.TileSize / 2, y - GameProperties.TileSize / 2);
 				animation.play("walk_north", false);
+				_slashSprite.angle = 45;
 			case Facing.NORTHWEST:
 				_hitArea.setPosition(x - GameProperties.TileSize / 2, y - GameProperties.TileSize / 2);
 				animation.play("walk_north", false);
+				_slashSprite.angle = -45;
+				
 			case Facing.SOUTHEAST:
 				_hitArea.setPosition(x + GameProperties.TileSize / 2, y + GameProperties.TileSize / 2);
 				animation.play("walk_south", false);
+				_slashSprite.angle = 135;
+				
 			case Facing.SOUTHWEST:
 				_hitArea.setPosition(x - GameProperties.TileSize / 2, y + GameProperties.TileSize / 2);
 				animation.play("walk_south", false);
+				_slashSprite.angle = -135;
+				
+			
 		}
 
         handleInput();
@@ -350,6 +373,7 @@ class Player extends FlxSprite
 	function attack()
 	{
 		_attackCooldown += GameProperties.PlayerAttackCooldown;
+		_slashSprite.animation.play("slash", true);
 
 		if(GameProperties.SoundTimeout <= 0.0)
 		{
@@ -432,6 +456,7 @@ class Player extends FlxSprite
 		super.draw();
 
 		_hitArea.draw();
+		_slashSprite.draw();
 		
 	}
 
