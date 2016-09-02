@@ -21,8 +21,7 @@ class World extends FlxObject
 	
 	
 	public var patchType3Levels : Array<TiledLevel>;
-	
-	
+
 	
 	public function new() 
 	{
@@ -181,6 +180,18 @@ class World extends FlxObject
 	
 	public function Generate(allLevels:Array<TiledLevel>, state : PlayState) 
 	{	
+		
+		
+		
+		////////////////////////////////////////////////////
+		// sort levels according to exits
+		////////////////////////////////////////////////////
+	
+		
+		
+		////////////////////////////////////////////////////
+		// level creation on a "bitmap basis"
+		////////////////////////////////////////////////////
 		var startLevel : TiledLevel = addLevel("assets/data/start.tmx", 15, 15, state, 2);
 
 		var patches: Array<Int> = new Array<Int>();
