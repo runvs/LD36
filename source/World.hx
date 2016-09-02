@@ -21,8 +21,7 @@ class World extends FlxObject
 	
 	
 	public var patchType3Levels : Array<TiledLevel>;
-	
-	
+
 	
 	public function new() 
 	{
@@ -33,7 +32,7 @@ class World extends FlxObject
 		
 	}
 	
-	public function addLevel(path : String, X: Int, Y : Int, state:PlayState, PatchType: Int) : TiledLevel
+	public function addLevel(path : String, X: Int, Y : Int, state:PlayState, PatchType: Int)
 	{
 		//trace("Adding Level"  + path);
 		var lOld = getLevel(X, Y);
@@ -59,7 +58,6 @@ class World extends FlxObject
 		
 		//trace("pushing level to list");
 		levels.push(l);
-		return l;
 	}
 	
 	public function getLevel(X:Int, Y:Int) : TiledLevel
@@ -79,20 +77,28 @@ class World extends FlxObject
 	{
 		trace("add connections");
 		var numberOfRuns : Int = 0;
-		while (numberOfRuns <= 9)
+		while (numberOfRuns <= 4)
 		{
 			
 			// get a patch with type 1,2 or 3
 			
 			var i : Int = 0;
 			var j : Int = 0;
+			var count = 0;
 			while (true)
 			{
-				i = GameProperties.rng.int(0, WorldSizeInPatchesX - 1,[13,14,15,16]);
-				j  = GameProperties.rng.int(0, WorldSizeInPatchesY - 1, [13,14,15,16]);
+				
+				i = GameProperties.rng.int(8, WorldSizeInPatchesX - 1 - 8, [15]);
+				j = GameProperties.rng.int(8, WorldSizeInPatchesY - 1 - 8, [15]);
 				var idx = i + j * WorldSizeInPatchesX;
 				if (patches[idx] != 0)
 				{
+					break;
+				}
+				count++;
+				if ( count  >= 20)
+				{
+					trace ("addconnections error");
 					break;
 				}
 			}
@@ -116,8 +122,8 @@ class World extends FlxObject
 			
 			var offDir : FlxPoint = new FlxPoint( -dir.y, dir.x);
 			
-			addPath(patches, dir, offDir, i, j, 6, 10, false);
-			addPath(patches, offDir, dir, i, j, 6, 10, false);
+			addPath(patches, dir, offDir, i, j, 3, 5, false);
+			addPath(patches, offDir, dir, i, j, 3, 5, false);
 			numberOfRuns += 1;
 		}
 	}
@@ -181,8 +187,21 @@ class World extends FlxObject
 	
 	public function Generate(allLevels:Array<TiledLevel>, state : PlayState) 
 	{	
-		var startLevel : TiledLevel = addLevel("assets/data/start.tmx", 15, 15, state, 2);
-
+		
+		
+		
+		////////////////////////////////////////////////////
+		// sort levels according to exits
+		////////////////////////////////////////////////////
+		var sort : LevelSorter = new LevelSorter();
+		sort.AddLevels(allLevels);
+		
+		
+		////////////////////////////////////////////////////
+		// level creation on a "bitmap basis"
+		////////////////////////////////////////////////////
+		
+		// fill everything with zeros
 		var patches: Array<Int> = new Array<Int>();
 		for (i in 0 ...WorldSizeInPatchesX)
 		{
@@ -191,36 +210,39 @@ class World extends FlxObject
 				patches.push(0);
 			}
 		}
+		////////////////////////////////////////////////////
+		// spawn random paths
+		////////////////////////////////////////////////////
+		// north
+		addPath(patches, new FlxPoint(0, -1), new FlxPoint(1, 0), 15,15, 6, 10, false);
+		// south
+		addPath(patches, new FlxPoint(0, 1), new FlxPoint(1, 0), 15,15, 6, 10, false);
+		// east
+		addPath(patches, new FlxPoint(1, 0), new FlxPoint(0,1), 15,15, 6, 10, false);
+		// west 
+		addPath(patches, new FlxPoint(-1,0), new FlxPoint(0,1), 15,15, 6, 10, false);
+		addConnection(patches);
+	
 		
+		
+		////////////////////////////////////////////////////
+		// overwrite starting position with starting level
+		////////////////////////////////////////////////////
 		
 		var sx : Int = 15;
 		var sy : Int = 15;
-		
-		
 		var idx : Int = sx + sy * WorldSizeInPatchesX;
 		patches[idx] = 2;	// start
+		addLevel("assets/data/start.tmx", 15, 15, state, 2);
 		
-		// north
-		addPath(patches, new FlxPoint(0, -1), new FlxPoint(1, 0));
-		
-		// south
-		addPath(patches, new FlxPoint(0, 1), new FlxPoint(1, 0));
-		
-		// east
-		addPath(patches, new FlxPoint(1, 0), new FlxPoint(0,1));
-		
-		// west 
-		addPath(patches, new FlxPoint(-1,0), new FlxPoint(0,1));
-		
-		
-		addConnection(patches);
-		
-		// patches created, now create level parts respectively		
-		
+			
+		////////////////////////////////////////////////////
+		// patches created, now patch level parts together
+		////////////////////////////////////////////////////
 		var s : String  = "";
-		
 		var counter : Int = 1;
 		
+		trace("patching world together");
 		for (j in 1...WorldSizeInPatchesY-1)
 		{
 			s += "\n";
@@ -231,6 +253,7 @@ class World extends FlxObject
 				s += Std.string(patches[idx]) + " ";
 				if (patches[idx] == 1 || patches[idx] == 3 )
 				{
+					//trace(i + " " + j);
 					counter += 1;
 					var idxNorth  : Int = (i)     + (j - 1 ) * WorldSizeInPatchesX;
 					var idxSouth  : Int = (i)     + (j + 1 ) * WorldSizeInPatchesX;
@@ -246,35 +269,25 @@ class World extends FlxObject
 					
 					while (true)
 					{
-						var myIndex : Int = GameProperties.rng.int(0, allLevels.length - 1);	// pick a random value
+						//var myIndex : Int = GameProperties.rng.int(0, allLevels.length - 1);	// pick a random value
 						
-						if (allLevels[myIndex].checkExits(bNorth, bSouth, bEast, bWest))
+						var l : TiledLevel = sort.getRandomLevel(bNorth, bSouth, bEast, bWest);
+						if (l == null)
 						{
-							addLevel(allLevels[myIndex].levelPath, i, j, state, patches[idx]);
-							//trace("found a fitting patch after N=" + Std.string(depth) + " iterations");
-							break;
-						}
-						
-						depth += 1;
-						if (depth >= 30)
-						{
-							myIndex = 0;
-							//trace("error: no level found, direct search");
-							for (myIndex in 0 ... allLevels.length)
+							depth += 1;
+							if (depth >= 5)
 							{
-								//trace(myIndex);
-								if (allLevels[myIndex].checkExits(bNorth, bSouth, bEast, bWest))
-								{
-									addLevel(allLevels[myIndex].levelPath, i, j, state, patches[idx]);
-									break;
-								}
+								trace ("error finding a level");
+								trace ("no fitting patch found " + i  +" " + j );
+								trace(Std.string(bNorth) + " " +Std.string(bSouth) + " " +Std.string(bEast) + " " +Std.string(bWest) );
 							}
-							trace("no fitting patch found " + i  +" " + j );
-							trace(Std.string(bNorth) + " " +Std.string(bSouth) + " " +Std.string(bEast) + " " +Std.string(bWest) );
-							
+							continue;
+						}
+						else
+						{
+							addLevel(l.levelPath, i, j, state, patches[idx]);
 							break;
 						}
-						
 					}
 				}
 			}
