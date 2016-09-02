@@ -18,7 +18,7 @@ class PitchSound
 	public var pitchIncrease : Bool = true;
 	
 	var pitchChangeTimer : Float  = 0;
-	public var pitchChangeTimerMax : Float  = 0.5;
+	public var pitchChangeTimerMax : Float  = 0.25;
 	
 	var pitch : Float;
 
@@ -29,17 +29,23 @@ class PitchSound
 	
 	public function update (elapsed : Float )
 	{
-		pitchChangeTimer -= elapsed;
-		if (pitchChangeTimer <= 0)
+		
+		if (pitchChangeTimer >= 0)
+		{
+			pitchChangeTimer -= elapsed;
+		}
+		else
 		{
 			if (pitchIncrease)
 			{
 				pitch = pitchMin;
+				
 			}
 			else 
 			{
 				pitch = pitchMax;
 			}
+			_snd.pitch = pitch;
 		}
 	}
 	

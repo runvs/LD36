@@ -13,6 +13,8 @@ class GameProperties
     public static var TileSize        : Int       = 16;
 	public static var CoinMagnetRange : Float     = 48;
     public static var InflationValue  : Float     = Math.PI * 2.37;
+    public static var SoundTimeoutMax : Float     = 0.05;
+    public static var SoundTimeout    : Float     = 0.0;
 
     // ################################################################
     // # World ########################################################

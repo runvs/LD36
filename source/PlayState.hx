@@ -119,6 +119,13 @@ class PlayState extends FlxState
 			clearEnemies();
 			pickupSound.update(elapsed);
 			super.update(elapsed);
+
+			if(GameProperties.SoundTimeout > 0.0)
+			{
+				GameProperties.SoundTimeout -= elapsed;
+			}
+			
+
 			if (level != null)
 			{
 				level.foregroundTiles.update(elapsed);
@@ -132,8 +139,6 @@ class PlayState extends FlxState
 				level.updateChest();
 			}
 
-			
-			
 			FlxG.collide(player, level.collisionMap);
 			FlxG.overlap(player, level.exits, passExit);
 			FlxG.collide(player, level.enemies);
@@ -239,7 +244,11 @@ class PlayState extends FlxState
 				player.pickUpCoins(); 
 			}
 
-			pickupSound.play();
+			if(GameProperties.SoundTimeout <= 0.0)
+			{
+				pickupSound.play();
+				GameProperties.SoundTimeout = GameProperties.SoundTimeoutMax;
+			}
 		}
 	}
 	

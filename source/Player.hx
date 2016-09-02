@@ -48,10 +48,9 @@ class Player extends FlxSprite
 	var _npcInteraction : Bool;
 	var _interactingNPC : NPC;
 	
-	var attackSound : FlxSound;
-	var dashSound : FlxSound;
-	var takeDamageSound : FlxSound;
-	
+	var _attackSound     : FlxSound;
+	var _dashSound       : FlxSound;
+	var _takeDamageSound : FlxSound;
 
     //#################################################################
 
@@ -59,13 +58,13 @@ class Player extends FlxSprite
     {
         super();
 
-		this.loadGraphic(AssetPaths.Hero__png, true, 16, 16);
-		this.animation.add("walk_south", [0, 4, 8,  12], 8);
-		this.animation.add("walk_west",  [1, 5, 9,  13], 8);
-		this.animation.add("walk_north", [2, 6, 10, 14], 8);
-		this.animation.add("walk_east",  [3, 7, 11, 15], 8);
-		this.animation.add("idle", [0]);
-		this.animation.play("idle");
+		loadGraphic(AssetPaths.Hero__png, true, 16, 16);
+		animation.add("walk_south", [0, 4, 8,  12], 8);
+		animation.add("walk_west",  [1, 5, 9,  13], 8);
+		animation.add("walk_north", [2, 6, 10, 14], 8);
+		animation.add("walk_east",  [3, 7, 11, 15], 8);
+		animation.add("idle", [0]);
+		animation.play("idle");
 
 		_hitArea = new FlxSprite();
 		_hitArea.makeGraphic(16, 16, flixel.util.FlxColor.fromRGB(255, 255, 255, 64));
@@ -102,9 +101,9 @@ class Player extends FlxSprite
 		_coinsText = new FlxText(128, 10, 0, "", 12);
 		_coinsText.scrollFactor.set();
 		
-		attackSound = FlxG.sound.load(AssetPaths.attack1__ogg, 1);
-		dashSound  = FlxG.sound.load(AssetPaths.dash__ogg, 0.25);
-		takeDamageSound = FlxG.sound.load(AssetPaths.takeHit__ogg, 1);
+		_attackSound     = FlxG.sound.load(AssetPaths.attack1__ogg, 1);
+		_dashSound       = FlxG.sound.load(AssetPaths.dash__ogg, 0.25);
+		_takeDamageSound = FlxG.sound.load(AssetPaths.takeHit__ogg, 1);
     }
 
     //#################################################################
@@ -117,36 +116,36 @@ class Player extends FlxSprite
 		{
 			case Facing.EAST:
 				_hitArea.setPosition(x + GameProperties.TileSize, y);
-				this.animation.play("walk_east", false);
+				animation.play("walk_east", false);
 			case Facing.WEST:
 				_hitArea.setPosition(x - GameProperties.TileSize, y);
-				this.animation.play("walk_west", false);
+				animation.play("walk_west", false);
 			case Facing.NORTH:
 				_hitArea.setPosition(x, y - GameProperties.TileSize);
-				this.animation.play("walk_north", false);
+				animation.play("walk_north", false);
 			case Facing.SOUTH:
 				_hitArea.setPosition(x, y + GameProperties.TileSize);
-				this.animation.play("walk_south", false);
+				animation.play("walk_south", false);
 			
 			case Facing.NORTHEAST:
 				_hitArea.setPosition(x + GameProperties.TileSize / 2, y - GameProperties.TileSize / 2);
-				this.animation.play("walk_north", false);
+				animation.play("walk_north", false);
 			case Facing.NORTHWEST:
 				_hitArea.setPosition(x - GameProperties.TileSize / 2, y - GameProperties.TileSize / 2);
-				this.animation.play("walk_north", false);
+				animation.play("walk_north", false);
 			case Facing.SOUTHEAST:
 				_hitArea.setPosition(x + GameProperties.TileSize / 2, y + GameProperties.TileSize / 2);
-				this.animation.play("walk_south", false);
+				animation.play("walk_south", false);
 			case Facing.SOUTHWEST:
 				_hitArea.setPosition(x - GameProperties.TileSize / 2, y + GameProperties.TileSize / 2);
-				this.animation.play("walk_south", false);
+				animation.play("walk_south", false);
 		}
 
         handleInput();
 		var l : Float = velocity.distanceTo(new FlxPoint());
 		if (l <= GameProperties.PlayerMovementMaxVelocity.x / 8 )
 		{
-			this.animation.play("idle", true);
+			animation.play("idle", true);
 		}
 		
         var healthFactor = health / healthMax;
@@ -216,7 +215,7 @@ class Player extends FlxSprite
 				if(vy < 0) _facing = Facing.NORTH;
 			}
 		}
-		this.acceleration.set(vx, vy);
+		acceleration.set(vx, vy);
 		
 		if (_dashCooldown <= 0)
 		{
@@ -225,7 +224,7 @@ class Player extends FlxSprite
 				dash();
 				_dashCooldown = _dashSpeedMax;
                 trace(_dashSpeedMax);
-				this.velocity.set(this.velocity.x/2, this.velocity.y/2);
+				velocity.set(velocity.x/2, velocity.y/2);
 			}
 		}
 		else
@@ -307,15 +306,21 @@ class Player extends FlxSprite
 	function attack()
 	{
 		_attackCooldown += GameProperties.PlayerAttackCooldown;
-		attackSound.pitch = GameProperties.rng.float(0.8, 1.2);
-		attackSound.play();
+
+		if(GameProperties.SoundTimeout <= 0.0)
+		{
+			_attackSound.pitch = GameProperties.rng.float(0.8, 1.2);
+			_attackSound.play();
+
+			GameProperties.SoundTimeout = GameProperties.SoundTimeoutMax;
+		}
 		
 		var enemyHit = false;
 		for(enemy in _playState.level.enemies)
 		{
 			if(FlxG.overlap(_hitArea, enemy))
 			{
-				enemy.hit(getDamage(), this.x, this.y);
+				enemy.hit(getDamage(), x, y);
 				enemyHit = true;
 			}
 		}
@@ -351,7 +356,12 @@ class Player extends FlxSprite
 		var stepSize = GameProperties.PlayerMovementMaxDashLength / GameProperties.TileSize / 2;
 		var currentStep = 0.0;
 		var lastPosition : FlxPoint;
-		dashSound.play();
+
+		if(GameProperties.SoundTimeout <= 0.0)
+		{
+			_dashSound.play();	
+			GameProperties.SoundTimeout = GameProperties.SoundTimeoutMax;
+		}
 
 		while(currentStep < GameProperties.PlayerMovementMaxDashLength)
 		{
@@ -416,9 +426,18 @@ class Player extends FlxSprite
 	public function takeDamage(d:Float)
 	{
 		health -= d;
+		if(GameProperties.SoundTimeout <= 0.0)
+		{
+			_takeDamageSound.pitch = GameProperties.rng.float(0.8, 1.2);
+			_takeDamageSound.play();
+
+			GameProperties.SoundTimeout = GameProperties.SoundTimeoutMax;
+		}
+
 		FlxTween.color(this, 0.18, FlxColor.RED, FlxColor.WHITE, { type : FlxTween.PERSIST} );
-		takeDamageSound.pitch = GameProperties.rng.float(0.8, 1.2);
-		takeDamageSound.play();
+		_takeDamageSound.pitch = GameProperties.rng.float(0.8, 1.2);
+		_takeDamageSound.play();
+
 		if (health <= 0)
 		{
 			alive = false;

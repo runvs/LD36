@@ -432,7 +432,6 @@ class TiledLevel extends TiledMap
 			}
 			
 			FlxTween.tween(s.offset, { y:3 }, 0.75, { ease:FlxEase.sineInOut, type:FlxTween.PINGPONG, startDelay:GameProperties.rng.float(0, 0.5) } );
-			s.
 			
 			coins.add(s);
 			
