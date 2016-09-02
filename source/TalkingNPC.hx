@@ -66,6 +66,14 @@ class TalkingNPC extends NPC
 
     //#################################################################
 
+    public override function handleInput(player: Player)
+    {
+        super.handleInput(player);
+        _player.stopNpcInteraction();
+    }
+
+    //#################################################################
+
     function onAnnounceTimer(timer : FlxTimer)
     {
         _announceText.text = getRandomText();
