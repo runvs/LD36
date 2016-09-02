@@ -28,7 +28,7 @@ class PlayState extends FlxState
 	
 	private var overlay : FlxSprite;
 	private var controlsEnabled : Bool;
-	var pickupSound : FlxSound;
+	var pickupSound : PitchSound;
 	
 	var started : Bool = false;
 	
@@ -54,7 +54,10 @@ class PlayState extends FlxState
 		_technologyFoundText = new FlxText(10, 48, 0, "Tech Found: 0 / 4", 10);
 		_technologyFoundText.scrollFactor.set();
 		
-		pickupSound = FlxG.sound.load(AssetPaths.pickup__ogg, 0.5, false);
+		pickupSound = new PitchSound(AssetPaths.pickup__ogg, 0.5, false);
+		pickupSound.pitchMin = 0.5;
+		pickupSound.pitchMax = 1.5;
+		pickupSound.pitchDelta = 0.1;
 		
 		controlsEnabled = false;
 		overlay = new FlxSprite(0, 0);
@@ -114,6 +117,7 @@ class PlayState extends FlxState
 		{
 			_flocks.update(elapsed);
 			clearEnemies();
+			pickupSound.update(elapsed);
 			super.update(elapsed);
 
 			if(GameProperties.SoundTimeout > 0.0)
@@ -253,13 +257,18 @@ class PlayState extends FlxState
 		if ( o2.alive)
 		{
 			o2.alive = false;
-			player.pickUpCoins();
+			if (o2.elasticity == 0.25)
+			{
+				player.heal(0.1 ); 
+			}
+			else
+			{
+				player.pickUpCoins(); 
+			}
 
 			if(GameProperties.SoundTimeout <= 0.0)
 			{
-				pickupSound.pitch = GameProperties.rng.float(0.5, 1.1);
 				pickupSound.play();
-				
 				GameProperties.SoundTimeout = GameProperties.SoundTimeoutMax;
 			}
 		}

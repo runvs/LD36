@@ -137,6 +137,7 @@ class Enemy extends FlxSprite
 				_attacking = true;
 				this.animation.play("attackUP", true);
 				_attackingUnderlay.alive = true;
+				_attackingUnderlay.scale.set(1, 1);
 				
 				var t : FlxTimer = new FlxTimer();
 				t.start(GameProperties.EnemyAttackingTime, function(t: FlxTimer) 
@@ -154,6 +155,7 @@ class Enemy extends FlxSprite
 					this.acceleration.set();
 					_attackingUnderlay.alpha = 1.0;
 					FlxTween.tween(_attackingUnderlay, { alpha:0.0 }, 0.2);
+					FlxTween.tween(_attackingUnderlay.scale, { x:1.5, y:1.5 }, 0.15,{startDelay:0.05});
 				});
 				
 				FlxTween.tween(_attackingUnderlay, { alpha:0.5 }, GameProperties.EnemyAttackingTime*0.9);

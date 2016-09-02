@@ -5,6 +5,8 @@ import flixel.FlxG;
 import flixel.math.FlxPoint;
 import flixel.text.FlxText;
 import flixel.system.FlxSound;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
 
 class Player extends FlxSprite
 {
@@ -88,9 +90,14 @@ class Player extends FlxSprite
 		setPosition(8 * GameProperties.TileSize, 2 * GameProperties.TileSize);
 		
 		health = healthMax = GameProperties.PlayerHealthMaxDefault;
+		
 		_healthBar = new HudBar(10, 10, 96, 16, false);
+		_healthBar.color = GameProperties.ColorHealthBar;
+		_healthBar._background.color = FlxColor.fromRGB(100, 100, 100, 100);
 		
 		_dashCooldownBar = new HudBar(10, 32, 48, 8, false);
+		_dashCooldownBar.color = GameProperties.ColorStaminaBar;
+		_dashCooldownBar._background.color = FlxColor.fromRGB(100, 100, 100, 100);
 
 		_inventory      = new Inventory(this);
 		_showInventory  = false;
@@ -407,6 +414,17 @@ class Player extends FlxSprite
 	{
 		coins += 1;
 	}
+	
+	public function heal(f:Float)
+	{
+		if (health >= healthMax) return;
+		
+		this.health += f;
+		if (f >= healthMax)
+		f = healthMax;
+		
+		FlxTween.color(this, 0.25, FlxColor.GREEN, FlxColor.WHITE, { type : FlxTween.PERSIST} );
+	}
 
     //#################################################################
 	
@@ -420,6 +438,10 @@ class Player extends FlxSprite
 
 			GameProperties.SoundTimeout = GameProperties.SoundTimeoutMax;
 		}
+
+		FlxTween.color(this, 0.18, FlxColor.RED, FlxColor.WHITE, { type : FlxTween.PERSIST} );
+		_takeDamageSound.pitch = GameProperties.rng.float(0.8, 1.2);
+		_takeDamageSound.play();
 
 		if (health <= 0)
 		{

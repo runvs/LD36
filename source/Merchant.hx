@@ -42,8 +42,10 @@ class Merchant extends NPC
         _newWaresText = new FlxText(x, y - GameProperties.TileSize, 0, 'New wares\neverybody!');
         _newWaresText.alignment = flixel.text.FlxTextAlign.CENTER;
         _newWaresTimeout = GameProperties.NPCAnnounceTextTimeout;
+		
         _newWaresBar = new HudBar(150, 190, 80, 15, false);
-
+		_newWaresBar._background.color = FlxColor.fromRGB(100, 100, 100, 100);
+		
         loadGraphic(AssetPaths.Merchant__png, true, 16, 16);
 		animation.add("idle", [0, 1, 2, 3], 4, true);
         animation.play("idle");
