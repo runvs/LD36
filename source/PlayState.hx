@@ -56,8 +56,8 @@ class PlayState extends FlxState
 		
 		pickupSound = new PitchSound(AssetPaths.pickup__ogg, 0.5, false);
 		pickupSound.pitchMin = 0.5;
-		pickupSound.pitchMin = 1.5;
-		pickupSound.pitchDelta = 0.15;
+		pickupSound.pitchMax = 1.5;
+		pickupSound.pitchDelta = 0.1;
 		
 		controlsEnabled = false;
 		overlay = new FlxSprite(0, 0);

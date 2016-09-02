@@ -10,7 +10,7 @@ class PitchSound
 {
 	var _snd : FlxSound;
 	
-	public var pitchMin : Float = 1;
+	public var pitchMin : Float = 0.5;
 	public var pitchMax : Float = 1.5;
 	public var pitchDelta : Float = 0.1;
 	
@@ -18,7 +18,7 @@ class PitchSound
 	public var pitchIncrease : Bool = true;
 	
 	var pitchChangeTimer : Float  = 0;
-	public var pitchChangeTimerMax : Float  = 0.25;
+	public var pitchChangeTimerMax : Float  = 0.75;
 	
 	var pitch : Float;
 
@@ -29,23 +29,22 @@ class PitchSound
 	
 	public function update (elapsed : Float )
 	{
-		
+		//trace("pitch update");
 		if (pitchChangeTimer >= 0)
 		{
 			pitchChangeTimer -= elapsed;
 		}
 		else
 		{
+			//trace("pitch " + pitch);
 			if (pitchIncrease)
 			{
 				pitch = pitchMin;
-				
 			}
 			else 
 			{
 				pitch = pitchMax;
 			}
-			_snd.pitch = pitch;
 		}
 	}
 	
@@ -60,9 +59,8 @@ class PitchSound
 			
 			if (pitch >= pitchMax) pitch = pitchMax;
 			if (pitch <= pitchMin) pitch = pitchMin;
-			_snd.pitch = pitch;
 		}
-		
+		_snd.pitch = pitch;
 		_snd.play();
 		pitchChangeTimer = pitchChangeTimerMax;
 	}
