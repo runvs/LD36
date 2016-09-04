@@ -16,11 +16,16 @@ class TalkingNPC extends NPC
     var _announceTimeout  : Float;
     var _announceTimer    : FlxTimer;
     var _announcements = [
-        'I like talking',
-        'Who are you?',
         'I\'ve heard here\nare many treasures!',
-        'Are you here for the treasure, too?',
-		'When you die,\nyou loose your items'
+		'When you die,\nyou loose your items.',
+		'Do you also have\na map in your inventory?',
+		'Try dashing out of the warrior\'s attacks',
+		'Abilities from the Trainer are permanent.',
+		'Visit the Healer!\nHe saved me lots of times.',
+		'Agility decreases\nthe dash cooldown.',
+		'Strength makes your attacks more powerful',
+		'Healing prices increase\every time you heal.',
+		'Warriors drop precious coins!'
     ];
 
     //#################################################################

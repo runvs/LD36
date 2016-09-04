@@ -43,7 +43,7 @@ class GameProperties
     public static var EnemyMovementRandomWalkThinkTime : Float    = 0.250;
 	public static var EnemyAttackTimerMax			   : Float 	  = 0.45;
 	public static var EnemyAttackingTime               : Float    = 0.65;
-	public static var EnemyDamageDefault 			   : Float    = 0.24;
+	public static var EnemyDamageDefault 			   : Float    = 0.19;
 	public static var EnemyHealthDefault               : Float    = 45;
 
     // ################################################################
