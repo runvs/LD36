@@ -5,23 +5,20 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
-import flixel.ui.FlxButton;
-import flixel.math.FlxMath;
 import flixel.util.FlxAxes;
 import flixel.util.FlxColor;
 
 class MenuState extends FlxState
 {
-	var title : FlxText;
-	var t_play : FlxText;
+	var title     : FlxSprite;
+	var t_play    : FlxText;
 	var t_credits : FlxText;
 	
-	var selector : Int ;
+	var selector   : Int ;
 	var inputTimer : Float;
 	
-	var sprite : FlxSprite;
-	
-	var overlay : FlxSprite;
+	var sprite     : FlxSprite;
+	var overlay    : FlxSprite;
 	
 	var controlsEnabled :Bool;
 	
@@ -34,12 +31,10 @@ class MenuState extends FlxState
 		
 		FlxG.sound.playMusic(AssetPaths.raiders_ost__ogg, 0.25, true);
 		
-		title = new FlxText(0, 0, 0, "Raiders\nof the\n Ancient Technology", 20);
-		title.alignment = flixel.text.FlxTextAlign.CENTER;
+		title = new FlxSprite(0, 0);
+		title.loadGraphic(AssetPaths.rotat__png, false, 380, 100);
 		title.screenCenter(FlxAxes.X);
-		title.y = FlxG.height / 3;
-		
-		
+		title.y = FlxG.height / 4;
 		add (title);
 		
 		t_play = new FlxText(0, 0, 0, "Play", 12);
@@ -49,11 +44,8 @@ class MenuState extends FlxState
 		t_credits.screenCenter(FlxAxes.X);
 		t_credits.y = FlxG.height * 2 / 3 + 16;
 		
-		
 		add(t_play);
 		add(t_credits);
-		
-		
 		
 		selector = 0;
 		inputTimer  = 0;
@@ -64,7 +56,6 @@ class MenuState extends FlxState
 		sprite.animation.play("walk_east"); 
 		sprite.setPosition(t_play.x - 24, t_play.y);
 		add(sprite);
-		
 		
 		overlay = new FlxSprite(0, 0);
 		overlay.scrollFactor.set();
@@ -78,7 +69,6 @@ class MenuState extends FlxState
 		t_loading.screenCenter(FlxAxes.XY);
 		t_loading.alpha = 0;
 		add(t_loading);
-		
 	}
 	
 

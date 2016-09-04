@@ -6,8 +6,6 @@ import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxAxes;
-import flixel.util.FlxCollision;
-import flixel.util.FlxColor;
 
 /**
  * ...
@@ -18,19 +16,15 @@ class CreditsState extends FlxState
 	var text : FlxText;
 	var timer : Float = 0;
 	
-	private var title : FlxText;
+	private var title : FlxSprite;
 	
 	override public function create():Void
 	{
-		
-	
-		
-		
-		title = new FlxText(0, 0, 0, "Raiders\nof the\n Ancient Technology", 20);
-		title.alignment = flixel.text.FlxTextAlign.CENTER;
+		title = new FlxSprite(0, 0);
+		title.loadGraphic(AssetPaths.rotat__png, false, 380, 100);
 		title.screenCenter(FlxAxes.X);
-		title.y = FlxG.height / 3;
-		add(title);
+		title.y = FlxG.height / 4;
+		add (title);
 		
 		text = new FlxText(100, 0, 0, "", 12);
 		text.text = "A game by\n\n" +
@@ -57,7 +51,7 @@ class CreditsState extends FlxState
 		vel = 30;
 		text.y = 350 - vel * timer;
 		
-		title.y =  FlxG.height / 3 - vel * timer;
+		title.y =  FlxG.height / 4 - vel * timer;
 		
 		
 		timer += elapsed;
