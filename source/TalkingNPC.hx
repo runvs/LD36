@@ -39,7 +39,7 @@ class TalkingNPC extends NPC
         _announceTimer = new FlxTimer();
         _announceTimer.start(GameProperties.NPCAnnounceTime, onAnnounceTimer, 0);
         
-        _announceText = new FlxText(x, y - GameProperties.TileSize, 0, getRandomText());
+        _announceText = new FlxText(x - 64, y - GameProperties.TileSize, 0, getRandomText());
         _announceText.alignment = flixel.text.FlxTextAlign.CENTER;
         _announceTimeout = GameProperties.NPCAnnounceTextTimeout;
     }
