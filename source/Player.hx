@@ -482,8 +482,8 @@ class Player extends FlxSprite
 		_dashSprite3.setPosition(initialPosition.x + dashSprite3Position.x, initialPosition.y + dashSprite3Position.y);
 
 		_dashSprite1.alpha = 0.9;
-		_dashSprite2.alpha = 0.9;
-		_dashSprite3.alpha = 0.9;
+		_dashSprite2.alpha = 0.8;
+		_dashSprite3.alpha = 0.7;
 
 		FlxTween.tween(_dashSprite1, { alpha: 0 }, 0.3);
 		FlxTween.tween(_dashSprite2, { alpha: 0 }, 0.4);

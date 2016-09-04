@@ -24,7 +24,7 @@ class TalkingNPC extends NPC
 		'Visit the Healer!\nHe saved me lots of times.',
 		'Agility decreases\nthe dash cooldown.',
 		'Strength makes your attacks more powerful',
-		'Healing prices increase\every time you heal.',
+		'Healing prices increase\nevery time you heal.',
 		'Warriors drop precious coins!'
     ];
 
