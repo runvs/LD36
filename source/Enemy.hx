@@ -35,6 +35,8 @@ class Enemy extends FlxSprite
 	
 	var attackSound : FlxSound;
 	
+	var colorTween : FlxTween = null;
+	
 
     //#################################################################
 
@@ -177,13 +179,24 @@ class Enemy extends FlxSprite
 		this.velocity.set(dir.x * 350, dir.y * 350);
 		_idleTimer = 0.35;
 		
-		FlxTween.color(this, 0.18, FlxColor.RED, FlxColor.WHITE, { type : FlxTween.PERSIST} );
+		if (colorTween != null)
+		{
+			colorTween.cancel();
+			color = FlxColor.WHITE;
+		}
+		
+		colorTween = FlxTween.color(this, 0.18, FlxColor.RED, FlxColor.WHITE, { type : FlxTween.PERSIST} );
 
         if(CurrentHealth <= 0.0)
         {
             alive = false;
 			trace('I am dead');
 			_playState.level.spawnCoins(this);
+			
+			if (colorTween != null)
+			{
+				colorTween.cancel();
+			}			
         }
     }
 

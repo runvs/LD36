@@ -302,9 +302,13 @@ class PlayState extends FlxState
 		if (level != null)
 		{
 			level.foregroundTiles.draw();
-			level.enemies.forEach(function(e:Enemy) { e.drawUnderlay(); } );
-			level.exits.draw();
 			level.topTiles.draw();
+			level.goreLayer.draw();
+			level.deadEnemies.draw();
+						
+			level.coins.draw();
+			
+			level.enemies.forEach(function(e:Enemy) { e.drawUnderlay(); } );
 			level.enemies.draw();
 			
 			if ( level.levelChest.alive)
@@ -313,10 +317,8 @@ class PlayState extends FlxState
 			}
 			
 			level.npcs.draw();
-			level.coins.draw();
+
 			_flocks.draw();
-			
-			
 		}
 		super.draw();
 		
@@ -487,15 +489,15 @@ class PlayState extends FlxState
 		{
 			var n : FlxTypedGroup<Enemy> = new FlxTypedGroup<Enemy>();
 		
-			level.enemies.forEach(function(e:Enemy) : Void { if (e.alive) n.add(e); } );
+			level.enemies.forEach(function(e:Enemy) : Void { if (e.alive) { n.add(e); } else { level.addDeadEnemy(e); }  } );
 			level.enemies = n;
 		}
 		
 		{
-		var n2 : FlxSpriteGroup = new FlxSpriteGroup();
-		
-		level.coins.forEach(function(s:FlxSprite) : Void { if (s.alive) n2.add(s); } );
-		level.coins = n2;
+			var n2 : FlxSpriteGroup = new FlxSpriteGroup();
+			
+			level.coins.forEach(function(s:FlxSprite) : Void { if (s.alive) n2.add(s); } );
+			level.coins = n2;
 		}
 		
 	}

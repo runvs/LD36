@@ -59,6 +59,10 @@ class TiledLevel extends TiledMap
 	
 	private var chestAppearSound : FlxSound;
 	
+	public var goreLayer : FlxSprite;
+	
+	public var deadEnemies : FlxSpriteGroup;
+	
 	public function new(tiledLevel:Dynamic)
 	{
 		super(tiledLevel);
@@ -75,6 +79,8 @@ class TiledLevel extends TiledMap
 		enemies = new FlxTypedGroup<Enemy>();
 		npcs = new FlxTypedGroup<NPC>();
 		
+		goreLayer  = new FlxSprite(0, 0);
+		deadEnemies = new FlxSpriteGroup();
 		coins  = new FlxSpriteGroup();
 		
 		levelChest = new FlxSprite(-200, -200);
@@ -154,7 +160,11 @@ class TiledLevel extends TiledMap
 			}
 		}
 		loadObjects();
+		
+		goreLayer.makeGraphic(this.fullWidth, fullHeight, FlxColor.TRANSPARENT);
 	}
+	
+	
 	
 	function CreateCollisionTile(x : Int, y : Int, type : Int) 
 	{
@@ -527,4 +537,26 @@ class TiledLevel extends TiledMap
 		return true;
 	}
 
+	public function spladder (x: Float, y : Float)
+	{
+		var s : FlxSprite = new FlxSprite();
+		s.makeGraphic(GameProperties.rng.int(1, 3), GameProperties.rng.int(1, 3), FlxColor.fromRGB(175,0,0));
+		
+		var N : Int = 5;
+		
+		for (i in 0 ... N)
+		{
+			var px : Int = Std.int(GameProperties.rng.floatNormal(x, GameProperties.TileSize / 2.5));
+			var py : Int = Std.int(GameProperties.rng.floatNormal(y, GameProperties.TileSize / 2.5));
+			goreLayer.stamp(s, px, py);
+		}
+	}
+	
+	public function addDeadEnemy(e:Enemy)
+	{
+		e.color = FlxColor.fromRGB(100, 100, 100);
+		e.scale.set(0.9,1);
+		e.angle = 90;
+		deadEnemies.add(e);
+	}
 }
