@@ -17,13 +17,15 @@ class TalkingNPC extends NPC
     var _announceTimer    : FlxTimer;
     var _announcements = [
         'I\'ve heard here\nare many treasures!',
+		'To find a chest, you\nneed to kill all Warriors first.',
+		'Places of interest are colored in your map!',
 		'When you die,\nyou loose your items.',
 		'Do you also have\na map in your inventory?',
-		'Try dashing out of the warrior\'s attacks',
+		'Try dashing out\nof the warrior\'s attacks',
 		'Abilities from the Trainer are permanent.',
 		'Visit the Healer!\nHe saved me lots of times.',
 		'Agility decreases\nthe dash cooldown.',
-		'Strength makes your attacks more powerful',
+		'Strength makes your\nattacks more powerful',
 		'Healing prices increase\nevery time you heal.',
 		'Warriors drop precious coins!'
     ];
