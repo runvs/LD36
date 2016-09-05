@@ -150,6 +150,8 @@ class Player extends FlxSprite
 		_slashSprite = new FlxSprite();
 		_slashSprite.loadGraphic(AssetPaths.slash__png, true, 16, 16);
 		_slashSprite.animation.add("slash", [4, 5, 6, 3], 14, false);
+		_slashSprite.animation.add("idle", [3]);
+		_slashSprite.animation.play("idle");
 		_slashSprite.origin.set(8, 8);
     }
 
